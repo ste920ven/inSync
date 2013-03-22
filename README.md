@@ -2,8 +2,11 @@ inSync
 ======
 
 Brian Lam
+
 Steven Huang
+
 Raymond Zeng
+
 Jason Peng
 
 =====
