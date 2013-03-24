@@ -15,6 +15,7 @@ Raymond Zeng
 + Assistant to Making sure Brian doesn't do something stupid
 
 Jason Peng
++ Graphic Design Overseer
 
 ##Timeline
 + End of Spring Break
