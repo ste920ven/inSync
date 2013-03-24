@@ -1,17 +1,35 @@
-inSync
-======
+##inSync
 
+>a P2P media streaming android application over bluetooth.
+
+###Project Contributors
 Brian Lam
-  <li>General Leader
-  <li>Overall Android Overwatch
++ General Leader
++ Overall Android Overwatch
 
 Steven Huang
-  <li>Making sure Brian doesn't do something stupid
++ Making sure Brian doesn't do something stupid
 
 Raymond Zeng
-<li>Web Overseer
-<li>Assistant to Making sure Brian doesn't do something stupid
++ Web Overseer
++ Assistant to Making sure Brian doesn't do something stupid
 
 Jason Peng
 
-<h3>inSync is a P2P media streaming android application over bluetooth.
+##Timeline
++ End of Spring Break
+  + Skeleton for website
+  + Verify we know how to work with Bluetooth
+  + Basic GUI for app
++ TBA
+  + Be able to import user's music library into app
+  + Be able to connect with other user(s)
++ TBA
+  + Have most of the app functionality complete
+  + Have website mostly complete
++ TBA
+  + Fix all functionality errors
+  + Finalize design
++ TBA
+  + Finish website
+  + Be Done
