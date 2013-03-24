@@ -11,12 +11,25 @@ html {
     background-color: black;
     background-image: none;
     padding-left: 20px;
+    opacity: 0.7;
 }
 
+.nav a {
+    font-size: 16px;
+}
+
+.nav a:hover {
+    border-bottom-style: solid;
+    border-color: orange;
+    border-width: 2px;
+}
+.navbar p {
+    padding-top: 10px;
+    padding-right: 10px;
+}
 #middle {
-    padding-top: 40px;
-}
 
+}
 #middle h1 {
     z-index: 100;
     line-height: 40px;
