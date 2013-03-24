@@ -1,0 +1,68 @@
+html {
+    background: url(http://placekitten.com/600/600) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;    
+    background-color: black;
+}
+
+.navbar {
+    background-color: black;
+    background-image: none;
+    padding-left: 20px;
+}
+
+#middle {
+    padding-top: 40px;
+}
+
+#middle h1 {
+    z-index: 100;
+    line-height: 40px;
+    position: absolute;
+    color: white;
+    font-size: 60px;
+    font-weight: bold;
+    left: 50%;
+    top: 30%;
+    text-shadow: black 0 1px 2px;
+}
+
+#middle p {
+    z-index: 100;
+    position: absolute;
+    line-height: 30px;
+    color: white;
+    font-size: 40px;
+    font-weight: 700;
+    left: 50%;
+    top: 40%;
+    text-shadow: black 0 1px 2px;
+}
+
+#google-play {
+    position: absolute;
+    left: 50%;
+    top: 47%;
+}
+
+#middle h6 {
+    z-index: 100;
+    position: absolute;
+    line-height: 30px;
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+    left: 50%;
+    top: 53%;
+    text-shadow: black 0 1px 2px;
+}
+
+#logo {
+    position: absolute;
+    left: 23%;
+    top: 28%;
+    width: 300px;
+    display: block;
+}

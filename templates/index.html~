@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>inSync</title>
+    <!--link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css" rel="stylesheet"-->
+    <link rel="shortcut icon" href="http://www.iconj.com/ico/8/e/8efumc5s9g.ico" type="image/x-icon"/>
+    <link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/style.css" media="all"/>  
+
+    <!--script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script-->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
+
+  </head>
+  
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <a class="brand" href="#">inSync</a>
+      <ul class="nav pull-right">
+	<li><a href="#About">About</a></li>
+	<li><a href="#Jobs">Jobs</a></li>
+	<li><a href="#Contact">Contact</a></li>
+	<li><a href="#Report">Report a Bug</a></li>
+      </ul>
+    </div>
+    <div id="middle">
+      <div id="logo">
+	<img id="app-icon" src="/static/bootstrap/img/icon.png"/>
+      </div>
+      <h1>inSync</h1>
+      <p>Stream. Share. Live.</p>
+      <img id="google-play" src="https://developer.android.com/images/brand/en_generic_rgb_wo_60.png"/>
+      <h6>(Just kidding, it's not on there)</h6>
+    </div>
+  </body>
+</html>
