@@ -18,7 +18,7 @@ Jason Peng
 
 ##Timeline
 + End of Spring Break
-  + Skeleton for website
+  + Skeleton for website http://tinypic.com/r/28vtv6a/6
   + Verify we know how to work with Bluetooth
   + Basic GUI for app
 + TBA
