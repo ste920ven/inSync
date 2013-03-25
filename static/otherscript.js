@@ -1,7 +1,7 @@
 $(document).ready(function() {
     $('#body-container').css('display','none');
     $('#body-container').fadeIn(600);
-    $('#body-nav a:first').tab('show');
+    initTab();
     $('.brand').click(function(event){
 	event.preventDefault();
 	linkLocation = this.href;
@@ -35,4 +35,16 @@ $(document).ready(function() {
 
 function redirectPage(){
     window.location = linkLocation;
+}
+
+function initTab(){
+    console.log("it initied");
+    if(sessionStorage.target == "Jobs")
+	$('#body-nav a:eq(1)').tab('show');
+    else if(sessionStorage.target == "Contact")
+	$('#body-nav a:eq(2)').tab('show');
+    else if(sessionStorage.target == "Report a Bug")
+	$('#body-nav a:eq(3)').tab('show');
+    else
+	$('#body-nav a:first').tab('show');
 }

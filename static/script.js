@@ -3,6 +3,7 @@ $(document).ready(function() {
     $('#middle').fadeIn(1000);
     $('a.transitit').click(function(event){
 	event.preventDefault();
+	sessionStorage.target = this.innerHTML;
 	linkLocation = this.href;
 	$('#middle').fadeOut(400, redirectPage);
     });
