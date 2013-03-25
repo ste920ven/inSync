@@ -21,15 +21,27 @@ html {
 .nav a:hover {
     border-bottom-style: solid;
     border-color: orange;
-    border-width: 2px;
+    border-width: -2px;
+    margin: -2px;
 }
+
+#body-nav .nav a:hover {
+    border-style: none;
+    margin: 0px;
+}
+
 .navbar p {
     padding-top: 10px;
     padding-right: 10px;
 }
-#middle {
 
+#body-nav {
+    position: absolute;
+    padding: 0px;
+    top: 20%;
+    width: 20%;
 }
+
 #middle h1 {
     z-index: 100;
     line-height: 40px;
@@ -78,4 +90,33 @@ html {
     top: 28%;
     width: 300px;
     display: block;
+}
+
+#body-container {
+    z-index: 100;
+    position: absolute;
+    background-color: #EBEBEB;
+    width: 90%;
+    height: 90%;
+    top: 5%;
+    left: 5%;
+    box-shadow: 3px 3px 2px black;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+}
+
+.tab-pane {
+    position: absolute;
+    left: 20%;
+}
+
+#body-container i {
+    position: relative;
+    left: -10px;
+    top: 10px;
+}
+
+#body-container #body-nav i {
+    left: 4px;
+    top: -2px;
 }
