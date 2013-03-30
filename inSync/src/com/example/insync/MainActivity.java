@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 public class MainActivity extends Activity {
 
@@ -15,7 +16,7 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		
 		final MediaPlayer buttonClick = MediaPlayer.create(this, R.raw.buttontest);
-		final Button playbutton = (Button) findViewById(R.id.imageButton1);
+		final ImageButton playbutton = (ImageButton) findViewById(R.id.imageButton1);
 		
 		playbutton.setOnClickListener(new View.OnClickListener(){
 			public void onClick(View v){
@@ -23,7 +24,7 @@ public class MainActivity extends Activity {
 			}
 			}
 		);
-	};
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
