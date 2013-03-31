@@ -15,5 +15,6 @@
     <string name="newSessionHeader">Create A New Session</string>
     <string name="title_activity_create_session">inSync</string>
     <string name="sessionname">Session Name</string>
+    <string name="enter">Enter</string>
 
 </resources>

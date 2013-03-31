@@ -53,6 +53,7 @@ public final class R {
         public static final int action_settings=0x7f060001;
         public static final int app_name=0x7f060000;
         public static final int createSession=0x7f060006;
+        public static final int enter=0x7f06000a;
         public static final int findsession=0x7f060005;
         public static final int hello_world=0x7f060002;
         public static final int newSessionHeader=0x7f060007;

@@ -15,6 +15,7 @@ public class CreateSession extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		enableBluetooth();
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.create_session, menu);
 		return true;

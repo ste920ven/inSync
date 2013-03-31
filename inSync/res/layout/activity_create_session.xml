@@ -41,6 +41,6 @@
         android:layout_alignBottom="@+id/sessionNameText"
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/sessionNameText"
-        android:text="Enter" />
+        android:text="@string/enter" />
 
 </RelativeLayout>
