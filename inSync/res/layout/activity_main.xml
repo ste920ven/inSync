@@ -43,6 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/findSessionButton"
         android:layout_below="@+id/findSessionButton"
-        android:text="@string/createSession" />
+        android:text="@string/createSession" 
+        android:onClick="createSession"/>
 
 </RelativeLayout>

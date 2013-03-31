@@ -13,7 +13,7 @@
     <string name="findsession">Find a session</string>
     <string name="createSession">Create a session</string>
     <string name="newSessionHeader">Create A New Session</string>
-    <string name="title_activity_create_session">CreateSession</string>
+    <string name="title_activity_create_session">inSync</string>
     <string name="sessionname">Session Name</string>
 
 </resources>

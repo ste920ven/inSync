@@ -30,10 +30,11 @@ public final class R {
         public static final int playbutton=0x7f020002;
     }
     public static final class id {
-        public static final int action_settings=0x7f0a0005;
-        public static final int createSessionButton=0x7f0a0004;
-        public static final int findSessionButton=0x7f0a0003;
-        public static final int imageButton1=0x7f0a0002;
+        public static final int action_settings=0x7f0a0006;
+        public static final int button1=0x7f0a0002;
+        public static final int createSessionButton=0x7f0a0005;
+        public static final int findSessionButton=0x7f0a0004;
+        public static final int imageButton1=0x7f0a0003;
         public static final int sessionNameText=0x7f0a0001;
         public static final int textView1=0x7f0a0000;
     }
