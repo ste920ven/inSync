@@ -30,13 +30,14 @@ public final class R {
         public static final int playbutton=0x7f020002;
     }
     public static final class id {
-        public static final int action_settings=0x7f0a0006;
-        public static final int button1=0x7f0a0002;
-        public static final int createSessionButton=0x7f0a0005;
-        public static final int findSessionButton=0x7f0a0004;
-        public static final int imageButton1=0x7f0a0003;
-        public static final int sessionNameText=0x7f0a0001;
+        public static final int action_settings=0x7f0a0007;
+        public static final int button1=0x7f0a0001;
+        public static final int createSessionButton=0x7f0a0006;
+        public static final int findSessionButton=0x7f0a0005;
+        public static final int imageButton1=0x7f0a0004;
+        public static final int sessionNameText=0x7f0a0002;
         public static final int textView1=0x7f0a0000;
+        public static final int textView2=0x7f0a0003;
     }
     public static final class layout {
         public static final int activity_create_session=0x7f030000;
@@ -60,6 +61,7 @@ public final class R {
         public static final int playbuttondescription=0x7f060004;
         public static final int sessionname=0x7f060009;
         public static final int title_activity_create_session=0x7f060008;
+        public static final int turningbluetoothon=0x7f06000b;
         public static final int welcome=0x7f060003;
     }
     public static final class style {

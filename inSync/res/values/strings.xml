@@ -16,5 +16,6 @@
     <string name="title_activity_create_session">inSync</string>
     <string name="sessionname">Session Name</string>
     <string name="enter">Enter</string>
+    <string name="turningbluetoothon">Turning Bluetooth on...</string>
 
 </resources>
