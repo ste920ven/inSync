@@ -32,13 +32,14 @@ public final class R {
         public static final int playbutton=0x7f020002;
     }
     public static final class id {
-        public static final int action_settings=0x7f0a0008;
+        public static final int action_settings=0x7f0a0009;
         public static final int bluetoothCheck=0x7f0a0001;
+        public static final int bluetoothTV=0x7f0a0005;
         public static final int button1=0x7f0a0004;
         public static final int chooseFileButton=0x7f0a0003;
-        public static final int createSessionButton=0x7f0a0005;
-        public static final int findSessionButton=0x7f0a0006;
-        public static final int helpButton=0x7f0a0007;
+        public static final int createSessionButton=0x7f0a0006;
+        public static final int findSessionButton=0x7f0a0007;
+        public static final int helpButton=0x7f0a0008;
         public static final int sessionNameText=0x7f0a0002;
         public static final int textView1=0x7f0a0000;
     }
@@ -60,6 +61,7 @@ public final class R {
         public static final int app_name=0x7f060000;
         public static final int choosefile=0x7f06000c;
         public static final int confirm=0x7f06000d;
+        public static final int connectedBTDevices=0x7f060012;
         public static final int createSession=0x7f060006;
         public static final int enter=0x7f06000a;
         public static final int findsession=0x7f060005;
