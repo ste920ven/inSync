@@ -19,30 +19,8 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/white" />
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/sessionNameText"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/sessionNameText"
-        android:text="@string/enter" />
-
-    <EditText
-        android:id="@+id/sessionNameText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/textView1"
-        android:layout_marginLeft="18dp"
-        android:layout_marginTop="106dp"
-        android:ems="10"
-        android:hint="@string/sessionname"
-        android:inputType="text"
-        android:textColor="@color/white" />
-
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/bluetoothCheck"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/sessionNameText"
@@ -50,6 +28,45 @@
         android:layout_marginTop="39dp"
         android:text="@string/turningbluetoothon"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/white" />
+        android:textColor="@color/blue" />
+
+    <Button
+        android:id="@+id/chooseFileButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/sessionNameText"
+        android:layout_marginTop="26dp"
+        android:onClick="findFile"
+        android:textColor="@color/white"
+        android:text="@string/choosefile" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/chooseFileButton"
+        android:layout_alignRight="@+id/chooseFileButton"
+        android:layout_below="@+id/chooseFileButton"
+        android:layout_marginTop="27dp"
+        android:textColor="@color/white"
+        android:text="@string/confirm" />
+
+    <EditText
+        android:id="@+id/sessionNameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/bluetoothCheck"
+        android:layout_marginTop="50dp"
+        android:ems="10"
+        android:hint="@string/sessionname"
+        android:inputType="text"
+        android:textColor="@color/white" >
+
+        <requestFocus />
+    </EditText>
 
 </RelativeLayout>

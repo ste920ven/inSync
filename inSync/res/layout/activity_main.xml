@@ -17,25 +17,7 @@
         android:layout_alignParentTop="true"
         android:text="@string/welcome"
         android:textColor="@color/white"
-        android:textSize="30sp" />
-
-    <ImageButton
-        android:id="@+id/imageButton1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
-        android:layout_below="@+id/textView1"
-        android:contentDescription="@string/playbuttondescription"
-        android:gravity="center"
-        android:src="@drawable/play_button" />
-
-    <Button
-        android:id="@+id/findSessionButton"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/imageButton1"
-        android:layout_below="@+id/imageButton1"
-        android:text="@string/findsession" />
+        android:textSize="25sp" />
 
     <Button
         android:id="@+id/createSessionButton"
@@ -44,6 +26,27 @@
         android:layout_alignLeft="@+id/findSessionButton"
         android:layout_below="@+id/findSessionButton"
         android:text="@string/createSession" 
-        android:onClick="createSession"/>
+        android:onClick="createSession"
+        android:textColor="@color/green"/>
+
+    <Button
+        android:id="@+id/helpButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/createSessionButton"
+        android:layout_below="@+id/createSessionButton"
+        android:onClick="helpScreen"
+        android:text="@string/help"
+        android:textColor="@color/green" />
+
+    <Button
+        android:id="@+id/findSessionButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView1"
+        android:layout_below="@+id/textView1"
+        android:layout_marginTop="58dp"
+        android:text="@string/findsession"
+        android:textColor="@color/green" />
 
 </RelativeLayout>

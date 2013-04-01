@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.bluetooth.*;
 import android.app.Activity;
 import android.view.Menu;
+import android.widget.TextView;
 
 public class CreateSession extends Activity {
 
@@ -25,6 +26,8 @@ public class CreateSession extends Activity {
 		BluetoothAdapter bA = BluetoothAdapter.getDefaultAdapter();
 		if(!bA.isEnabled()){
 			bA.enable();
+			final TextView btCheck = (TextView) findViewById(R.id.bluetoothCheck);
+			btCheck.setText("Turning Bluetooth on to detect other Android devices");		
 		}
 	}
 
