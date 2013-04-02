@@ -14,6 +14,7 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		
 		/*
+		 * Commented out code: Used to test mp3 functionality
 		final MediaPlayer buttonClick = MediaPlayer.create(this, R.raw.buttontest);
 		final ImageButton playbutton = (ImageButton) findViewById(R.id.imageButton1);
 		
@@ -33,11 +34,13 @@ public class MainActivity extends Activity {
 		return true;
 	}
 	
+	//Will be called when the Create Session button is clicked
 	public void createSession(View view){
 		Intent intent = new Intent(this, CreateSession.class);
 		startActivity(intent);
 	}
 	
+	//Will be called when the Help! :( button is clicked
 	public void helpScreen(View view){
 		Intent intent = new Intent(this, HelpScreen.class);
 		startActivity(intent);
