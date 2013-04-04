@@ -46,7 +46,7 @@ public class CreateSession extends Activity {
 		
 		//Update TextView with list of Bluetooth Devices
 		final TextView btDevTV = (TextView) findViewById(R.id.bluetoothTV);
-		btDevTV.append(s.toString());
+		btDevTV.append("\n"+s.toString());
 		
 	}
 
