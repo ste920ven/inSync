@@ -4,14 +4,14 @@
     <string name="app_name">inSync</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-    <string name="welcome">Welcome to inSync! \n \ninSync is a project developed by Brian Lam, Steven Huang, Raymond Zeng, and Jason Peng. It allows multiple devices to simutaneously play an mp3 file. </string>
+    <string name="welcome">Welcome to inSync! \n \ninSync is a project developed by Brian Lam, Steven Huang, Raymond Zeng, and Jason Peng. It allows a Bluetooth-enabled device to send an mp3 file to multiple devices to play it simutaneously across all the devices. </string>
     <string name="playbuttondescription">Click this button to play</string>
 
     <color name="gray">#403E3F</color>
     <color name="white">#FFFFFF</color>
 
-    <string name="findsession">Find a session</string>
-    <string name="createSession">Create a session</string>
+    <string name="findsession">Join a Session</string>
+    <string name="createSession">Start a session</string>
     <string name="newSessionHeader">Create A New Session</string>
     <string name="title_activity_create_session">inSync</string>
     <string name="sessionname">Session Name</string>
