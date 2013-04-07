@@ -74,6 +74,7 @@ public final class R {
         public static final int helpInstructions=0x7f060010;
         public static final int newSessionHeader=0x7f060007;
         public static final int playbuttondescription=0x7f060004;
+        public static final int presetText=0x7f060014;
         public static final int sessionname=0x7f060009;
         public static final int title_activity_create_session=0x7f060008;
         public static final int title_activity_help_screen=0x7f06000f;

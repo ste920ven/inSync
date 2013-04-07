@@ -52,6 +52,7 @@
         android:ems="10"
         android:hint="@string/sessionname"
         android:inputType="text"
+        android:text="@string/presetText"
         android:textColor="@color/white" >
 
         <requestFocus />

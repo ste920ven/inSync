@@ -7,10 +7,12 @@ import java.util.Set;
 import android.os.Bundle;
 import android.bluetooth.*;
 import android.content.Intent;
+import android.graphics.Color;
 import android.app.Activity;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -20,17 +22,27 @@ public class CreateSession extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_create_session);
+		getWindow().setSoftInputMode(
+			    WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+		
 		enableBluetooth();
 		
 		final Button fCButton = (Button) findViewById(R.id.chooseFileButton);
 		
 		fCButton.setOnClickListener(new OnClickListener(){
 			public void onClick(View v){
+				try{
 				 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 	             intent.setType("file/*");
 	             final int PICKFILE_RESULT_CODE = 1;
 	             startActivityForResult(intent,PICKFILE_RESULT_CODE);
 			}
+				catch(Exception e){
+					final TextView fnTV = (TextView) findViewById(R.id.fileNameTextView);
+					fnTV.setText("Error: No File Browser found! Please install a file browser (Such as ASTRO File Manager) to browse for an MP3 file.");
+					fnTV.setTextColor(Color.RED);
+				}
+		}
 		});
 	}
 	
