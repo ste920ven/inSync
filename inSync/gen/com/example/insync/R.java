@@ -46,14 +46,16 @@ public final class R {
         public static final int textView1=0x7f0a0000;
     }
     public static final class layout {
-        public static final int activity_create_session=0x7f030000;
-        public static final int activity_help_screen=0x7f030001;
-        public static final int activity_main=0x7f030002;
+        public static final int activity_bluetooth_host=0x7f030000;
+        public static final int activity_create_session=0x7f030001;
+        public static final int activity_help_screen=0x7f030002;
+        public static final int activity_main=0x7f030003;
     }
     public static final class menu {
-        public static final int create_session=0x7f090000;
-        public static final int help_screen=0x7f090001;
-        public static final int main=0x7f090002;
+        public static final int bluetooth_host=0x7f090000;
+        public static final int create_session=0x7f090001;
+        public static final int help_screen=0x7f090002;
+        public static final int main=0x7f090003;
     }
     public static final class raw {
         public static final int buttontest=0x7f040000;
@@ -76,6 +78,7 @@ public final class R {
         public static final int playbuttondescription=0x7f060004;
         public static final int presetText=0x7f060014;
         public static final int sessionname=0x7f060009;
+        public static final int title_activity_bluetooth_host=0x7f060015;
         public static final int title_activity_create_session=0x7f060008;
         public static final int title_activity_help_screen=0x7f06000f;
         public static final int turningbluetoothon=0x7f06000b;

@@ -32,5 +32,6 @@
     <string name="connectedBTDevices">Paired Bluetooth Devices:</string>
     <string name="chosenfile">Song: [Please choose a file]</string>
     <string name="presetText">inSync Live Stream</string>
+    <string name="title_activity_bluetooth_host">BluetoothHost</string>
 
 </resources>

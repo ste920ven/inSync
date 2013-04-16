@@ -33,6 +33,10 @@
             android:name="com.example.insync.HelpScreen"
             android:label="@string/title_activity_help_screen" >
         </activity>
+        <activity
+            android:name="com.example.insync.BluetoothHost"
+            android:label="@string/title_activity_bluetooth_host" >
+        </activity>
     </application>
 
 </manifest>
