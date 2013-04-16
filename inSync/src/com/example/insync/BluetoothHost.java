@@ -6,17 +6,18 @@ import android.view.Menu;
 import android.widget.TextView;
 
 public class BluetoothHost extends Activity {
-
+	String fp = "";
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bluetooth_host);
 		
 		Bundle extras = getIntent().getExtras();
-		String fp = extras.getString("filepath");
+		fp = extras.getString("filepath");
 		
 		final TextView uriTV = (TextView) findViewById(R.id.uriDisplayTV);
-		uriTV.setText(fp);
+		uriTV.setText("Your selected song: " + fp);
 		
 	}
 
