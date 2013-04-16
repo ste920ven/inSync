@@ -33,5 +33,6 @@
     <string name="chosenfile">Song: [Please choose a file]</string>
     <string name="presetText">inSync Live Stream</string>
     <string name="title_activity_bluetooth_host">BluetoothHost</string>
+    <string name="selectedfile">"Selected File: "</string>
 
 </resources>

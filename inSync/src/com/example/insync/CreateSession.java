@@ -55,7 +55,12 @@ public class CreateSession extends Activity {
 		confirmbutton.setOnClickListener(new OnClickListener(){
 			public void onClick(View v){
 				if (existFilePath()){
-					hostBluetooth();
+					hostBluetooth(getFilePath());
+				}
+				else{
+					final TextView fnTV = (TextView) findViewById(R.id.fileNameTextView);
+					fnTV.setText("Choose a song before clicking on the confirm button, silly! :(");
+					fnTV.setTextColor(Color.RED);
 				}
 			}
 		});
@@ -63,6 +68,10 @@ public class CreateSession extends Activity {
 
 	public String setFilePath(String path){
 		globalPath = path;
+		return globalPath;
+	}
+	
+	public String getFilePath(){
 		return globalPath;
 	}
 
@@ -94,8 +103,9 @@ public class CreateSession extends Activity {
 	}
 
 
-	public void hostBluetooth(){
+	public void hostBluetooth(String filePath){
 		Intent intent = new Intent(this, BluetoothHost.class);
+		intent.putExtra("filepath", filePath);
 		startActivity(intent);
 	}
 
