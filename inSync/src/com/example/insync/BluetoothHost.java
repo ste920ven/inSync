@@ -17,7 +17,9 @@ import android.widget.TextView;
 
 public class BluetoothHost extends Activity {
 	String fp = "";
-
+	BluetoothAdapter bA = BluetoothAdapter.getDefaultAdapter();
+	Set<BluetoothDevice> pairedDevices = bA.getBondedDevices();
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -35,7 +37,7 @@ public class BluetoothHost extends Activity {
 				sendFile();
 			}
 		});
-		
+
 		listConnectedDevices();
 
 	}
@@ -48,26 +50,28 @@ public class BluetoothHost extends Activity {
 	}
 
 	public void listConnectedDevices(){
-		BluetoothAdapter bA = BluetoothAdapter.getDefaultAdapter();
-		Set<BluetoothDevice> pairedDevices = bA.getBondedDevices();
 		List<String> s = new ArrayList<String>();
 		for(BluetoothDevice bt : pairedDevices){
 			s.add(bt.getAddress());
 		}
-		
+
 		final TextView btDevAddTV = (TextView) findViewById(R.id.connectedBTdevTV);
 		btDevAddTV.append("\n"+s.toString());
 	}
 
 	public void sendFile(){
-		ContentValues values = new ContentValues();
-		values.put(BluetoothShare.URI, "content://" + fp);
-		
-		//Hard coded device address
-		values.put(BluetoothShare.DESTINATION, "E0:B9:A5:6C:F8:9C");
-		values.put(BluetoothShare.DIRECTION, BluetoothShare.DIRECTION_OUTBOUND);
-		Long ts = System.currentTimeMillis();
-		values.put(BluetoothShare.TIMESTAMP, ts);
+
+		for(BluetoothDevice bt : pairedDevices){
+			ContentValues values = new ContentValues();
+			values.put(BluetoothShare.URI, "content://" + fp);
+
+			//Send Bluetooth stuff for each Address
+			values.put(BluetoothShare.DESTINATION, bt.getAddress());
+			values.put(BluetoothShare.DIRECTION, BluetoothShare.DIRECTION_OUTBOUND);
+			Long ts = System.currentTimeMillis();
+			values.put(BluetoothShare.TIMESTAMP, ts);
+		}
+
 
 	}
 
