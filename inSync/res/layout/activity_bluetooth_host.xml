@@ -20,10 +20,18 @@
         android:id="@+id/sendfilebutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/uriDisplayTV"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="42dp"
+        android:layout_centerVertical="true"
         android:text="@string/sendmp3file"
+        android:textColor="@color/blue" />
+
+    <TextView
+        android:id="@+id/connectedBTdevTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/uriDisplayTV"
+        android:layout_below="@+id/uriDisplayTV"
+        android:text="@string/connectedbtdevices"
         android:textColor="@color/blue" />
 
 </RelativeLayout>

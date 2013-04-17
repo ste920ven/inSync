@@ -1,7 +1,14 @@
 package com.example.insync;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import android.os.Bundle;
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.content.ContentValues;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,9 +32,11 @@ public class BluetoothHost extends Activity {
 		final Button sendbutton = (Button) findViewById(R.id.sendfilebutton);
 		sendbutton.setOnClickListener(new OnClickListener(){
 			public void onClick(View v){
-				//sendFile(fp);
+				sendFile();
 			}
 		});
+		
+		listConnectedDevices();
 
 	}
 
@@ -38,7 +47,28 @@ public class BluetoothHost extends Activity {
 		return true;
 	}
 
-	public void sendFile(){
+	public void listConnectedDevices(){
+		BluetoothAdapter bA = BluetoothAdapter.getDefaultAdapter();
+		Set<BluetoothDevice> pairedDevices = bA.getBondedDevices();
+		List<String> s = new ArrayList<String>();
+		for(BluetoothDevice bt : pairedDevices){
+			s.add(bt.getAddress());
 		}
+		
+		final TextView btDevAddTV = (TextView) findViewById(R.id.connectedBTdevTV);
+		btDevAddTV.append("\n"+s.toString());
+	}
+
+	public void sendFile(){
+		ContentValues values = new ContentValues();
+		values.put(BluetoothShare.URI, "content://" + fp);
+		
+		//Hard coded device address
+		values.put(BluetoothShare.DESTINATION, "E0:B9:A5:6C:F8:9C");
+		values.put(BluetoothShare.DIRECTION, BluetoothShare.DIRECTION_OUTBOUND);
+		Long ts = System.currentTimeMillis();
+		values.put(BluetoothShare.TIMESTAMP, ts);
+
+	}
 
 }

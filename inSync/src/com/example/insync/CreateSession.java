@@ -131,7 +131,7 @@ public void enableBluetooth(){
 	Set<BluetoothDevice> pairedDevices = bA.getBondedDevices();
 	List<String> s = new ArrayList<String>();
 	for(BluetoothDevice bt : pairedDevices){
-		s.add(bt.getName());
+		s.add(bt.getName() + " - " + bt.getAddress() + "\n");
 	}
 
 	//Update TextView with list of Bluetooth Devices

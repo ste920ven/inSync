@@ -10,7 +10,7 @@
     tools:context=".MainActivity" >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/connectedBTdevTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -43,8 +43,8 @@
         android:id="@+id/findSessionButton"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
-        android:layout_below="@+id/textView1"
+        android:layout_alignLeft="@+id/connectedBTdevTV"
+        android:layout_below="@+id/connectedBTdevTV"
         android:layout_marginTop="58dp"
         android:text="@string/findsession"
         android:textColor="@color/green" />

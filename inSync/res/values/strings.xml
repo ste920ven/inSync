@@ -35,5 +35,6 @@
     <string name="title_activity_bluetooth_host">BluetoothHost</string>
     <string name="selectedfile">"Selected File: "</string>
     <string name="sendmp3file">Send mp3 file via Bluetooth</string>
+    <string name="connectedbtdevices">Connected Bluetooth Device Addresses:</string>
 
 </resources>
