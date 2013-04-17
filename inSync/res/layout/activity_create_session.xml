@@ -52,7 +52,7 @@
         android:textColor="@color/white" />
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/sendfilebutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/bluetoothTV"

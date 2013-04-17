@@ -51,7 +51,7 @@ public class CreateSession extends Activity {
 			}
 		});
 
-		final Button confirmbutton = (Button) findViewById(R.id.button1);
+		final Button confirmbutton = (Button) findViewById(R.id.sendfilebutton);
 		confirmbutton.setOnClickListener(new OnClickListener(){
 			public void onClick(View v){
 				if (existFilePath()){

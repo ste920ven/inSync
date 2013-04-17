@@ -34,5 +34,6 @@
     <string name="presetText">inSync Live Stream</string>
     <string name="title_activity_bluetooth_host">BluetoothHost</string>
     <string name="selectedfile">"Selected File: "</string>
+    <string name="sendmp3file">Send mp3 file via Bluetooth</string>
 
 </resources>
