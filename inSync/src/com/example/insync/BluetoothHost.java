@@ -16,7 +16,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class BluetoothHost extends Activity {
+	
+	//Global String variable for filepath
 	String fp = "";
+	
+	//Global bluetooth adapter so that you don't have to keep calling a new Bluetooth adapter
 	BluetoothAdapter bA = BluetoothAdapter.getDefaultAdapter();
 	Set<BluetoothDevice> pairedDevices = bA.getBondedDevices();
 	
@@ -25,19 +29,24 @@ public class BluetoothHost extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bluetooth_host);
 
+		//Get the filepath for the selected music file
 		Bundle extras = getIntent().getExtras();
 		fp = extras.getString("filepath");
 
+		//Display the filepath on the Textview
 		final TextView uriTV = (TextView) findViewById(R.id.uriDisplayTV);
 		uriTV.setText("Your selected song: " + fp);
 
+ 		//This is for the "Send mp3 file" button
 		final Button sendbutton = (Button) findViewById(R.id.sendfilebutton);
 		sendbutton.setOnClickListener(new OnClickListener(){
 			public void onClick(View v){
+				//Call the sendFile() function which will use Bluetooth
 				sendFile();
 			}
 		});
 
+		//List the addresses for the connected Bluetooth devices
 		listConnectedDevices();
 
 	}
@@ -50,17 +59,23 @@ public class BluetoothHost extends Activity {
 	}
 
 	public void listConnectedDevices(){
+		//Get a list of the addresses of connected Bluetooth devices
 		List<String> s = new ArrayList<String>();
 		for(BluetoothDevice bt : pairedDevices){
+			
 			s.add(bt.getAddress());
 		}
 
+		//Get the TextView
 		final TextView btDevAddTV = (TextView) findViewById(R.id.connectedBTdevTV);
+		//Append the addresses for the Bluetooth devices onto the TextView
 		btDevAddTV.append("\n"+s.toString());
 	}
 
 	public void sendFile(){
 
+		//For loop:
+		//For each bluetooth device that is connected, send the music file
 		for(BluetoothDevice bt : pairedDevices){
 			ContentValues values = new ContentValues();
 			values.put(BluetoothShare.URI, "content://" + fp);
