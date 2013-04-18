@@ -49,4 +49,14 @@
         android:text="@string/findsession"
         android:textColor="@color/green" />
 
+	<Button
+	    android:id="@+id/infoButton"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_alignLeft="@+id/helpButton"
+	    android:layout_below="@+id/helpButton"
+	    android:onClick="getInfo"
+	    android:text="@string/info"
+	    android:textColor="@color/green" />
+
 </RelativeLayout>

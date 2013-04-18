@@ -45,5 +45,10 @@ public class MainActivity extends Activity {
 		Intent intent = new Intent(this, HelpScreen.class);
 		startActivity(intent);
 	}
-
+	
+	//Will be called when the Info button is clicked
+	public void getInfo(View view){	
+		Intent intent = new Intent(this, AboutScreen.class);
+		startActivity(intent);
+	}
 }
