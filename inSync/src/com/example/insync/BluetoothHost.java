@@ -77,8 +77,7 @@ public class BluetoothHost extends Activity {
 		intent.setAction(Intent.ACTION_SEND);
 		intent.setType("text/plain");
 		intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(fp) );
-		//...
-		startActivity(intent);	
+		//...	
 		
 		//list of apps that can handle our intent
 		PackageManager pm = getPackageManager();
