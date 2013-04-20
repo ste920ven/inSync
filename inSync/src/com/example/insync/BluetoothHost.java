@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.content.ContentValues;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -64,15 +63,12 @@ public class BluetoothHost extends Activity {
 	}
 
 	public void sendFile(){
-		BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
-		
-		if (btAdapter == null) {
+		if (bA == null) {
 			// Device does not support Bluetooth
-			// Inform user that we're done. 
 				return;
 			}
 		
-		// bring up Android chooser
+		// Bring up Android's Bluetooth Device chooser
 		Intent intent = new Intent();
 		intent.setAction(Intent.ACTION_SEND);
 		intent.setType("text/plain");
@@ -90,34 +86,18 @@ public class BluetoothHost extends Activity {
 			String className = null;
 			
 			for(ResolveInfo info: appsList){
-			  packageName = info.activityInfo.packageName;
-			  if( packageName.equals("com.android.bluetooth")){
-			     className = info.activityInfo.name;
-			     break;// found
-			  }
+			    packageName = info.activityInfo.packageName;
+			    if( packageName.equals("com.android.bluetooth")){
+				className = info.activityInfo.name;
+				break;// found
+			    }
 			}
 			
 			//set our intent to launch Bluetooth
 			intent.setClassName(packageName, className);
 			startActivity(intent);
-		}
-		
-		
-		
-		/*
-		for(BluetoothDevice bt : pairedDevices){
-			ContentValues values = new ContentValues();
-			values.put(BluetoothShare.URI, "content://" + fp);
 
-			//Send Bluetooth stuff for each Address
-			values.put(BluetoothShare.DESTINATION, bt.getAddress());
-			values.put(BluetoothShare.DIRECTION, BluetoothShare.DIRECTION_OUTBOUND);
-			Long ts = System.currentTimeMillis();
-			values.put(BluetoothShare.TIMESTAMP, ts);
-				
 		}
-		 */
-
 	}
 
 }
