@@ -37,14 +37,4 @@ public class MainActivity extends Activity {
 		Intent intent = new Intent(this, HelpScreen.class);
 		startActivity(intent);
 	}
-<<<<<<< HEAD
-=======
-	
-	//Will be called when the Info button is clicked
-	public void getInfo(View view){	
-		buttonClick.start();
-		Intent intent = new Intent(this, AboutScreen.class);
-		startActivity(intent);
-	}
->>>>>>> 1d2e74568ee16905947432161b1d839a32891d85
 }
