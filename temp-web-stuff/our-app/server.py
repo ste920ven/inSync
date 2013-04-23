@@ -11,6 +11,7 @@ app = Flask(__name__)
 
 # The socket.io namespace
 class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin):
+    """
     def on_nickname(self, nickname):
         self.environ.setdefault('nicknames', []).append(nickname)
         self.socket.session['nickname'] = nickname
@@ -21,9 +22,12 @@ class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin):
 
     def on_user_message(self, msg):
         self.emit_to_room('main_room', 'msg_to_room', self.socket.session['nickname'], msg.upper())
-
+        """
     def on_toggle_play_pause(self):
         self.broadcast_event('playpause')
+
+    def on_skip_seven(self):
+        self.broadcast_event('skip')
         
 # Flask routes
 @app.route('/')
