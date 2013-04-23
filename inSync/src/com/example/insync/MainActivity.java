@@ -1,30 +1,20 @@
 package com.example.insync;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 import android.view.View;
 
 public class MainActivity extends Activity {
-
+	MediaPlayer buttonClick = null;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
-		/*
-		 * Commented out code: Used to test mp3 functionality
-		final MediaPlayer buttonClick = MediaPlayer.create(this, R.raw.buttontest);
-		final ImageButton playbutton = (ImageButton) findViewById(R.id.imageButton1);
-		
-		playbutton.setOnClickListener(new View.OnClickListener(){
-			public void onClick(View v){
-				buttonClick.start();
-			}
-			}
-		);
-		*/
+		buttonClick = MediaPlayer.create(this, R.raw.buttonclick);
 	}
 
 	@Override
@@ -36,13 +26,25 @@ public class MainActivity extends Activity {
 	
 	//Will be called when the Create Session button is clicked
 	public void createSession(View view){
+		buttonClick.start();
 		Intent intent = new Intent(this, CreateSession.class);
 		startActivity(intent);
 	}
 	
 	//Will be called when the Help! :( button is clicked
 	public void helpScreen(View view){
+		buttonClick.start();
 		Intent intent = new Intent(this, HelpScreen.class);
 		startActivity(intent);
 	}
+<<<<<<< HEAD
+=======
+	
+	//Will be called when the Info button is clicked
+	public void getInfo(View view){	
+		buttonClick.start();
+		Intent intent = new Intent(this, AboutScreen.class);
+		startActivity(intent);
+	}
+>>>>>>> 1d2e74568ee16905947432161b1d839a32891d85
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.bluetooth.*;
 import android.content.Intent;
@@ -18,9 +19,13 @@ import android.widget.TextView;
 
 public class CreateSession extends Activity {
 
+	//Global variable for filepath URI String
 	String globalPath = "";
-	// duration that the device is discoverable
-	private static final int DISCOVER_DURATION = 300;
+
+	MediaPlayer buttonClick = null;
+
+	//Variable: Number of seconds during which the device will be Bluetooth discoverable 
+	private static final int DISCOVER_DURATION = 100;
 	// our request code (must be greater than zero)
 	private static final int REQUEST_BLU = 1;
 
@@ -28,6 +33,9 @@ public class CreateSession extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_create_session);
+
+		//Mediaplayer for button click sound
+		buttonClick = MediaPlayer.create(this, R.raw.buttonclick);
 
 		// Prevents on-screen keyboard from popping up when Activity is started
 		getWindow().setSoftInputMode(
@@ -40,6 +48,7 @@ public class CreateSession extends Activity {
 		fCButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				try {
+					buttonClick.start();
 					Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 					intent.setType("file/*");
 					final int PICKFILE_RESULT_CODE = 1;
@@ -49,6 +58,7 @@ public class CreateSession extends Activity {
 				// Activity Not Found Crash fix
 				// Updates TextView with message to install a file browser
 				catch (Exception e) {
+					buttonClick.start();
 					final TextView fnTV = (TextView) findViewById(R.id.fileNameTextView);
 					fnTV.setText("Error: No File Browser found! Please install a file browser (Such as ASTRO File Manager) to browse for an MP3 file.");
 					fnTV.setTextColor(Color.RED);
@@ -60,8 +70,10 @@ public class CreateSession extends Activity {
 		confirmbutton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (existFilePath()) {
+					buttonClick.start();
 					hostBluetooth(getFilePath());
 				} else {
+					buttonClick.start();
 					final TextView fnTV = (TextView) findViewById(R.id.fileNameTextView);
 					fnTV.setText("Choose a song before clicking on the confirm button, silly! :(");
 					fnTV.setTextColor(Color.RED);
@@ -106,6 +118,7 @@ public class CreateSession extends Activity {
 	}
 
 	public void hostBluetooth(String filePath) {
+		buttonClick.start();
 		Intent intent = new Intent(this, BluetoothHost.class);
 		intent.putExtra("filepath", filePath);
 		startActivity(intent);
@@ -128,10 +141,10 @@ public class CreateSession extends Activity {
 			final TextView btCheck = (TextView) findViewById(R.id.bluetoothCheck);
 			btCheck.setText("Turning Bluetooth on to detect other Android devices");
 		}
-		
+
 		//Enable device discovery
 		enableBlu();
-		
+
 		// List all paired Bluetooth Devices
 		Set<BluetoothDevice> pairedDevices = bA.getBondedDevices();
 		List<String> s = new ArrayList<String>();
@@ -149,9 +162,9 @@ public class CreateSession extends Activity {
 		Intent discoveryIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
 
 		discoveryIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION,
-		                            DISCOVER_DURATION );
+				DISCOVER_DURATION );
 
 		startActivityForResult(discoveryIntent, REQUEST_BLU);
-		}
+	}
 
 }
