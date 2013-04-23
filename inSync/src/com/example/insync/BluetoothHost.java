@@ -1,5 +1,9 @@
 package com.example.insync;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +26,9 @@ public class BluetoothHost extends Activity {
 	private File fp;
 	private BluetoothAdapter bA = BluetoothAdapter.getDefaultAdapter();
 	private Set<BluetoothDevice> pairedDevices = bA.getBondedDevices();
+	private byte[] buf;
+	private BufferedInputStream input = new BufferedInputStream(new ByteArrayInputStream(buf));
+	private BufferedOutputStream output = new BufferedOutputStream(new ByteArrayOutputStream());
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +47,7 @@ public class BluetoothHost extends Activity {
 				sendFile();
 			}
 		});
-
+		
 		listConnectedDevices();
 
 	}
