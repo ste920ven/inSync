@@ -106,5 +106,11 @@ public class BluetoothHost extends Activity {
 
 		}
 	}
+	
+	public void openStream(){
+		for (BluetoothDevice bt : pairedDevices) {
+			//bt.createRfcommSocketToServiceRecord(UUID)
+		}
+	}
 
 }
