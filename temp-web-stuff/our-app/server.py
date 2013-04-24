@@ -6,28 +6,30 @@ from socketio import socketio_manage
 from socketio.namespace import BaseNamespace
 from socketio.mixins import RoomsMixin, BroadcastMixin
 from socketio.server import SocketIOServer
+from cmixin import CustomMixin
 
 app = Flask(__name__)
 
 # The socket.io namespace
-class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin):
-    """
-    def on_nickname(self, nickname):
+class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin, CustomMixin):
+    def on_nickname(self, nickname, room):
         self.environ.setdefault('nicknames', []).append(nickname)
         self.socket.session['nickname'] = nickname
-        self.broadcast_event('announcement', '%s has connected' % nickname)
         self.broadcast_event('nicknames', self.environ['nicknames'])
-        # Just have them join a default-named room
-        self.join('main_room')
-
+        self.join(room)
+    """
     def on_user_message(self, msg):
         self.emit_to_room('main_room', 'msg_to_room', self.socket.session['nickname'], msg.upper())
         """
-    def on_toggle_play_pause(self):
-        self.broadcast_event('playpause')
+    def on_toggle_play_pause(self, room):
+        print room
+        self.emit_to_room_and_you(room, 'playpause')
 
     def on_skip_seven(self):
         self.broadcast_event('skip')
+
+    def on_reset(self):
+        self.broadcast_event('reset')
         
 # Flask routes
 @app.route('/')
