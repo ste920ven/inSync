@@ -1,0 +1,27 @@
+<!doctype html>
+<head>
+  <script type="text/javascript" src="/static/jwplayer/jwplayer.js"></script>
+</head>
+<body>
+  <h1>Upload new File</h1>
+  <form action="" method="POST" enctype="multipart/form-data">
+    <p><input type=file name=file>
+      <input type=submit value=Upload>
+  </form>
+  
+  <a href="/static/uploads/Sway.mp3">Play</a>
+  <br>
+  <audio controls>
+    <source src="/static/uploads/Sway.mp3" type="audio/mpeg">
+  </audio>
+  HTML5 Default
+  <div id="myElement">Loading the player...</div>
+  <script type="text/javascript">
+    jwplayer("myElement").setup({
+    file: "/static/uploads/Sway.mp3",
+    height: 30,
+    width: 300,
+    controlbar: "bottom"
+    });
+  </script>JW Player
+</body>
