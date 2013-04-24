@@ -35,7 +35,7 @@ public class BluetoothHost extends Activity {
 	//private byte[] buf;
 	//private BufferedInputStream input = new BufferedInputStream(new ByteArrayInputStream(buf));
 	//private BufferedOutputStream output = new BufferedOutputStream(new ByteArrayOutputStream());
-	private static final UUID MY_UUID = UUID.fromString("0x0000000000001000800000805F9B34FB");
+	private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"));
 	private ArrayList<BluetoothSocket> Sockets;
 	private ArrayList<OutputStream> Output;
 	private ArrayList<InputStream> Input;
