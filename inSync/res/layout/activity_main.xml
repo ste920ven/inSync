@@ -44,6 +44,13 @@
             android:onClick="helpScreen"
             android:text="@string/help"
             android:textColor="@color/green" />
+
+        <Button
+            android:id="@+id/test"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="openStream" />
+
     </LinearLayout>
 
 </ScrollView>
