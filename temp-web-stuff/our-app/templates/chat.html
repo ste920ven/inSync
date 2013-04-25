@@ -8,22 +8,22 @@
   </head>
   <body>
     <div id="nickname">
-      <form id="set-nickname" class="wrap">
-	<p>Please type in your nickname and room and press enter.</p>
-        <input id="nick">
-	<input id="room">
-	<button type="submit">Submit</button>
-      </form>
+      <p>Please type in your nickname and room and press enter.</p>
+      <input id="nick">
+      <input id="room">
+      <button onclick="submit()">Submit</button>
     </div>
     <div id="audio">
       <audio id="audioplayer" controls>
-	<source src="http://stuy.enschool.org/music/2_Brandenburg_Concerto_2.mp3" type="audio/mpeg">
+	<source id="audiosource" src="http://stuy.enschool.org/music/2_Brandenburg_Concerto_2.mp3" type="audio/mpeg">
       </audio>
       <button onclick="toggle()">Play/Pause</button>
       <button onclick="skipTen()">Skip 10 sec</button>
       <button onclick="resetTime()">Reset</button>
       <p id="userID">User: </p>
       <p id="roomID">Room: </p>
+      <a href="/upload.html">Upload</a>
+      <button id="music" onclick="playmysong()">Music</button>
     </div>
   </body>
 </html>
