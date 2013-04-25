@@ -14,25 +14,23 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.app.Activity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
 public class MainActivity extends Activity {
 	MediaPlayer buttonClick = null;
 	// --------------
 	private BluetoothAdapter bA = BluetoothAdapter.getDefaultAdapter();
 	private Set<BluetoothDevice> pairedDevices = bA.getBondedDevices();
-	// private byte[] buf;
-	// private BufferedInputStream input = new BufferedInputStream(new
-	// ByteArrayInputStream(buf));
-	// private BufferedOutputStream output = new BufferedOutputStream(new
-	// ByteArrayOutputStream());
 	private static final UUID MY_UUID = UUID
 			.fromString("00001101-0000-1000-8000-00805F9B34FB");
 	private ArrayList<BluetoothSocket> Sockets = new ArrayList<BluetoothSocket>();
 	private ArrayList<OutputStream> Output = new ArrayList<OutputStream>();
 	private ArrayList<InputStream> Input = new ArrayList<InputStream>();
+
+
 
 	// ---------------------
 
@@ -41,6 +39,18 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		buttonClick = MediaPlayer.create(this, R.raw.buttonclick);
+
+		final Button testStreamButton = (Button) findViewById(R.id.testButton);
+		testStreamButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v){
+				try {
+					openStream(v);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 	@Override

@@ -44,7 +44,7 @@ public final class R {
         public static final int helpButton=0x7f0a000a;
         public static final int sendfilebutton=0x7f0a0001;
         public static final int sessionNameText=0x7f0a0004;
-        public static final int test=0x7f0a000b;
+        public static final int testButton=0x7f0a000b;
         public static final int uriDisplayTV=0x7f0a0000;
     }
     public static final class layout {
