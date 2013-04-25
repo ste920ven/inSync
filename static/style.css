@@ -1,5 +1,5 @@
 html {
-    background: url(http://placekitten.com/600/600) no-repeat center center fixed;
+    background: url(./bootstrap/img/background.jpg) no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -11,7 +11,7 @@ html {
     background-color: black;
     background-image: none;
     padding-left: 20px;
-    opacity: 0.7;
+    opacity: 0.85;
 }
 
 .nav a {
@@ -19,7 +19,7 @@ html {
 }
 
 .nav a:hover {
-    border-bottom-style: solid;
+    border-top-style: solid;
     border-color: orange;
     border-width: -2px;
     margin: -2px;
@@ -50,7 +50,7 @@ html {
     font-size: 60px;
     font-weight: bold;
     left: 50%;
-    top: 30%;
+    top: 10%;
     text-shadow: black 0 1px 2px;
 }
 
@@ -62,14 +62,14 @@ html {
     font-size: 40px;
     font-weight: 700;
     left: 50%;
-    top: 40%;
+    top: 20%;
     text-shadow: black 0 1px 2px;
 }
 
 #google-play {
     position: absolute;
     left: 50%;
-    top: 47%;
+    top: 27%;
 }
 
 #middle h6 {
@@ -80,14 +80,14 @@ html {
     font-size: 20px;
     font-weight: 600;
     left: 50%;
-    top: 53%;
+    top: 33%;
     text-shadow: black 0 1px 2px;
 }
 
 #logo {
     position: absolute;
     left: 23%;
-    top: 28%;
+    top: 8%;
     width: 300px;
     display: block;
 }

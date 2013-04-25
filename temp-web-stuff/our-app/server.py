@@ -1,7 +1,7 @@
 import os
 import werkzeug.serving
-from gevent import monkey; monkey.patch_all()
 from flask import Flask, request, render_template
+from gevent import monkey; monkey.patch_all()
 from socketio import socketio_manage
 from socketio.namespace import BaseNamespace
 from socketio.mixins import RoomsMixin, BroadcastMixin
