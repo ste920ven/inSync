@@ -43,7 +43,7 @@ def run_socketio(path):
 @werkzeug.serving.run_with_reloader
 def run_dev_server():
     app.debug = True
-    port = 8000
+    port = 5000
     SocketIOServer(('', port), app, resource="socket.io").serve_forever()
 
 if __name__ == "__main__":
