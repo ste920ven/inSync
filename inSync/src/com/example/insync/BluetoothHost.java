@@ -10,6 +10,9 @@ import java.util.Set;
 import java.util.UUID;
 
 import android.os.Bundle;
+import android.os.PowerManager;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -19,7 +22,10 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.SeekBar;
 import android.widget.TextView;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -28,13 +34,21 @@ public class BluetoothHost extends Activity {
 	private File fp;
 	private BluetoothAdapter bA = BluetoothAdapter.getDefaultAdapter();
 	private Set<BluetoothDevice> pairedDevices = bA.getBondedDevices();
-	//private byte[] buf;
-	//private BufferedInputStream input = new BufferedInputStream(new ByteArrayInputStream(buf));
-	//private BufferedOutputStream output = new BufferedOutputStream(new ByteArrayOutputStream());
-	private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+	// private byte[] buf;
+	// private BufferedInputStream input = new BufferedInputStream(new
+	// ByteArrayInputStream(buf));
+	// private BufferedOutputStream output = new BufferedOutputStream(new
+	// ByteArrayOutputStream());
+	private static final UUID MY_UUID = UUID
+			.fromString("00001101-0000-1000-8000-00805F9B34FB");
 	private ArrayList<BluetoothSocket> Sockets;
 	private ArrayList<OutputStream> Output;
 	private ArrayList<InputStream> Input;
+	private final ImageButton pause = (ImageButton) findViewById(R.id.pause);
+	private final SeekBar seekbar = (SeekBar) findViewById(R.id.mediaprogress);
+	private MediaPlayer mediaPlayer = new MediaPlayer();
+	PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -52,9 +66,11 @@ public class BluetoothHost extends Activity {
 				sendFile();
 			}
 		});
-		
+
 		listConnectedDevices();
 
+		seekbar.setVisibility(View.INVISIBLE);
+		pause.setVisibility(View.INVISIBLE);
 	}
 
 	@Override
@@ -123,5 +139,31 @@ public class BluetoothHost extends Activity {
 			Socket.getOutputStream().write(1);
 		}
 	}
-}
 
+	// NOT TESTED---------
+	public void setupMedia() throws IllegalStateException, IOException {
+		seekbar.setVisibility(View.VISIBLE);
+		pause.setVisibility(View.VISIBLE);
+		Uri myUri = Uri.fromFile(fp); // initialize Uri here
+
+		mediaPlayer.setWakeMode(getApplicationContext(),
+				PowerManager.PARTIAL_WAKE_LOCK);
+		mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+		mediaPlayer.setDataSource(getApplicationContext(), myUri);
+		mediaPlayer.prepare();
+
+	}
+
+	public void playMedia() {
+		if (mediaPlayer.isPlaying()) {
+			mediaPlayer.pause();
+		} else {
+			mediaPlayer.start();
+		}
+	}
+
+	public void seekMedia(int loc) {
+		mediaPlayer.seekTo(loc);
+	}
+	// -------
+}
