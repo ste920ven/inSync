@@ -2,6 +2,108 @@ WEB_SOCKET_SWF_LOCATION = "/WebSocketMain.swf";
 WEB_SOCKET_DEBUG = true;
 PATH = '/static/uploads/';
 
+var button;
+var userInfo;
+var fb_name, fb_id;
+var logged_in;
+
+function showView(desired){
+    if(desired == 'login'){
+	$('#nickname').hide();
+	$('#audio').hide();
+	$('#fb-postlog').css('display','block');
+    }
+    else if(desired == 'nickname'){
+	$('#fb-postlog').hide();
+	$('#audio').hide();
+	$('#nickname').css('display','block');
+    }
+    else{	
+	$('#nickname').hide();
+	$('#fb-postlog').hide();
+	$('#audio').css('display','block');
+    }
+}
+//fb stuff
+window.fbAsyncInit = function() {
+    FB.init({ appId: '378043245648833', 
+	      status: true, 
+	      cookie: true,
+	      xfbml: true,
+	      oauth: true});
+    
+    function updateButton(response) {
+	button = document.getElementById('login_button');
+	userInfo = document.getElementById('user-info');
+
+	if (response.authResponse) {
+	    //user is already logged in and connected
+	    FB.api('/me', function(info) {
+		login(response, info);
+	    });
+	} else {
+	    //user is not connected to your app or logged out
+	    button.onclick = function() {
+		FB.login(function(response) {
+		    if (response.authResponse) {
+			FB.api('/me', function(info) {
+			    login(response, info);
+			});	   
+		    } else {
+			//user cancelled login or did not grant authoriz.
+		    }
+		}, {scope:'email,user_about_me'});  	
+	    }
+	}
+    }
+    
+    // run once with current status and whenever the status changes
+    FB.getLoginStatus(updateButton);
+    FB.Event.subscribe('auth.statusChange', updateButton);	
+};
+$(document).ready(function() {
+    (function() {
+	var e = document.createElement('script'); e.async = true;
+	e.src = 'http://connect.facebook.net/en_US/all.js';
+	document.getElementById('fb-root').appendChild(e);
+    }());
+});
+
+function login(response, info){
+    fb_name = info.name;
+    fb_id = info.id;
+    if (response.authResponse) {
+	var accessToken = response.authResponse.accessToken;
+	showView('nickname');
+	$('#user-stuff').html('<img class="pull-right" id="user-pic" src=""><p class="pull-right" id="user-name"></p>');
+	$('#user-pic').attr('src','https://graph.facebook.com/' + info.id + '/picture');
+	$('#user-name').html(info.name);
+	$('#user-pic').hover(
+	    function() {
+		var $this = $('#user-name'); // caching $(this)
+		$this.data('initialText', $this.text());
+		$this.css('color','white');
+		$this.text("Logout?");
+	    },
+	    function() {
+		var $this = $('#user-name'); // caching $(this)
+		$this.css('color','gray');
+		$this.text($this.data('initialText'));
+	    });
+    }
+    button = document.getElementById('user-pic');
+    button.onclick = function() {
+	FB.logout(function(response) {
+	    logout(response);
+	});
+    };
+}
+
+function logout(response){
+    showView('login');
+    $('#user-stuff').html('');
+}
+
 // socket.io specific code
 var socket = io.connect();
 var room = '';
@@ -68,14 +170,13 @@ function timeChanged(){
 
 function submit(){
     socket.emit('nickname', 
-		$('#nick').val(), $('#room').val(), 
+		fb_name, $('#room').val(), 
 		function (set) {
 		    if (!set) {
 			room = $('#room').val();
-			$('#audio').css('display','inline');
-			$('#userID').html('User: ' + $('#nick').val());
+			$('#userID').html('User: ' + fb_name);
 			$('#roomID').html('Room: ' + room);
-			return $('#nickname').hide();
+			showView('audio');
 		    }
 		    //$('#nickname-err').css('visibility', 'visible');
 		});
