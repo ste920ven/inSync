@@ -84,8 +84,8 @@ public class MainActivity extends Activity {
 
 			Input.add(Socket.getInputStream());
 			Output.add(Socket.getOutputStream());
-			//Socket.connect();
-			//Socket.getOutputStream().write(1);
+			Socket.connect();
+			Socket.getOutputStream().write(1);
 		}
 	}
 }

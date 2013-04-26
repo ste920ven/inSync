@@ -19,12 +19,13 @@ import android.widget.TextView;
 
 public class CreateSession extends Activity {
 
-	//Global variable for filepath URI String
+	// Global variable for filepath URI String
 	String globalPath = "";
 
 	MediaPlayer buttonClick = null;
 
-	//Variable: Number of seconds during which the device will be Bluetooth discoverable 
+	// Variable: Number of seconds during which the device will be Bluetooth
+	// discoverable
 	private static final int DISCOVER_DURATION = 100;
 	// our request code (must be greater than zero)
 	private static final int REQUEST_BLU = 1;
@@ -34,7 +35,7 @@ public class CreateSession extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_create_session);
 
-		//Mediaplayer for button click sound
+		// Mediaplayer for button click sound
 		buttonClick = MediaPlayer.create(this, R.raw.buttonclick);
 
 		// Prevents on-screen keyboard from popping up when Activity is started
@@ -109,7 +110,11 @@ public class CreateSession extends Activity {
 				// Retrieve URI and display it in the TextView
 				String FilePath = data.getData().getPath();
 				final TextView textFile = (TextView) findViewById(R.id.fileNameTextView);
-				textFile.setText("MP3 File Selected: " + FilePath);
+				
+				//Concat File Path
+				String s=FilePath.substring(FilePath.lastIndexOf("/"));
+				
+				textFile.setText("MP3 File Selected: " + s);
 				setFilePath(FilePath);
 			}
 			break;
@@ -142,27 +147,36 @@ public class CreateSession extends Activity {
 			btCheck.setText("Turning Bluetooth on to detect other Android devices");
 		}
 
-		//Enable device discovery
+		// Enable device discovery
 		enableBlu();
 
 		// List all paired Bluetooth Devices
 		Set<BluetoothDevice> pairedDevices = bA.getBondedDevices();
 		List<String> s = new ArrayList<String>();
 		for (BluetoothDevice bt : pairedDevices) {
-			s.add(bt.getName() + " - " + bt.getAddress() + "\n");
+			// s.add(bt.getName() + " - " + bt.getAddress() + "\n");
+			s.add(bt.getName() + "\n");
 		}
 
+		//toString the Bluetooth Devices
+		String listString = "";
+		for (String temp : s) {
+			listString += "-" + temp + "\n";
+		}
+		
 		// Update TextView with list of Bluetooth Devices
 		final TextView btDevTV = (TextView) findViewById(R.id.bluetoothTV);
-		btDevTV.append("\n" + s.toString());
+		btDevTV.append("\n" + listString);
 
 	}
-	public void enableBlu(){
+
+	public void enableBlu() {
 		// enable device discovery - this will automatically enable Bluetooth
-		Intent discoveryIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+		Intent discoveryIntent = new Intent(
+				BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
 
 		discoveryIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION,
-				DISCOVER_DURATION );
+				DISCOVER_DURATION);
 
 		startActivityForResult(discoveryIntent, REQUEST_BLU);
 	}
