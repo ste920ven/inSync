@@ -58,7 +58,6 @@
 }
 #nickname {
     position: absolute;
-    height: 400px;
     width: 600px;
     left: 50%;
     top: 50%;
@@ -71,17 +70,24 @@
     display: none;
     border: solid gray 1px;
 }
-#nickname .wrap {
-    padding-top: 150px;
+#nickname .accordion-heading {
+    background: #DDD;
+    opacity: .8;
+    margin-bottom: none;
+}
+#nickname .accordion-heading a {
+    font: 25px Arial;
+    font-weight: 700;
+    color: white;    
+    text-shadow: black 0 1px 1px;
+}
+#nickname .accordion-heading a:hover {
+    text-decoration: none;
 }
 #nickname input {
     position: relative;
     border: 1px solid #ccc;
     padding: 10px;
-}
-#nickname p {
-    position: relative;
-    margin-top: 20%;
 }
 #nickname input:focus {
     border-color: #999;
@@ -93,7 +99,6 @@
 #audio .connected {
     display: inline;
 }
-
 
 .navbar {
     background-color: black;

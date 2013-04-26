@@ -199,4 +199,11 @@ $(function(){
 $(document).ready(function(){
     ap = document.getElementById('audioplayer');
     ap.addEventListener('seeked', timeChanged);
+    $('.accordion-toggle').hover(
+	function(){
+	    $(this).css('color','blue');
+	}, function(){
+	    $(this).css('color','#DDD');
+	});
 });
+		 
