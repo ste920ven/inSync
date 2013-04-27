@@ -42,6 +42,14 @@
             android:name="com.example.insync.AboutScreen"
             android:label="@string/title_activity_about_screen" >
         </activity>
+        <activity
+            android:name="com.example.insync.BluetoothGuest"
+            android:label="@string/title_activity_bluetooth_guest" >
+        </activity>
+        <activity
+            android:name="com.example.insync.JoinSession"
+            android:label="@string/title_activity_join_session" >
+        </activity>
     </application>
 
 </manifest>

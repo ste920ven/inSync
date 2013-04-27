@@ -40,5 +40,7 @@
     <string name="about">inSync is a project developed by Brian Lam, Steven Huang, Raymond Zeng, and Jason Peng. It allows a Bluetooth-enabled device to send an mp3 file to multiple devices to play it simutaneously across all the devices. </string>
     <string name="title_activity_about_screen">AboutScreen</string>
     <string name="playdescription">pause</string>
+    <string name="title_activity_bluetooth_guest">BluetoothGuest</string>
+    <string name="title_activity_join_session">JoinSession</string>
 
 </resources>

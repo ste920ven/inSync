@@ -37,31 +37,35 @@ public final class R {
         public static final int bluetoothCheck=0x7f0a000a;
         public static final int bluetoothTV=0x7f0a0009;
         public static final int chooseFileButton=0x7f0a0006;
-        public static final int connectedBTdevTV=0x7f0a0003;
+        public static final int connectedBTdevTV=0x7f0a0005;
         public static final int createSessionButton=0x7f0a000b;
         public static final int fileNameTextView=0x7f0a0008;
         public static final int findSessionButton=0x7f0a000c;
         public static final int helpButton=0x7f0a000d;
-        public static final int mediaprogress=0x7f0a0004;
-        public static final int pause=0x7f0a0005;
-        public static final int scrollView1=0x7f0a0000;
-        public static final int sendfilebutton=0x7f0a0002;
+        public static final int mediaprogress=0x7f0a0000;
+        public static final int pause=0x7f0a0001;
+        public static final int scrollView1=0x7f0a0002;
+        public static final int sendfilebutton=0x7f0a0004;
         public static final int sessionNameText=0x7f0a0007;
         public static final int testButton=0x7f0a000e;
-        public static final int uriDisplayTV=0x7f0a0001;
+        public static final int uriDisplayTV=0x7f0a0003;
     }
     public static final class layout {
-        public static final int activity_bluetooth_host=0x7f030000;
-        public static final int activity_create_session=0x7f030001;
-        public static final int activity_help_screen=0x7f030002;
-        public static final int activity_main=0x7f030003;
+        public static final int activity_bluetooth_guest=0x7f030000;
+        public static final int activity_bluetooth_host=0x7f030001;
+        public static final int activity_create_session=0x7f030002;
+        public static final int activity_help_screen=0x7f030003;
+        public static final int activity_join_session=0x7f030004;
+        public static final int activity_main=0x7f030005;
     }
     public static final class menu {
         public static final int about_screen=0x7f090000;
-        public static final int bluetooth_host=0x7f090001;
-        public static final int create_session=0x7f090002;
-        public static final int help_screen=0x7f090003;
-        public static final int main=0x7f090004;
+        public static final int bluetooth_guest=0x7f090001;
+        public static final int bluetooth_host=0x7f090002;
+        public static final int create_session=0x7f090003;
+        public static final int help_screen=0x7f090004;
+        public static final int join_session=0x7f090005;
+        public static final int main=0x7f090006;
     }
     public static final class raw {
         public static final int buttonclick=0x7f040000;
@@ -91,9 +95,11 @@ public final class R {
         public static final int sendmp3file=0x7f060017;
         public static final int sessionname=0x7f060009;
         public static final int title_activity_about_screen=0x7f06001b;
+        public static final int title_activity_bluetooth_guest=0x7f06001d;
         public static final int title_activity_bluetooth_host=0x7f060015;
         public static final int title_activity_create_session=0x7f060008;
         public static final int title_activity_help_screen=0x7f06000f;
+        public static final int title_activity_join_session=0x7f06001e;
         public static final int turningbluetoothon=0x7f06000b;
         public static final int welcome=0x7f060003;
     }

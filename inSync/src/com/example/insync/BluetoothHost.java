@@ -44,10 +44,12 @@ public class BluetoothHost extends Activity {
 	private ArrayList<BluetoothSocket> Sockets;
 	private ArrayList<OutputStream> Output;
 	private ArrayList<InputStream> Input;
-	private final ImageButton pause = (ImageButton) findViewById(R.id.pause);
-	private final SeekBar seekbar = (SeekBar) findViewById(R.id.mediaprogress);
+	private ImageButton pause;
+	private SeekBar seekbar;
+	private Button sendbutton;
+	private TextView uriTV;
+	private TextView connectedTV;
 	private MediaPlayer mediaPlayer = new MediaPlayer();
-	PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,10 +59,10 @@ public class BluetoothHost extends Activity {
 		Bundle extras = getIntent().getExtras();
 		fp = new File(extras.getString("filepath"));
 
-		final TextView uriTV = (TextView) findViewById(R.id.uriDisplayTV);
+		uriTV = (TextView) findViewById(R.id.uriDisplayTV);
 		uriTV.setText("Your selected song: " + fp);
 
-		final Button sendbutton = (Button) findViewById(R.id.sendfilebutton);
+		sendbutton = (Button) findViewById(R.id.sendfilebutton);
 		sendbutton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				sendFile();
@@ -69,8 +71,16 @@ public class BluetoothHost extends Activity {
 
 		listConnectedDevices();
 
+		connectedTV = (TextView) findViewById(R.id.connectedBTdevTV);
+		seekbar = (SeekBar) findViewById(R.id.mediaprogress);
 		seekbar.setVisibility(View.INVISIBLE);
+		pause = (ImageButton) findViewById(R.id.pause);
 		pause.setVisibility(View.INVISIBLE);
+		pause.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				pauseMedia();
+			}
+		});
 	}
 
 	@Override
@@ -142,6 +152,9 @@ public class BluetoothHost extends Activity {
 
 	// NOT TESTED---------
 	public void setupMedia() throws IllegalStateException, IOException {
+		connectedTV.setVisibility(View.INVISIBLE);
+		sendbutton.setVisibility(View.INVISIBLE);
+		uriTV.setVisibility(View.INVISIBLE);
 		seekbar.setVisibility(View.VISIBLE);
 		pause.setVisibility(View.VISIBLE);
 		Uri myUri = Uri.fromFile(fp); // initialize Uri here
@@ -154,7 +167,7 @@ public class BluetoothHost extends Activity {
 
 	}
 
-	public void playMedia() {
+	public void pauseMedia() {
 		if (mediaPlayer.isPlaying()) {
 			mediaPlayer.pause();
 		} else {
