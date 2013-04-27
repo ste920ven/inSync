@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:fb="https://www.facebook.com/2008/fbml">
+  <head>
+    <link href="http://www.iconj.com/ico/8/e/8efumc5s9g.ico" type="image/x-icon" rel="shortcut icon" />
+    <link href="/static/stylesheets/style.css" rel="stylesheet">
+    <link href="/static/stylesheets/app_style.css" rel="stylesheet">
+    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/socket.io.js"></script>
+    <script type="text/javascript" src="/static/app_script.js"></script>
+    <script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <a class="brand" href="#">inSync</a>
+      <ul class="nav">
+	<li><a href="#About" role="button" data-toggle="modal">About</a></li>
+	<li><a href="/">Android Version</a></li>
+      </ul>
+      <div id="user-stuff">
+      </div>
+    </div>
+    <div id="fb-root"></div>
+    <div id="fb-postlog">
+      <p>Login with Facebook</p>
+      <img id="login_button" src="/static/bootstrap/img/facebook.png">
+    </div>
+    <div class="accordion" id="nickname">
+      <div class="accordion-gorup">
+	<div class="accordion-heading">
+	  <i class="icon-circle-arrow-up icon-white pull-left"></i>
+	  <a class="accordion-toggle" data-toggle="collapse" data-parent="nickname" href="#collapseOne">Enter Room</a>
+	</div>
+	<div id="collapseOne" class="accordion-body callapse in">
+	  <div class="accordion-inner">
+	    <p>Please enter a room name</p>
+	    <input id="room" placeholder="room">
+	    <button onclick="submit()">Submit</button>
+	  </div>
+	</div>
+      </div>
+      <div class="accordion-groop">
+	<div class="accordion-heading">
+	  <i class="icon-circle-arrow-down icon-white pull-left"></i>
+	  <a class="accordion-toggle" data-toggle="collapse" data-parent="nickname" href="#collapseTwo">Enter Room as Admin</a>
+	</div>
+	<div id="collapseTwo" class="accordion-body collapse">
+	  <div class="accordion-inner">
+	    <p>Please enter a room name and admin password</p>
+	    <input id="adroom" placeholder="room">
+	    <input id="pass" placeholder="password">
+	    <button onclick="submit()">Submit</button>
+	  </div>
+	</div>
+      </div>
+       <div class="accordion-group">
+	<div class="accordion-heading">
+	  <i class="icon-circle-arrow-down icon-white pull-left"></i>
+	  <a class="accordion-toggle" data-toggle="collapse" data-parent="nickname" href="#collapseThree">Create Room</a>
+	</div>
+	<div id="collapseThree" class="accordion-body collapse">
+	  <div class="accordion-inner">
+	    <p>Please choose a room name and admin password</p>
+	    <input id="croom" placeholder="room">
+	    <input id="cpass" placeholder="password">
+	    <button onclick="submit()">Submit</button>
+	  </div>
+	</div>
+       </div>
+    </div>
+    <div id="audio">
+      <div id="audiop">
+	<audio id="audioplayer" controls>
+	  <source id="audiosource" src="http://stuy.enschool.org/music/2_Brandenburg_Concerto_2.mp3" type="audio/mpeg">
+	</audio>
+      </div>
+      <div id="audiocontrols">
+	<button id="toggle" class="btn" id="toggle">Play/Pause</button>
+	<button class="btn" id="skipTen">Skip Forward</button>
+	<button class="btn" id="resetTime">Reset</button>
+      </div>
+      <div id="audioinfo">
+	<p id="userID">User: </p>
+	<p id="roomID">Room: </p>
+	<!--a href="/upload.html">Upload</a>
+	<button id="music" onclick="playmysong()">Music</button-->
+      </div>
+    </div>
+    <div id="About" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	<h3 id="myModalLabel">inSync</h3>
+      </div>
+      <div class="modal-body">
+	<p>inSync is an application for music streaming between users. inSync attempts to create a perfect sync across users, including when the admin(s) play/pause or change the current position in the track.</p>
+	<p>All rooms are public and can be joined by anyone, but only users with admin passwords will be able to control the music stream in their respective rooms.</p>
+	<h4>Developers</h4>
+	<ul>
+	  <li>Brian Lam - Android (Right)</li>
+	  <li>Steven Huang - Android (Under the tree)</li>
+	  <li>Raymond Zeng - Web</li>
+	  <li>Jason Peng - Web</li>
+	</ul>
+	<h4>Powered by:</h4>
+	<ul>
+	  <li><a href="https://github.com/abourget/gevent-socketio">gevent-socketio</a></li>
+	  <li><a href="http://twitter.github.io/bootstrap/">Twitter Bootstrap</a></li>
+	  <li><a href="https://developers.facebook.com/">Facebook</a></li>
+      </div>
+      <div class="modal-footer">
+	<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+      </div>
+    </div>
+  </body>
+</html>

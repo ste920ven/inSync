@@ -6,6 +6,7 @@ var button;
 var userInfo;
 var fb_name, fb_id;
 var logged_in;
+var current_accordion = 'collapseOne';
 
 function showView(desired){
     if(desired == 'login'){
@@ -24,6 +25,7 @@ function showView(desired){
 	$('#audio').css('display','block');
     }
 }
+
 //fb stuff
 window.fbAsyncInit = function() {
     FB.init({ appId: '378043245648833', 
@@ -33,7 +35,7 @@ window.fbAsyncInit = function() {
 	      oauth: true});
     
     function updateButton(response) {
-	button = document.getElementById('login_button');
+	button = document.getElementById('fb-postlog');
 	userInfo = document.getElementById('user-info');
 
 	if (response.authResponse) {
@@ -83,7 +85,7 @@ function login(response, info){
 		var $this = $('#user-name'); // caching $(this)
 		$this.data('initialText', $this.text());
 		$this.css('color','white');
-		$this.text("Logout?");
+		$this.text("Click to logout");
 	    },
 	    function() {
 		var $this = $('#user-name'); // caching $(this)
@@ -152,6 +154,7 @@ socket.on('updateTime', function(time){
 });
 
 function toggle(){
+    console.log('cool');
     socket.emit('toggle play pause', room);
 }
 function skipTen(){
@@ -178,7 +181,6 @@ function submit(){
 			$('#roomID').html('Room: ' + room);
 			showView('audio');
 		    }
-		    //$('#nickname-err').css('visibility', 'visible');
 		});
     return false;
 }
@@ -201,9 +203,32 @@ $(document).ready(function(){
     ap.addEventListener('seeked', timeChanged);
     $('.accordion-toggle').hover(
 	function(){
-	    $(this).css('color','blue');
+	    $(this).parent().css('background-color','#0088cc');
 	}, function(){
-	    $(this).css('color','#DDD');
+	    $(this).parent().css('background-color','black');
 	});
+    
+    $('.accordion-heading').click(function(){
+	if($(this).next().attr('id') == current_accordion){
+	    $(this).next().collapse('hide');
+	    $(this).children('i').attr('class','icon-circle-arrow-down icon-white pull-left');
+	    current_accordion = null;
+	}
+	else if(current_accordion == null){
+	    $(this).next().collapse('show');
+	    $(this).children('i').attr('class','icon-circle-arrow-up icon-white pull-left');
+	    current_accordion = $(this).next().attr('id');
+	}
+	else{
+	    var s = '#' + current_accordion;
+	    $(s).collapse('hide');
+	    $(s).prev().children('i').attr('class','icon-circle-arrow-down icon-white pull-left');
+	    $(this).next().collapse('show');
+	    $(this).children('i').attr('class','icon-circle-arrow-up icon-white pull-left');
+	    current_accordion = $(this).next().attr('id');
+	}
+    });
+    $('#toggle').click(toggle);
+    $('#skipTen').click(skipTen);
+    $('#resetTime').click(resetTime);
 });
-		 
