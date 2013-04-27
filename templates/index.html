@@ -4,23 +4,20 @@
     <title>inSync</title>
     <link rel="shortcut icon" href="http://www.iconj.com/ico/8/e/8efumc5s9g.ico" type="image/x-icon"/>
     <link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="/static/style.css" media="all"/>  
-
+    <link rel="stylesheet" type="text/css" href="/static/stylesheets/style.css" media="all"/>  
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/static/script.js"></script>
   </head>
   
   <body>
-    <div class="navbar navbar-inverse navbar-fixed-bottom">
+    <div class="navbar navbar-inverse navbar-fixed-top">
       <a class="brand" href="#">inSync</a>
       <ul class="nav">
-	<li><a href="/others.html" class="transitit">About</a></li>
-	<li><a href="/others.html" class="transitit">Jobs</a></li>
-	<li><a href="/others.html" class="transitit">Contact</a></li>
-	<li><a href="/others.html" class="transitit">Report a Bug</a></li>
+	<li><a href="#About" role="button" data-toggle="modal">About</a></li>
+	<li><a href="/app">Web Version</a></li>
       </ul>
-      <p class="pull-right">Copyright 2013 Finger Crisis</p>
+      <p class="pull-right">StuyCS</p>
     </div>
     
     <div id="middle">
@@ -29,9 +26,22 @@
       </div>
       <h1>inSync</h1>
       <p>Stream. Share. Live.</p>
+      <h5>I mean, look how happy these two are</h5>
       <img id="google-play" src="https://developer.android.com/images/brand/en_generic_rgb_wo_60.png"/>
       <h6>(Just kidding, it's not on there)</h6>
     </div>
     
+    <div id="About" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	<h3 id="myModalLabel">Modal header</h3>
+      </div>
+      <div class="modal-body">
+	<p>One fine body…</p>
+      </div>
+      <div class="modal-footer">
+	<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+      </div>
+    </div>
   </body>
 </html>

@@ -1,6 +1,0 @@
-flask
-python
-$ sudo apt-get install libevent-dev
-$ sudo pip install gevent gevent-socketio
-
-		
