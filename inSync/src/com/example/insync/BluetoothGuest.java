@@ -3,21 +3,27 @@ package com.example.insync;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.app.Activity;
+import android.bluetooth.BluetoothServerSocket;
+import android.bluetooth.BluetoothSocket;
 import android.content.Context;
+import android.util.Log;
 import android.view.Menu;
+import com.example.insync.ConnectedThread;
 
 public class BluetoothGuest extends Activity {
 	private MediaPlayer mediaPlayer = new MediaPlayer();
 	private File fp;
 	private Uri myUri = Uri.fromFile(fp);
+	
 	//CONSTANTS
+	public static final int MESSAGE_READ = 1;
+	public static final int MESSAGE_WRITE = 2;
 	
 
 	@Override
@@ -70,5 +76,4 @@ public class BluetoothGuest extends Activity {
 	public void seekMedia(int loc) {
 		mediaPlayer.seekTo(loc);
 	}
-
 }

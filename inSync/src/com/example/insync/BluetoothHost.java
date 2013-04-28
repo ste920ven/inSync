@@ -8,8 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.PowerManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -18,6 +19,7 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,10 +27,12 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import com.example.insync.ConnectedThread;
 
 public class BluetoothHost extends Activity {
 	private File fp;
@@ -41,6 +45,11 @@ public class BluetoothHost extends Activity {
 	// ByteArrayOutputStream());
 	private static final UUID MY_UUID = UUID
 			.fromString("00001101-0000-1000-8000-00805F9B34FB");
+
+	// CONSTANTS
+	public static final int MESSAGE_READ = 1;
+	public static final int MESSAGE_WRITE = 2;
+
 	private ArrayList<BluetoothSocket> Sockets;
 	private ArrayList<OutputStream> Output;
 	private ArrayList<InputStream> Input;
@@ -149,6 +158,30 @@ public class BluetoothHost extends Activity {
 			Socket.getOutputStream().write(1);
 		}
 	}
+
+	private final Handler mHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case MESSAGE_WRITE:
+				byte[] writeBuf = (byte[]) msg.obj;
+				// construct a string from the buffer
+				String writeMessage = new String(writeBuf);
+				break;
+			case MESSAGE_READ:
+				byte[] readBuf = (byte[]) msg.obj;
+				// construct a string from the valid bytes in the buffer
+				String readMessage = new String(readBuf, 0, msg.arg1);
+				break;
+			}
+		}
+	};
+
+	/**
+	 * This thread runs during a connection with a remote device. It handles all
+	 * incoming and outgoing transmissions.
+	 */
+	
 
 	// NOT TESTED---------
 	public void setupMedia() throws IllegalStateException, IOException {
