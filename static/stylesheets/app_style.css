@@ -95,7 +95,6 @@ i {
     font: 25px Georgia;
     color: #666;
     display: none;
-    border: solid gray 1px;
     -webkit-box-shadow: 4px 4px 10px rgba(50, 50, 50, 0.5);
     -moz-box-shadow:    4px 4px 10px rgba(50, 50, 50, 0.5);
     box-shadow:         4px 4px 10px rgba(50, 50, 50, 0.5);
@@ -144,10 +143,6 @@ i {
     height: 30px;
     padding: 5px;
 }
-#body-nav .nav a:hover {
-    border-style: none;
-    margin: 0px;
-}
 
 .navbar p {
     padding-top: 10px;
@@ -155,9 +150,7 @@ i {
     color: gray;
 }
 
-#body-nav {
-    position: absolute;
-    padding: 0px;
-    top: 20%;
-    width: 20%;
+.warning {
+    font-size: 16px;
+    color: red;
 }

@@ -19,7 +19,13 @@ function showView(desired){
 	$('#audio').hide();
 	$('#nickname').css('display','block');
     }
-    else{	
+    else if(desired == 'audio'){	
+	$('#nickname').hide();
+	$('#fb-postlog').hide();
+	$('#audio').css('display','block');
+	$('#audiocontrols').hide();
+    }
+    else{
 	$('#nickname').hide();
 	$('#fb-postlog').hide();
 	$('#audio').css('display','block');
@@ -172,6 +178,56 @@ function timeChanged(){
 }
 
 function submit(){
+    $.getJSON('/room_exists',{
+	r: $('#room').val()
+    }, function(data){
+	if(data.result == 'DNE'){
+	    $('#rwarning').html('Room does not exist');
+	    return false;
+	}
+	else
+	    submitRoom();
+    });
+}
+function adsubmit(){
+    $.getJSON('/room_exists',{
+	r: $('#adroom').val(),
+	p: $('#pass').val()
+    }, function(data){
+	console.log(data.result);
+	if(data.result == 'DNE'){
+	    $('#adwarning').html('Room does not exist');
+	    return false;
+	}
+	else if(data.result == 'INVALID'){
+	    $('#adwarning').html('Invalid password');
+	    return false;
+	}
+	else{
+	    adsubmitRoom();
+	}	   
+    });
+}
+function csubmit(){
+    if($('#croom').val() == ''){
+	$('#cwarning').html('Enter a room name');
+	return false;
+    }
+    $.getJSON('/create_room',{
+	r: $('#croom').val(),
+	p: $('#cpass').val()
+    }, function(data){
+	console.log(data.result);
+	if(data.result == 'TAKEN'){
+	    $('#cwarning').html('Room name taken');
+	    return false;
+	}
+	else{
+	    csubmitRoom();
+	}
+    });
+}
+function submitRoom(){
     socket.emit('nickname', 
 		fb_name, $('#room').val(), 
 		function (set) {
@@ -184,21 +240,82 @@ function submit(){
 		});
     return false;
 }
-
+function adsubmitRoom(){
+    socket.emit('nickname',
+		fb_name, $('#adroom').val(),
+		function (set) {
+		    if(!set) {
+			room = $('#adroom').val();
+			$('#userID').html('User: ' + fb_name);
+			$('#roomID').html('Room: ' + room);
+			showView('adaudio');
+		    }
+		});
+    return false;
+}
+function csubmitRoom(){
+    socket.emit('nickname',
+		fb_name, $('#croom').val(),
+		function (set) {
+		    if(!set) {
+			room = $('#croom').val();
+			$('#userID').html('User: ' + fb_name);
+			$('#roomID').html('Room: ' + room);
+			showView('adaudio');
+		    }
+		});
+    return false;
+}
 function playmysong(){
     $('#audiosource').attr('src',PATH + 'mysong.mp3');
     ap = document.getElementById('audioplayer');
     ap.load();
 }
 
-$(function(){
+$(document).ready(function(){
     $('#room').keydown(function(){
 	if(event.keyCode == 13)
 	    submit();
     });
-});
-
-$(document).ready(function(){
+    $('#roomButton').click(function(){
+	submit();
+    });
+    $('#room').keydown(function(){
+	if($('#rwarning').html() != '')
+	    $('#rwarning').html('');
+    });
+    $('#pass').keydown(function(){
+	if(event.keyCode == 13)
+	    adsubmit();
+    });
+    $('#adButton').click(function(){
+	adsubmit();
+    });
+    $('#adroom').keydown(function(){
+	if($('#adwarning').html() != '')
+	    $('#adwarning').html('');
+    });
+    $('#pass').keydown(function(){
+	if($('#adwarning').html() != '')
+	    $('#adwarning').html('');
+    });
+    $('#croom').keydown(function(){
+	if($('#cwarning').html() != '')
+	    $('#cwarning').html('');
+    });
+    $('#cpass').keydown(function(){
+	if($('#cwarning').html() != '')
+	    $('#cwarning').html('');
+    });
+    $('#cpass').keydown(function(){
+	if(event.keyCode == 13)
+	    csubmit();
+    });
+    $('#cButton').click(function(){
+	csubmit();
+    });
+    
+			
     ap = document.getElementById('audioplayer');
     ap.addEventListener('seeked', timeChanged);
     $('.accordion-toggle').hover(
