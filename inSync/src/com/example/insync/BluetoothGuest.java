@@ -3,12 +3,17 @@ package com.example.insync;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.util.UUID;
+
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.PowerManager;
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
@@ -20,11 +25,9 @@ public class BluetoothGuest extends Activity {
 	private MediaPlayer mediaPlayer = new MediaPlayer();
 	private File fp;
 	private Uri myUri = Uri.fromFile(fp);
-	
-	//CONSTANTS
-	public static final int MESSAGE_READ = 1;
-	public static final int MESSAGE_WRITE = 2;
-	
+
+	private static final UUID MY_UUID = UUID
+			.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,12 +61,6 @@ public class BluetoothGuest extends Activity {
 		return true;
 	}
 	
-	public void controller(int code){
-		/*
-		 * if (code==CONSTANT)
-		 * 		method()
-		 */
-	}
 	
 	public void pauseMedia() {
 		if (mediaPlayer.isPlaying()) {
