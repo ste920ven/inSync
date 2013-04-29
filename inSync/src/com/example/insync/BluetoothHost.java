@@ -2,8 +2,6 @@ package com.example.insync;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -18,7 +16,6 @@ import android.net.Uri;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -28,21 +25,16 @@ import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import com.example.insync.ConnectedThread;
 
 public class BluetoothHost extends Activity {
+	// Filepath to music file
 	private File fp;
+	// Local BluetoothAdapter
 	private BluetoothAdapter bA = BluetoothAdapter.getDefaultAdapter();
 	private Set<BluetoothDevice> pairedDevices = bA.getBondedDevices();
-	// private byte[] buf;
-	// private BufferedInputStream input = new BufferedInputStream(new
-	// ByteArrayInputStream(buf));
-	// private BufferedOutputStream output = new BufferedOutputStream(new
-	// ByteArrayOutputStream());
 	private static final UUID MY_UUID = UUID
 			.fromString("00001101-0000-1000-8000-00805F9B34FB");
 	private ImageButton pause;
@@ -52,27 +44,33 @@ public class BluetoothHost extends Activity {
 	private TextView connectedTV;
 	private MediaPlayer mediaPlayer = new MediaPlayer();
 
-	
-    // Debugging
-    private static final String TAG = "BluetoothChat";
-    private static final boolean D = true;
+	// Debugging
+	private static final String TAG = "BluetoothHost";
+	private static final boolean D = true;
 
-    // Message types sent from the BluetoothChatService Handler
-    public static final int MESSAGE_STATE_CHANGE = 1;
-    public static final int MESSAGE_READ = 2;
-    public static final int MESSAGE_WRITE = 3;
-    public static final int MESSAGE_DEVICE_NAME = 4;
-    public static final int MESSAGE_TOAST = 5;
+	// Message types sent from the BluetoothChatService Handler
+	public static final int MESSAGE_STATE_CHANGE = 1;
+	public static final int MESSAGE_READ = 2;
+	public static final int MESSAGE_WRITE = 3;
+	public static final int MESSAGE_DEVICE_NAME = 4;
+	public static final int MESSAGE_TOAST = 5;
 
-    // Key names received from the BluetoothChatService Handler
-    public static final String DEVICE_NAME = "device_name";
-    public static final String TOAST = "toast";
+	// Key names received from the BluetoothChatService Handler
+	public static final String DEVICE_NAME = "device_name";
+	public static final String TOAST = "toast";
 
-	
-    public static final int STATE_NONE = 0;       // we're doing nothing
-    public static final int STATE_LISTEN = 1;     // now listening for incoming connections
-    public static final int STATE_CONNECTING = 2; // now initiating an outgoing connection
-    public static final int STATE_CONNECTED = 3;  // now connected to a remote device
+	public static final int STATE_NONE = 0; // we're doing nothing
+	public static final int STATE_LISTEN = 1; // now listening for incoming
+												// connections
+	public static final int STATE_CONNECTING = 2; // now initiating an outgoing
+													// connection
+	public static final int STATE_CONNECTED = 3; // now connected to a remote
+													// device
+
+	// Name of the connected device
+	private String mConnectedDeviceName = null;
+	// Member object for the chat services
+	private BluetoothService mService = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +86,9 @@ public class BluetoothHost extends Activity {
 		sendbutton = (Button) findViewById(R.id.sendfilebutton);
 		sendbutton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				sendFile();
+				//sendFile();
+				setupMedia();
+				connectDevice(false);
 			}
 		});
 
@@ -102,7 +102,10 @@ public class BluetoothHost extends Activity {
 		pause.setVisibility(View.INVISIBLE);
 		pause.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				pauseMedia();
+				String message = "p";
+				byte[] send = message.getBytes();
+				mService.write(send);
+		        pauseMedia();
 			}
 		});
 	}
@@ -112,6 +115,16 @@ public class BluetoothHost extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.bluetooth_host, menu);
 		return true;
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		// Stop the Bluetooth chat services
+		if (mService != null)
+			mService.stop();
+		if (D)
+			Log.e(TAG, "--- ON DESTROY ---");
 	}
 
 	public void listConnectedDevices() {
@@ -162,9 +175,49 @@ public class BluetoothHost extends Activity {
 		}
 	}
 
+	private void connectDevice(boolean secure) {
+		// List all paired Bluetooth Devices
+		bA.getBondedDevices();
+		List<String> s = new ArrayList<String>();
+		for (BluetoothDevice bt : pairedDevices) {
+			s.add(bt.getAddress());
+		}
+
+		// Get the device MAC address
+		String address = s.get(0);
+		// Get the BluetoothDevice object
+		BluetoothDevice device = bA.getRemoteDevice(address);
+		// Attempt to connect to the device
+		mService.connect(device, secure);
+	}
+
+	// The Handler that gets information back from the BluetoothChatService
+	private final Handler mHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case MESSAGE_STATE_CHANGE:
+				if (D)
+					Log.i(TAG, "MESSAGE_STATE_CHANGE: " + msg.arg1);
+				break;
+			case MESSAGE_DEVICE_NAME:
+				// save the connected device's name
+				mConnectedDeviceName = msg.getData().getString(DEVICE_NAME);
+				Toast.makeText(getApplicationContext(),
+						"Connected to " + mConnectedDeviceName,
+						Toast.LENGTH_SHORT).show();
+				break;
+			case MESSAGE_TOAST:
+				Toast.makeText(getApplicationContext(),
+						msg.getData().getString(TOAST), Toast.LENGTH_SHORT)
+						.show();
+				break;
+			}
+		}
+	};
 
 	// NOT TESTED---------
-	public void setupMedia() throws IllegalStateException, IOException {
+	public void setupMedia() {
 		connectedTV.setVisibility(View.INVISIBLE);
 		sendbutton.setVisibility(View.INVISIBLE);
 		uriTV.setVisibility(View.INVISIBLE);
@@ -175,8 +228,25 @@ public class BluetoothHost extends Activity {
 		mediaPlayer.setWakeMode(getApplicationContext(),
 				PowerManager.PARTIAL_WAKE_LOCK);
 		mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-		mediaPlayer.setDataSource(getApplicationContext(), myUri);
-		mediaPlayer.prepare();
+		try {
+			mediaPlayer.setDataSource(getApplicationContext(), myUri);
+			mediaPlayer.prepare();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// Initialize the BluetoothChatService to perform bluetooth connections
+		mService = new BluetoothService(this, mHandler);
 
 	}
 

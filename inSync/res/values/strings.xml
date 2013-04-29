@@ -42,5 +42,6 @@
     <string name="playdescription">pause</string>
     <string name="title_activity_bluetooth_guest">BluetoothGuest</string>
     <string name="title_activity_join_session">JoinSession</string>
+    <string name="test">&quot;&quot;</string>
 
 </resources>

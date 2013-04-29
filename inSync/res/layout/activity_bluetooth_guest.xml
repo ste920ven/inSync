@@ -27,4 +27,14 @@
         android:layout_marginBottom="30dp"
         android:contentDescription="@string/playdescription" />
 
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/mediaprogress"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp"
+        android:text="@string/test"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
 </RelativeLayout>

@@ -180,5 +180,15 @@ public class CreateSession extends Activity {
 
 		startActivityForResult(discoveryIntent, REQUEST_BLU);
 	}
+	
+	private void ensureDiscoverable() {
+		BluetoothAdapter bA = BluetoothAdapter.getDefaultAdapter();
+        if (bA.getScanMode() !=
+            BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
+            Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+            discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
+            startActivity(discoverableIntent);
+        }
+    }
 
 }
