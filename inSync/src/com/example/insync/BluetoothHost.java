@@ -98,6 +98,7 @@ public class BluetoothHost extends Activity {
 
 		seekbar = (SeekBar) findViewById(R.id.mediaprogress);
 		seekbar.setVisibility(View.INVISIBLE);
+		
 		pause = (ImageButton) findViewById(R.id.pause);
 		pause.setVisibility(View.INVISIBLE);
 		pause.setOnClickListener(new OnClickListener() {

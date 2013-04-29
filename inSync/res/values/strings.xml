@@ -43,5 +43,7 @@
     <string name="title_activity_bluetooth_guest">BluetoothGuest</string>
     <string name="title_activity_join_session">JoinSession</string>
     <string name="test">&quot;&quot;</string>
+    <string name="choosefileafterreceived">Song: [Please use a file browser to browse for the mp3 file after the host has sent it to you through Bluetooth]</string>
+    <string name="debugTest">Debug Data:</string>
 
 </resources>
