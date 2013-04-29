@@ -31,9 +31,10 @@
             android:textColor="@color/green" />
 
         <Button
-            android:id="@+id/findSessionButton"
-            android:layout_width="fill_parent"
+            android:id="@+id/testButton"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="test"
             android:text="@string/findsession"
             android:textColor="@color/green" />
 
@@ -44,12 +45,6 @@
             android:onClick="helpScreen"
             android:text="@string/help"
             android:textColor="@color/green" />
-
-        <Button
-            android:id="@+id/testButton"
-            android:onClick="test"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 

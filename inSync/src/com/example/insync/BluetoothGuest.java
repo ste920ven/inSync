@@ -17,12 +17,20 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class BluetoothGuest extends Activity {
+	String globalPath = "";
 	private MediaPlayer mediaPlayer = new MediaPlayer();
+	
 	private File fp;
 	private static final UUID MY_UUID = UUID
 			.fromString("00001101-0000-1000-8000-00805F9B34FB");
@@ -44,11 +52,11 @@ public class BluetoothGuest extends Activity {
 
 	public static final int STATE_NONE = 0; // we're doing nothing
 	public static final int STATE_LISTEN = 1; // now listening for incoming
-												// connections
+	// connections
 	public static final int STATE_CONNECTING = 2; // now initiating an outgoing
-													// connection
+	// connection
 	public static final int STATE_CONNECTED = 3; // now connected to a remote
-													// device
+	// device
 
 	// Name of the connected device
 	private String mConnectedDeviceName = null;
@@ -56,23 +64,38 @@ public class BluetoothGuest extends Activity {
 	private StringBuffer mOutStringBuffer;
 	// Member object for the chat services
 	private BluetoothService mService = null;
+	
+	MediaPlayer buttonClick = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bluetooth_guest);
-		/*
-		 * Bundle extras = getIntent().getExtras(); fp = new
-		 * File(extras.getString("filepath"));
-		 * mediaPlayer.setWakeMode(getApplicationContext(),
-		 * PowerManager.PARTIAL_WAKE_LOCK);
-		 * mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC); try {
-		 * mediaPlayer.setDataSource(getApplicationContext(), myUri); } catch
-		 * (IOException e) { // TODO Auto-generated catch block
-		 * e.printStackTrace(); } try { mediaPlayer.prepare(); } catch
-		 * (IOException e) { // TODO Auto-generated catch block
-		 * e.printStackTrace(); }
-		 */
+		
+		buttonClick = MediaPlayer.create(this, R.raw.buttonclick);
+		
+		
+		final Button fCButton = (Button) findViewById(R.id.chooseFileButton);
+		fCButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				try {
+					buttonClick.start();
+					Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+					intent.setType("file/*");
+					final int PICKFILE_RESULT_CODE = 1;
+					startActivityForResult(intent, PICKFILE_RESULT_CODE);
+				}
+
+				// Activity Not Found Crash fix
+				// Updates TextView with message to install a file browser
+				catch (Exception e) {
+					buttonClick.start();
+					final TextView fnTV = (TextView) findViewById(R.id.fileNameTextView);
+					fnTV.setText("Error: No File Browser found! Please install a file browser (Such as ASTRO File Manager) to browse for an MP3 file.");
+					fnTV.setTextColor(Color.RED);
+				}
+			}
+		});
 	}
 
 	@Override
@@ -155,5 +178,43 @@ public class BluetoothGuest extends Activity {
 			pauseMedia();
 		if (s == "s")
 			seekMedia(1);
+	}
+	
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// Called after File Browser Activity returns file
+		final int PICKFILE_RESULT_CODE = 1;
+		switch (requestCode) {
+		case PICKFILE_RESULT_CODE:
+			if (resultCode == RESULT_OK) {
+				// Retrieve URI and display it in the TextView
+				String FilePath = data.getData().getPath();
+				final TextView textFile = (TextView) findViewById(R.id.fileNameTextView);
+				
+				//Concat File Path
+				String s=FilePath.substring(FilePath.lastIndexOf("/"));
+				
+				textFile.setText("MP3 File Selected: " + s);
+				setFilePath(FilePath);
+			}
+			break;
+
+		}
+	}
+	
+	public String setFilePath(String path) {
+		globalPath = path;
+		return globalPath;
+	}
+
+	public String getFilePath() {
+		return globalPath;
+	}
+
+	public boolean existFilePath() {
+		if (globalPath.equals("")) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 }
