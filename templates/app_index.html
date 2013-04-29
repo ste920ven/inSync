@@ -34,8 +34,9 @@
 	<div id="collapseOne" class="accordion-body callapse in">
 	  <div class="accordion-inner">
 	    <p>Please enter a room name</p>
-	    <input id="room" placeholder="room">
-	    <button onclick="submit()">Submit</button>
+	    <input id="room" type="text"  placeholder="room">
+	    <button id="roomButton">Submit</button>
+	    <p id="rwarning" class="warning"></p>
 	  </div>
 	</div>
       </div>
@@ -47,9 +48,10 @@
 	<div id="collapseTwo" class="accordion-body collapse">
 	  <div class="accordion-inner">
 	    <p>Please enter a room name and admin password</p>
-	    <input id="adroom" placeholder="room">
-	    <input id="pass" placeholder="password">
-	    <button onclick="submit()">Submit</button>
+	    <input id="adroom" type="text" placeholder="room">
+	    <input id="pass" type="password" placeholder="password">
+	    <button id="adButton">Submit</button>
+	    <p id="adwarning" class="warning"></p>
 	  </div>
 	</div>
       </div>
@@ -61,9 +63,10 @@
 	<div id="collapseThree" class="accordion-body collapse">
 	  <div class="accordion-inner">
 	    <p>Please choose a room name and admin password</p>
-	    <input id="croom" placeholder="room">
-	    <input id="cpass" placeholder="password">
-	    <button onclick="submit()">Submit</button>
+	    <input id="croom" type="text" placeholder="room">
+	    <input id="cpass" type="text" placeholder="password">
+	    <button id="cButton">Submit</button>
+	    <p id="cwarning" class="warning"></p>
 	  </div>
 	</div>
        </div>

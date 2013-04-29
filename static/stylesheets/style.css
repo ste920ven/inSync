@@ -1,5 +1,5 @@
 html {
-    background: url(../bootstrap/img/background.jpg) no-repeat center center fixed;
+    background: url(../bootstrap/img/background.png) no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -25,21 +25,9 @@ html {
     margin: -2px;
 }
 
-#body-nav .nav a:hover {
-    border-style: none;
-    margin: 0px;
-}
-
 .navbar p {
     padding-top: 10px;
     padding-right: 10px;
-}
-
-#body-nav {
-    position: absolute;
-    padding: 0px;
-    top: 20%;
-    width: 20%;
 }
 
 #middle h1 {
@@ -101,33 +89,4 @@ html {
     top: 8%;
     width: 300px;
     display: block;
-}
-
-#body-container {
-    z-index: 100;
-    position: absolute;
-    background-color: #EBEBEB;
-    width: 90%;
-    height: 90%;
-    top: 5%;
-    left: 5%;
-    box-shadow: 3px 3px 2px black;
-    -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;
-}
-
-.tab-pane {
-    position: absolute;
-    left: 20%;
-}
-
-#body-container i {
-    position: relative;
-    left: -10px;
-    top: 10px;
-}
-
-#body-container #body-nav i {
-    left: 4px;
-    top: -2px;
 }
