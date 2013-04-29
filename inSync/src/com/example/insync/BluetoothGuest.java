@@ -66,6 +66,8 @@ public class BluetoothGuest extends Activity {
 	private BluetoothService mService = null;
 	
 	MediaPlayer buttonClick = null;
+	TextView debugTextView;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +98,8 @@ public class BluetoothGuest extends Activity {
 				}
 			}
 		});
+		
+		debugTextView = (TextView) findViewById(R.id.debugText);
 	}
 
 	@Override
@@ -103,6 +107,10 @@ public class BluetoothGuest extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.bluetooth_guest, menu);
 		return true;
+	}
+	
+	public void updateDebugText(String s){
+		debugTextView.append(s);
 	}
 
 	@Override
