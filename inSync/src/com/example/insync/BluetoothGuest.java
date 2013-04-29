@@ -2,6 +2,7 @@ package com.example.insync;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.util.UUID;
 
@@ -100,6 +101,36 @@ public class BluetoothGuest extends Activity {
 		});
 		
 		debugTextView = (TextView) findViewById(R.id.debugText);
+		
+		mService = new BluetoothService(this, mHandler);
+		mService.start();
+		
+		//Custom code - Creating socket with UUID 00001101-0000-1000-8000-00805F9B34FB
+		/*
+		BluetoothAdapter ba = BluetoothAdapter.getDefaultAdapter();
+		try {
+			BluetoothServerSocket listener = ba.listenUsingRfcommWithServiceRecord("Server", MY_UUID);
+			BluetoothSocket listenSocket = listener.accept();
+			InputStream listenInputStream = listenSocket.getInputStream();
+			while(true){
+				updateDebugText(listenInputStream.read());
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		*/
+		
+		try{
+			if (secure) {
+	            tmp = device.createRfcommSocketToServiceRecord(
+	                    MY_UUID_SECURE);
+	        } else {
+	            tmp = **device.createInsecureRfcommSocketToServiceRecord**(
+	                    MY_UUID_INSECURE);
+	        }			
+		}
+		
 	}
 
 	@Override
@@ -109,8 +140,9 @@ public class BluetoothGuest extends Activity {
 		return true;
 	}
 	
-	public void updateDebugText(String s){
-		debugTextView.append(s);
+	public void updateDebugText(int i){
+		String iToString = Integer.toString(i);
+		debugTextView.append(iToString);
 	}
 
 	@Override
@@ -118,7 +150,7 @@ public class BluetoothGuest extends Activity {
 		super.onStart();
 
 		// Initialize the BluetoothChatService to perform bluetooth connections
-		mService = new BluetoothService(this, mHandler);
+		
 	}
 
 	@Override
@@ -225,4 +257,6 @@ public class BluetoothGuest extends Activity {
 			return true;
 		}
 	}
+	
+	
 }
