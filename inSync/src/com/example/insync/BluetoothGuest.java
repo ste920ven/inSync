@@ -286,43 +286,44 @@ public class BluetoothGuest extends Activity {
 
 			BluetoothAdapter bA = BluetoothAdapter.getDefaultAdapter();
 			Set<BluetoothDevice> pairedDevices = bA.getBondedDevices();
-			
+
 			BluetoothSocket tmp = null;
+			while(true){
+				for (BluetoothDevice device : pairedDevices) {
+					try{
+						//First Attempt to Read
+						tmp = device.createRfcommSocketToServiceRecord(MY_UUID_SECURE);
+						InputStream input = tmp.getInputStream();
+						updateDebugText(input.read());
 
-			for (BluetoothDevice device : pairedDevices) {
-				try{
-					//First Attempt to Read
-					tmp = device.createRfcommSocketToServiceRecord(MY_UUID_SECURE);
-					InputStream input = tmp.getInputStream();
-					updateDebugText(input.read());
+						//Second Attempt to Read
+						tmp = device.createRfcommSocketToServiceRecord(MY_UUID_INSECURE);
+						InputStream input2 = tmp.getInputStream();
+						updateDebugText(input2.read());
 
-					//Second Attempt to Read
-					tmp = device.createRfcommSocketToServiceRecord(MY_UUID_INSECURE);
-					InputStream input2 = tmp.getInputStream();
-					updateDebugText(input2.read());
+						//Third Attempt to Read
+						BluetoothSocket btSocket = InsecureBluetooth.createRfcommSocketToServiceRecord(
+								device, UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"), false);
+						btSocket.connect();
+						InputStream input3 = btSocket.getInputStream();
+						DataInputStream dinput = new DataInputStream(input3);					
+						byte[] byteArray = null;
+						dinput.readFully(byteArray, 0, byteArray.length);
+						updateDebugText(byteArray.toString());
 
-					//Third Attempt to Read
-					BluetoothSocket btSocket = InsecureBluetooth.createRfcommSocketToServiceRecord(
-							device, UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"), false);
-					btSocket.connect();
-					InputStream input3 = btSocket.getInputStream();
-					DataInputStream dinput = new DataInputStream(input3);					
-					byte[] byteArray = null;
-					dinput.readFully(byteArray, 0, byteArray.length);
-					updateDebugText(byteArray.toString());
-					
-					//Fourth attemp to Read
-					tmp = InsecureBluetooth.createRfcommSocketToServiceRecord(
-							device, MY_UUID_INSECURE, false);
-					tmp.connect();
-					InputStream input4 = tmp.getInputStream();
-					DataInputStream dinput2 = new DataInputStream(input4);					
-					byte[] byteArray2 = null;
-					dinput.readFully(byteArray2, 0, byteArray2.length);
-					updateDebugText(byteArray2.toString());
-				}
-				catch(Exception e){
-					e.printStackTrace();
+						//Fourth attemp to Read
+						tmp = InsecureBluetooth.createRfcommSocketToServiceRecord(
+								device, MY_UUID_INSECURE, false);
+						tmp.connect();
+						InputStream input4 = tmp.getInputStream();
+						DataInputStream dinput2 = new DataInputStream(input4);					
+						byte[] byteArray2 = null;
+						dinput.readFully(byteArray2, 0, byteArray2.length);
+						updateDebugText(byteArray2.toString());
+					}
+					catch(Exception e){
+						e.printStackTrace();
+					}
 				}
 			}
 		}
