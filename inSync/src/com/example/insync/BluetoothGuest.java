@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.util.Set;
 import java.util.UUID;
 
 import android.media.AudioManager;
@@ -15,6 +16,7 @@ import android.os.Message;
 import android.os.PowerManager;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
@@ -31,10 +33,14 @@ import android.widget.Toast;
 public class BluetoothGuest extends Activity {
 	String globalPath = "";
 	private MediaPlayer mediaPlayer = new MediaPlayer();
-	
+
 	private File fp;
 	private static final UUID MY_UUID = UUID
 			.fromString("00001101-0000-1000-8000-00805F9B34FB");
+	private static final UUID MY_UUID_SECURE =
+			UUID.fromString("fa87c0d0-afac-11de-8a39-0800200c9a66");
+	private static final UUID MY_UUID_INSECURE =
+			UUID.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66");
 
 	// Debugging
 	private static final String TAG = "BluetoothGuest";
@@ -59,25 +65,32 @@ public class BluetoothGuest extends Activity {
 	public static final int STATE_CONNECTED = 3; // now connected to a remote
 	// device
 
+	// Variable: Number of seconds during which the device will be Bluetooth
+	// discoverable
+	private static final int DISCOVER_DURATION = 100;
+	// our request code (must be greater than zero)
+	private static final int REQUEST_BLU = 1;
+
 	// Name of the connected device
 	private String mConnectedDeviceName = null;
 	// String buffer for outgoing messages
 	private StringBuffer mOutStringBuffer;
 	// Member object for the chat services
 	private BluetoothService mService = null;
-	
+
 	MediaPlayer buttonClick = null;
 	TextView debugTextView;
-	
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bluetooth_guest);
-		
+
 		buttonClick = MediaPlayer.create(this, R.raw.buttonclick);
-		
-		
+
+		enableBluetooth();
+
 		final Button fCButton = (Button) findViewById(R.id.chooseFileButton);
 		fCButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -99,38 +112,15 @@ public class BluetoothGuest extends Activity {
 				}
 			}
 		});
-		
+
 		debugTextView = (TextView) findViewById(R.id.debugText);
-		
+
+
 		mService = new BluetoothService(this, mHandler);
 		mService.start();
-		
-		//Custom code - Creating socket with UUID 00001101-0000-1000-8000-00805F9B34FB
-		/*
-		BluetoothAdapter ba = BluetoothAdapter.getDefaultAdapter();
-		try {
-			BluetoothServerSocket listener = ba.listenUsingRfcommWithServiceRecord("Server", MY_UUID);
-			BluetoothSocket listenSocket = listener.accept();
-			InputStream listenInputStream = listenSocket.getInputStream();
-			while(true){
-				updateDebugText(listenInputStream.read());
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		*/
-		
-		try{
-			if (secure) {
-	            tmp = device.createRfcommSocketToServiceRecord(
-	                    MY_UUID_SECURE);
-	        } else {
-	            tmp = **device.createInsecureRfcommSocketToServiceRecord**(
-	                    MY_UUID_INSECURE);
-	        }			
-		}
-		
+
+		Thread checkInput = new Thread(checkInputStream);
+		checkInput.start();
 	}
 
 	@Override
@@ -139,10 +129,14 @@ public class BluetoothGuest extends Activity {
 		getMenuInflater().inflate(R.menu.bluetooth_guest, menu);
 		return true;
 	}
-	
+
 	public void updateDebugText(int i){
 		String iToString = Integer.toString(i);
 		debugTextView.append(iToString);
+	}
+
+	public void updateDebugText(String s){
+		debugTextView.append(s);
 	}
 
 	@Override
@@ -150,7 +144,7 @@ public class BluetoothGuest extends Activity {
 		super.onStart();
 
 		// Initialize the BluetoothChatService to perform bluetooth connections
-		
+
 	}
 
 	@Override
@@ -219,7 +213,7 @@ public class BluetoothGuest extends Activity {
 		if (s == "s")
 			seekMedia(1);
 	}
-	
+
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// Called after File Browser Activity returns file
 		final int PICKFILE_RESULT_CODE = 1;
@@ -229,10 +223,10 @@ public class BluetoothGuest extends Activity {
 				// Retrieve URI and display it in the TextView
 				String FilePath = data.getData().getPath();
 				final TextView textFile = (TextView) findViewById(R.id.fileNameTextView);
-				
+
 				//Concat File Path
 				String s=FilePath.substring(FilePath.lastIndexOf("/"));
-				
+
 				textFile.setText("MP3 File Selected: " + s);
 				setFilePath(FilePath);
 			}
@@ -240,7 +234,7 @@ public class BluetoothGuest extends Activity {
 
 		}
 	}
-	
+
 	public String setFilePath(String path) {
 		globalPath = path;
 		return globalPath;
@@ -257,6 +251,56 @@ public class BluetoothGuest extends Activity {
 			return true;
 		}
 	}
+
+	public void enableBluetooth() {
+		BluetoothAdapter bA = BluetoothAdapter.getDefaultAdapter();
+
+		// Enable Bluetooth
+		if (!bA.isEnabled()) {
+			bA.enable();
+			final TextView btCheck = (TextView) findViewById(R.id.bluetoothCheck);
+			btCheck.setText("Turning Bluetooth on to detect other Android devices");
+		}
+
+		// Enable device discovery
+		enableBlu();
+
+
+	}
+
+	public void enableBlu() {
+		// enable device discovery - this will automatically enable Bluetooth
+		Intent discoveryIntent = new Intent(
+				BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+
+		discoveryIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION,
+				DISCOVER_DURATION);
+
+		startActivityForResult(discoveryIntent, REQUEST_BLU);
+	}
 	
+	Runnable checkInputStream = new Runnable(){
+		public void run(){
+			//Get all devices, and for each device, try to get the input Stream for both secure AND insecure UUID
+
+			BluetoothAdapter bA = BluetoothAdapter.getDefaultAdapter();
+			Set<BluetoothDevice> pairedDevices = bA.getBondedDevices();
+			
+			for (BluetoothDevice device : pairedDevices) {
+				try{
+					BluetoothSocket tmp = device.createRfcommSocketToServiceRecord(MY_UUID_SECURE);
+					InputStream input = tmp.getInputStream();
+					updateDebugText(input.read());
+
+					BluetoothSocket tmp2 = device.createRfcommSocketToServiceRecord(MY_UUID_INSECURE);
+					InputStream input2 = tmp2.getInputStream();
+					updateDebugText(input2.read());
+				}
+				catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+		}
+	};
 	
 }
