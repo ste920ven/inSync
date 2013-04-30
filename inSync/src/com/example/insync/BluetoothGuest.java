@@ -1,5 +1,6 @@
 package com.example.insync;
 
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -278,7 +279,7 @@ public class BluetoothGuest extends Activity {
 
 		startActivityForResult(discoveryIntent, REQUEST_BLU);
 	}
-	
+
 	Runnable checkInputStream = new Runnable(){
 		public void run(){
 			//Get all devices, and for each device, try to get the input Stream for both secure AND insecure UUID
@@ -286,15 +287,39 @@ public class BluetoothGuest extends Activity {
 			BluetoothAdapter bA = BluetoothAdapter.getDefaultAdapter();
 			Set<BluetoothDevice> pairedDevices = bA.getBondedDevices();
 			
+			BluetoothSocket tmp = null;
+
 			for (BluetoothDevice device : pairedDevices) {
 				try{
-					BluetoothSocket tmp = device.createRfcommSocketToServiceRecord(MY_UUID_SECURE);
+					//First Attempt to Read
+					tmp = device.createRfcommSocketToServiceRecord(MY_UUID_SECURE);
 					InputStream input = tmp.getInputStream();
 					updateDebugText(input.read());
 
-					BluetoothSocket tmp2 = device.createRfcommSocketToServiceRecord(MY_UUID_INSECURE);
-					InputStream input2 = tmp2.getInputStream();
+					//Second Attempt to Read
+					tmp = device.createRfcommSocketToServiceRecord(MY_UUID_INSECURE);
+					InputStream input2 = tmp.getInputStream();
 					updateDebugText(input2.read());
+
+					//Third Attempt to Read
+					BluetoothSocket btSocket = InsecureBluetooth.createRfcommSocketToServiceRecord(
+							device, UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"), false);
+					btSocket.connect();
+					InputStream input3 = btSocket.getInputStream();
+					DataInputStream dinput = new DataInputStream(input3);					
+					byte[] byteArray = null;
+					dinput.readFully(byteArray, 0, byteArray.length);
+					updateDebugText(byteArray.toString());
+					
+					//Fourth attemp to Read
+					tmp = InsecureBluetooth.createRfcommSocketToServiceRecord(
+							device, MY_UUID_INSECURE, false);
+					tmp.connect();
+					InputStream input4 = tmp.getInputStream();
+					DataInputStream dinput2 = new DataInputStream(input4);					
+					byte[] byteArray2 = null;
+					dinput.readFully(byteArray2, 0, byteArray2.length);
+					updateDebugText(byteArray2.toString());
 				}
 				catch(Exception e){
 					e.printStackTrace();
@@ -302,5 +327,5 @@ public class BluetoothGuest extends Activity {
 			}
 		}
 	};
-	
+
 }

@@ -99,6 +99,9 @@ public class BluetoothHost extends Activity {
 		seekbar = (SeekBar) findViewById(R.id.mediaprogress);
 		seekbar.setVisibility(View.INVISIBLE);
 		
+		// Initialize the BluetoothChatService to perform bluetooth connections
+		mService = new BluetoothService(this, mHandler);
+		
 		pause = (ImageButton) findViewById(R.id.pause);
 		pause.setVisibility(View.INVISIBLE);
 		pause.setOnClickListener(new OnClickListener() {
@@ -107,10 +110,7 @@ public class BluetoothHost extends Activity {
 				byte[] send = message.getBytes();
 				mService.write(send);
 		        pauseMedia();
-		        
-				//Custom code - Creating socket with UUID 00001101-0000-1000-8000-00805F9B34FB
-				//BluetoothAdapter ba = BluetoothAdapter.getDefaultAdapter();
-		        
+	        
 			}
 		});
 	}
@@ -251,7 +251,9 @@ public class BluetoothHost extends Activity {
 		}
 
 		// Initialize the BluetoothChatService to perform bluetooth connections
-		mService = new BluetoothService(this, mHandler);
+		//mService = new BluetoothService(this, mHandler);
+		// ** Code commented out, I initialized mService up there to be sure that it's initialized. 
+		// ** - Brian Lam
 
 	}
 
