@@ -93,7 +93,7 @@ public class BluetoothHost extends Activity {
 		sendbutton = (Button) findViewById(R.id.sendfilebutton);
 		sendbutton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				//sendFile();
+				sendFile();
 				setupMedia();
 				connectDevice(false);
 			}
