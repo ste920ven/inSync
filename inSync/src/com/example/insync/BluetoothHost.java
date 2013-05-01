@@ -49,6 +49,8 @@ public class BluetoothHost extends Activity {
 	// Debugging
 	private static final String TAG = "BluetoothHost";
 	private static final boolean D = true;
+    private static final UUID MY_UUID_INSECURE =
+            UUID.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66");
 
 
 	// Message types sent from the BluetoothChatService Handler
@@ -297,13 +299,24 @@ public class BluetoothHost extends Activity {
         case REQUEST_CONNECT_DEVICE_SECURE:
             // When DeviceListActivity returns with a device to connect
             if (resultCode == Activity.RESULT_OK) {
-                connectDevice(data, true);
+                try {
+					connectDevice(data, true);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
             break;
         case REQUEST_CONNECT_DEVICE_INSECURE:
             // When DeviceListActivity returns with a device to connect
             if (resultCode == Activity.RESULT_OK) {
-                connectDevice(data, false);
+                try {
+					connectDevice(data, false);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+                
             }
             break;
         case REQUEST_ENABLE_BT:
@@ -320,7 +333,7 @@ public class BluetoothHost extends Activity {
         }
     }
     
-    private void connectDevice(Intent data, boolean secure) {
+    private void connectDevice(Intent data, boolean secure) throws IOException {
         // Get the device MAC address
         String address = data.getExtras()
             .getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
@@ -328,5 +341,7 @@ public class BluetoothHost extends Activity {
         BluetoothDevice device = bA.getRemoteDevice(address);
         // Attempt to connect to the device
         mService.connect(device, secure);
+        device.createInsecureRfcommSocketToServiceRecord(
+                MY_UUID_INSECURE);
     }
 }
