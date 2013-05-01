@@ -30,6 +30,10 @@
             android:name="com.example.insync.CreateSession"
             android:label="@string/title_activity_create_session" >
         </activity>
+                <activity
+            android:name="com.example.insync.DeviceListActivity"
+            android:label="@string/title_device_list_activity" >
+        </activity>
         <activity
             android:name="com.example.insync.HelpScreen"
             android:label="@string/title_activity_help_screen" >

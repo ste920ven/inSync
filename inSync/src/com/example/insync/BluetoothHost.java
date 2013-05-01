@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -48,6 +49,8 @@ public class BluetoothHost extends Activity {
 	private static final String TAG = "BluetoothHost";
 	private static final boolean D = true;
 
+	private static final int REQUEST_CONNECT_DEVICE_INSECURE = 2;
+
 	// Message types sent from the BluetoothChatService Handler
 	public static final int MESSAGE_STATE_CHANGE = 1;
 	public static final int MESSAGE_READ = 2;
@@ -61,11 +64,11 @@ public class BluetoothHost extends Activity {
 
 	public static final int STATE_NONE = 0; // we're doing nothing
 	public static final int STATE_LISTEN = 1; // now listening for incoming
-												// connections
+	// connections
 	public static final int STATE_CONNECTING = 2; // now initiating an outgoing
-													// connection
+	// connection
 	public static final int STATE_CONNECTED = 3; // now connected to a remote
-													// device
+	// device
 
 	// Name of the connected device
 	private String mConnectedDeviceName = null;
@@ -98,10 +101,17 @@ public class BluetoothHost extends Activity {
 
 		seekbar = (SeekBar) findViewById(R.id.mediaprogress);
 		seekbar.setVisibility(View.INVISIBLE);
-		
+
 		// Initialize the BluetoothChatService to perform bluetooth connections
 		mService = new BluetoothService(this, mHandler);
-		
+
+		Button findDevice = (Button) findViewById(R.id.connecttoadevice);
+		findDevice.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				findDevice();
+			}
+		});
+
 		pause = (ImageButton) findViewById(R.id.pause);
 		pause.setVisibility(View.INVISIBLE);
 		pause.setOnClickListener(new OnClickListener() {
@@ -109,12 +119,18 @@ public class BluetoothHost extends Activity {
 				String message = "p";
 				byte[] send = message.getBytes();
 				mService.write(send);
-		        pauseMedia();
-	        
+				pauseMedia();
+
 			}
 		});
 	}
 
+	public void findDevice(){
+		Intent serverIntent = null;
+		serverIntent = new Intent(this, DeviceListActivity.class);
+		startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_INSECURE);       		
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
