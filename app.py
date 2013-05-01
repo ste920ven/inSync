@@ -27,7 +27,6 @@ class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin, CustomMixin):
         self.join(room)
    
     def on_toggle_play_pause(self, room):
-        print room
         self.emit_to_room_and_you(room, 'playpause')
 
     def on_skip_seven(self, room):
@@ -38,6 +37,12 @@ class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin, CustomMixin):
 
     def on_time_changed(self, room, time):
         self.emit_to_room(room, 'updateTime', time)
+
+    def on_chose_song(self, room, file):
+        self.emit_to_room_and_you(room, 'choose_song', file)
+
+    def on_end_it(self, room):
+        self.emit_to_room_and_you(room, 'endit')
         
 def allowed_file(filename):
     return '.' in filename and \
@@ -45,7 +50,8 @@ def allowed_file(filename):
 
 def list_files():
     folder = './static/uploads/'
-    print os.listdir(folder)
+    files = os.listdir(folder)
+    return [value for value in files if value != '.gitignore']
     
 @app.route("/", methods = ["GET", "POST"])
 def home():
@@ -57,11 +63,11 @@ def index():
     if request.method == "GET":
         return render_template('app_index.html')
 
-"""@app.route(""""/room_exists"""", methods= ['GET', 'POST'])
-def room_exists():
-    r = request.args.get('r','')
-    return jsonify(result=roomExists(r))"""
-
+@app.route("/get_songs", methods = ['GET', 'POST'])
+def songs():
+    songs = list_files()
+    return jsonify(result=songs)
+        
 @app.route("/room_exists", methods= ['GET', 'POST'])
 def room_exists():
     r = request.args.get('r','')
@@ -117,3 +123,6 @@ def run_dev_server():
 
 if __name__ == "__main__":
     run_dev_server()
+    list_files()
+
+list_files()

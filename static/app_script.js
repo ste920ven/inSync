@@ -112,6 +112,8 @@ function logout(response){
     showView('login');
     $('#user-stuff').html('');
 }
+//end fb stuff
+
 
 // socket.io specific code
 var socket = io.connect();
@@ -159,6 +161,10 @@ socket.on('updateTime', function(time){
 	ap.addEventListener('seeked', timeChanged);
     }, 10);
 });
+socket.on('endit', function(time){
+    ap = document.getElementById('audioplayer');
+    ap.currentTime = ap.duration;
+});
 
 function toggle(){
     socket.emit('toggle play pause', room);
@@ -170,13 +176,15 @@ function resetTime(){
     socket.emit('reset', room);
 }
 function timeChanged(){
-    console.log('time');
     ap = document.getElementById('audioplayer');
     time = ap.currentTime;
     socket.emit('time changed', room, time);
     ap.removeEventListener('seeked',arguments.callee,false);
 }
-
+function itEnded(){
+    ap = document.getElementById('audioplayer');
+    socket.emit('end it', room);
+}
 function submit(){
     $.getJSON('/room_exists',{
 	r: $('#room').val()
@@ -274,10 +282,37 @@ function csubmitRoom(){
 		});
     return false;
 }
-function playmysong(){
-    $('#audiosource').attr('src',PATH + 'mysong.mp3');
+
+socket.on('choose_song', function(file){
+    playmysong(file);
+});
+function choose(file){
+    socket.emit('chose_song', room, file);
+}
+
+function playmysong(file){
+    $('#audiosource').attr('src',PATH + file);
     ap = document.getElementById('audioplayer');
     ap.load();
+    ap.play();
+}
+
+function fetch(){
+    var songs;
+    if($('#songs ul').html() == '')
+	$('#songs ul').append('<p>Fetching...<p>');
+    $.getJSON('/get_songs',function(data) {
+	songs = data.result;
+	for(var i = 0; i < songs.length; i++){
+	    $('#songs ul').html('');
+	    $('#songs ul').append('<li><a href="#" data-value="'+ songs[i] +'">'+songs[i]+'</a></li>');
+	}
+	$('#fetch').html('Refresh');
+	$('#songs ul li a').click(function(){
+	    choose($(this).attr('data-value'));
+	    $('#SelectM').modal('toggle');
+	});
+    });
 }
 
 $(document).ready(function(){
@@ -331,10 +366,11 @@ $(document).ready(function(){
 	$('#cwarning').html('Creating');
 	csubmit();
     });
+    $('#fetch').click(fetch);
     
-			
     ap = document.getElementById('audioplayer');
     ap.addEventListener('seeked', timeChanged);
+    ap.addEventListener('ended', itEnded);
     $('.accordion-toggle').hover(
 	function(){
 	    $(this).parent().css('background-color','#0088cc');

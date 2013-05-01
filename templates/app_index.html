@@ -92,7 +92,7 @@
       </div>
       <div id="uploadcontrols">
 	<a href="#uploader" data-toggle="modal"><button id="upload" class="btn">Upload</button></a>
-	<button id="selectMusic" class="btn">Select Music</button>
+	<a href="#SelectM" data-toggle="modal"><button id="selectMusic" class="btn">Select Music</button></a>
       </div>
       <div id="audioinfo">
 	<p id="userID">User: </p>
@@ -142,6 +142,22 @@
       </div>
       <div class="modal-footer">
 	<button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+      </div>
+
+    </div>
+    <div id="SelectM" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	<h3 id="myModalLabel">Select Music</h3>
+      </div>
+      <div class="modal-body">
+	<div id="songs">
+	  <button id="fetch" class="btn btn-primary">List Available Songs</button>
+	  <ul></ul>
+	</div>
+      </div>
+      <div class="modal-footer">
+	<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
       </div>
     </div>
   </body>
