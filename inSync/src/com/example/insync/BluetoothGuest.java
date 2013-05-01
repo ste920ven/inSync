@@ -4,21 +4,16 @@ import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
 import java.util.Set;
 import java.util.UUID;
 
-import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.PowerManager;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.Intent;
@@ -73,9 +68,9 @@ public class BluetoothGuest extends Activity {
 	// our request code (must be greater than zero)
 	private static final int REQUEST_BLU = 1;
 
-    private static final int REQUEST_CONNECT_DEVICE_INSECURE = 2;
-    private static final int REQUEST_ENABLE_BT = 3;
-    
+	private static final int REQUEST_CONNECT_DEVICE_INSECURE = 2;
+	private static final int REQUEST_ENABLE_BT = 3;
+
 	// Name of the connected device
 	private String mConnectedDeviceName = null;
 	// String buffer for outgoing messages
@@ -126,7 +121,7 @@ public class BluetoothGuest extends Activity {
 
 		Thread checkInput = new Thread(checkInputStream);
 		checkInput.start();
-		
+
 		Button findDevice = (Button) findViewById(R.id.connecttoadevice2);
 		findDevice.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -134,7 +129,7 @@ public class BluetoothGuest extends Activity {
 			}
 		});
 	}
-	
+
 	public void findDevice(){
 		Intent serverIntent = null;
 		serverIntent = new Intent(this, DeviceListActivity.class);
@@ -248,38 +243,46 @@ public class BluetoothGuest extends Activity {
 				textFile.setText("MP3 File Selected: " + s);
 				setFilePath(FilePath);
 			}
-        case REQUEST_CONNECT_DEVICE_INSECURE:
-            // When DeviceListActivity returns with a device to connect
-            if (resultCode == Activity.RESULT_OK) {
-                connectDevice(data, false);
-            }
-            break;
-        case REQUEST_ENABLE_BT:
-            // When the request to enable Bluetooth returns
-            if (resultCode == Activity.RESULT_OK) {
-                // Bluetooth is now enabled, so set up a chat session
-                //setupChat();
-            } else {
-                // User did not enable Bluetooth or an error occurred
-                Log.d(TAG, "BT not enabled");
-                //Toast.makeText(this, R.string.bt_not_enabled_leaving, Toast.LENGTH_SHORT).show();
-                finish();
-            }
+			break;
+		case REQUEST_CONNECT_DEVICE_INSECURE:
+			// When DeviceListActivity returns with a device to connect
+			if (resultCode == Activity.RESULT_OK) {
+				try {
+					connectDevice(data, false);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			break;
+		case REQUEST_ENABLE_BT:
+			// When the request to enable Bluetooth returns
+			if (resultCode == Activity.RESULT_OK) {
+				// Bluetooth is now enabled, so set up a chat session
+				//setupChat();
+			} else {
+				// User did not enable Bluetooth or an error occurred
+				Log.d(TAG, "BT not enabled");
+				//Toast.makeText(this, R.string.bt_not_enabled_leaving, Toast.LENGTH_SHORT).show();
+				finish();
+			}
 			break;
 
 		}
 	}
 
-    private void connectDevice(Intent data, boolean secure) {
-        // Get the device MAC address
-        String address = data.getExtras()
-            .getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
-        // Get the BluetoothDevice object
-        BluetoothDevice device = bA.getRemoteDevice(address);
-        // Attempt to connect to the device
-        mService.connect(device, secure);
-    }
-    
+	private void connectDevice(Intent data, boolean secure) throws IOException {
+		// Get the device MAC address
+		String address = data.getExtras()
+				.getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
+		// Get the BluetoothDevice object
+		BluetoothDevice device = bA.getRemoteDevice(address);
+		// Attempt to connect to the device
+		mService.connect(device, secure);
+		device.createInsecureRfcommSocketToServiceRecord(
+				MY_UUID_INSECURE);
+	}
+
 	public String setFilePath(String path) {
 		globalPath = path;
 		return globalPath;
@@ -372,7 +375,7 @@ public class BluetoothGuest extends Activity {
 			}
 		}
 	};
-	
-	
+
+
 
 }
