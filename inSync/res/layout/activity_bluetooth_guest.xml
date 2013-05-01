@@ -68,4 +68,12 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/white" />
 
+    <Button
+        android:id="@+id/connecttoadevice2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/mediaprogress"
+        android:layout_alignLeft="@+id/debugText"
+        android:text="@string/connecttoabluetoothdevice" />
+
 </RelativeLayout>

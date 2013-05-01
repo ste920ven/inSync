@@ -34,6 +34,7 @@ import android.widget.Toast;
 public class BluetoothGuest extends Activity {
 	String globalPath = "";
 	private MediaPlayer mediaPlayer = new MediaPlayer();
+	private BluetoothAdapter bA = BluetoothAdapter.getDefaultAdapter();
 
 	private File fp;
 	private static final UUID MY_UUID = UUID
@@ -72,6 +73,9 @@ public class BluetoothGuest extends Activity {
 	// our request code (must be greater than zero)
 	private static final int REQUEST_BLU = 1;
 
+    private static final int REQUEST_CONNECT_DEVICE_INSECURE = 2;
+    private static final int REQUEST_ENABLE_BT = 3;
+    
 	// Name of the connected device
 	private String mConnectedDeviceName = null;
 	// String buffer for outgoing messages
@@ -122,6 +126,19 @@ public class BluetoothGuest extends Activity {
 
 		Thread checkInput = new Thread(checkInputStream);
 		checkInput.start();
+		
+		Button findDevice = (Button) findViewById(R.id.connecttoadevice2);
+		findDevice.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				findDevice();
+			}
+		});
+	}
+	
+	public void findDevice(){
+		Intent serverIntent = null;
+		serverIntent = new Intent(this, DeviceListActivity.class);
+		startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_INSECURE);       		
 	}
 
 	@Override
@@ -231,11 +248,38 @@ public class BluetoothGuest extends Activity {
 				textFile.setText("MP3 File Selected: " + s);
 				setFilePath(FilePath);
 			}
+        case REQUEST_CONNECT_DEVICE_INSECURE:
+            // When DeviceListActivity returns with a device to connect
+            if (resultCode == Activity.RESULT_OK) {
+                connectDevice(data, false);
+            }
+            break;
+        case REQUEST_ENABLE_BT:
+            // When the request to enable Bluetooth returns
+            if (resultCode == Activity.RESULT_OK) {
+                // Bluetooth is now enabled, so set up a chat session
+                //setupChat();
+            } else {
+                // User did not enable Bluetooth or an error occurred
+                Log.d(TAG, "BT not enabled");
+                //Toast.makeText(this, R.string.bt_not_enabled_leaving, Toast.LENGTH_SHORT).show();
+                finish();
+            }
 			break;
 
 		}
 	}
 
+    private void connectDevice(Intent data, boolean secure) {
+        // Get the device MAC address
+        String address = data.getExtras()
+            .getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
+        // Get the BluetoothDevice object
+        BluetoothDevice device = bA.getRemoteDevice(address);
+        // Attempt to connect to the device
+        mService.connect(device, secure);
+    }
+    
 	public String setFilePath(String path) {
 		globalPath = path;
 		return globalPath;
@@ -328,5 +372,7 @@ public class BluetoothGuest extends Activity {
 			}
 		}
 	};
+	
+	
 
 }
