@@ -182,6 +182,7 @@ function submit(){
 	r: $('#room').val()
     }, function(data){
 	if(data.result == 'DNE'){
+	    $('#rwarning').addClass('warning');
 	    $('#rwarning').html('Room does not exist');
 	    return false;
 	}
@@ -196,10 +197,12 @@ function adsubmit(){
     }, function(data){
 	console.log(data.result);
 	if(data.result == 'DNE'){
+	    $('#adwarning').addClass('warning');
 	    $('#adwarning').html('Room does not exist');
 	    return false;
 	}
 	else if(data.result == 'INVALID'){
+	    $('#adwarning').addClass('warning');
 	    $('#adwarning').html('Invalid password');
 	    return false;
 	}
@@ -210,6 +213,7 @@ function adsubmit(){
 }
 function csubmit(){
     if($('#croom').val() == ''){
+	$('#cwarning').addClass('warning');
 	$('#cwarning').html('Enter a room name');
 	return false;
     }
@@ -219,6 +223,7 @@ function csubmit(){
     }, function(data){
 	console.log(data.result);
 	if(data.result == 'TAKEN'){
+	    $('#cwarning').addClass('warning');
 	    $('#cwarning').html('Room name taken');
 	    return false;
 	}
@@ -228,6 +233,7 @@ function csubmit(){
     });
 }
 function submitRoom(){
+    $('#rwarning').removeClass('warning');
     socket.emit('nickname', 
 		fb_name, $('#room').val(), 
 		function (set) {
@@ -241,6 +247,7 @@ function submitRoom(){
     return false;
 }
 function adsubmitRoom(){
+    $('#adwarning').removeClass('warning');
     socket.emit('nickname',
 		fb_name, $('#adroom').val(),
 		function (set) {
@@ -254,6 +261,7 @@ function adsubmitRoom(){
     return false;
 }
 function csubmitRoom(){
+    $('#cwarning').removeClass('warning');
     socket.emit('nickname',
 		fb_name, $('#croom').val(),
 		function (set) {
@@ -274,10 +282,13 @@ function playmysong(){
 
 $(document).ready(function(){
     $('#room').keydown(function(){
-	if(event.keyCode == 13)
+	if(event.keyCode == 13){
+	    $('#rwarning').html('Locating...');
 	    submit();
+	}
     });
     $('#roomButton').click(function(){
+	$('#rwarning').html('Locating...');
 	submit();
     });
     $('#room').keydown(function(){
@@ -285,10 +296,13 @@ $(document).ready(function(){
 	    $('#rwarning').html('');
     });
     $('#pass').keydown(function(){
-	if(event.keyCode == 13)
+	if(event.keyCode == 13){
+	    $('#adwarning').html('Verifying...');
 	    adsubmit();
+	}
     });
     $('#adButton').click(function(){
+	$('#adwarning').html('Verifying...');
 	adsubmit();
     });
     $('#adroom').keydown(function(){
@@ -308,10 +322,13 @@ $(document).ready(function(){
 	    $('#cwarning').html('');
     });
     $('#cpass').keydown(function(){
-	if(event.keyCode == 13)
+	if(event.keyCode == 13){
+	    $('#cwarning').html('Creating');
 	    csubmit();
+	}
     });
     $('#cButton').click(function(){
+	$('#cwarning').html('Creating');
 	csubmit();
     });
     

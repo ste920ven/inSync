@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:fb="https://www.facebook.com/2008/fbml">
   <head>
-    <link href="http://www.iconj.com/ico/8/e/8efumc5s9g.ico" type="image/x-icon" rel="shortcut icon" />
+    <title>inSync</title>
+    <link href="/static/bootstrap/img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
     <link href="/static/stylesheets/style.css" rel="stylesheet">
     <link href="/static/stylesheets/app_style.css" rel="stylesheet">
     <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -36,7 +37,7 @@
 	    <p>Please enter a room name</p>
 	    <input id="room" type="text"  placeholder="room">
 	    <button id="roomButton">Submit</button>
-	    <p id="rwarning" class="warning"></p>
+	    <p id="rwarning" class="prewarning"></p>
 	  </div>
 	</div>
       </div>
@@ -51,7 +52,7 @@
 	    <input id="adroom" type="text" placeholder="room">
 	    <input id="pass" type="password" placeholder="password">
 	    <button id="adButton">Submit</button>
-	    <p id="adwarning" class="warning"></p>
+	    <p id="adwarning" class="prewarning"></p>
 	  </div>
 	</div>
       </div>
@@ -66,7 +67,7 @@
 	    <input id="croom" type="text" placeholder="room">
 	    <input id="cpass" type="text" placeholder="password">
 	    <button id="cButton">Submit</button>
-	    <p id="cwarning" class="warning"></p>
+	    <p id="cwarning" class="prewarning"></p>
 	  </div>
 	</div>
        </div>
@@ -82,11 +83,13 @@
 	<button class="btn" id="skipTen">Skip Forward</button>
 	<button class="btn" id="resetTime">Reset</button>
       </div>
+      <div id="uploadcontrols">
+	<a href="#uploader" data-toggle="modal"><button id="upload" class="btn">Upload</button></a>
+	<button id="selectMusic" class="btn">Select Music</button>
+      </div>
       <div id="audioinfo">
 	<p id="userID">User: </p>
 	<p id="roomID">Room: </p>
-	<!--a href="/upload.html">Upload</a>
-	<button id="music" onclick="playmysong()">Music</button-->
       </div>
     </div>
     <div id="About" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -112,6 +115,17 @@
       </div>
       <div class="modal-footer">
 	<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+      </div>
+    </div>
+    <div id="uploader" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	<h3 id="myModalLabel">Upload</h3>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+	<button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
       </div>
     </div>
   </body>
