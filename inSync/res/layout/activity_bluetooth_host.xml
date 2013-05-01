@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:background="@color/gray"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -9,29 +9,65 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".BluetoothHost" >
 
-    <TextView
-        android:id="@+id/uriDisplayTV"
-        android:layout_width="wrap_content"
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/uriDisplayTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/selectedfile"
+                android:textColor="@color/blue" />
+
+            <Button
+                android:id="@+id/sendfilebutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sendmp3file"
+                android:textColor="@color/blue" />
+
+            <TextView
+                android:id="@+id/connectedBTdevTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/connectedbtdevices"
+                android:textColor="@color/blue" />
+        </LinearLayout>
+    </ScrollView>
+
+    <SeekBar
+        android:id="@+id/mediaprogress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="32dip"
+        android:layout_above="@+id/pause"
+        android:layout_alignRight="@+id/scrollView1"
+        android:layout_marginBottom="17dp" />
+
+    <ImageButton
+        android:id="@+id/pause"
+        style="@android:style/MediaButton.Play"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:text="@string/selectedfile"
-        android:textColor="@color/blue" />
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:contentDescription="@string/playdescription" />
 
     <Button
-        android:id="@+id/sendfilebutton"
+        android:id="@+id/connecttoadevice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/sendmp3file"
-        android:textColor="@color/blue" />
-
-    <TextView
-        android:id="@+id/connectedBTdevTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/uriDisplayTV"
-        android:layout_below="@+id/uriDisplayTV"
-        android:text="@string/connectedbtdevices"
-        android:textColor="@color/blue" />
+        android:layout_alignLeft="@+id/scrollView1"
+        android:layout_below="@+id/scrollView1"
+        android:layout_marginTop="50dp"
+        android:text="@string/connecttoabluetoothdevice" />
 
 </RelativeLayout>

@@ -10,6 +10,7 @@
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -29,6 +30,10 @@
             android:name="com.example.insync.CreateSession"
             android:label="@string/title_activity_create_session" >
         </activity>
+                <activity
+            android:name="com.example.insync.DeviceListActivity"
+            android:label="@string/title_device_list_activity" >
+        </activity>
         <activity
             android:name="com.example.insync.HelpScreen"
             android:label="@string/title_activity_help_screen" >
@@ -40,6 +45,14 @@
         <activity
             android:name="com.example.insync.AboutScreen"
             android:label="@string/title_activity_about_screen" >
+        </activity>
+        <activity
+            android:name="com.example.insync.BluetoothGuest"
+            android:label="@string/title_activity_bluetooth_guest" >
+        </activity>
+        <activity
+            android:name="com.example.insync.JoinSession"
+            android:label="@string/title_activity_join_session" >
         </activity>
     </application>
 
