@@ -24,6 +24,7 @@ function showView(desired){
 	$('#fb-postlog').hide();
 	$('#audio').css('display','block');
 	$('#audiocontrols').hide();
+	$('#uploadcontrols').hide();
     }
     else{
 	$('#nickname').hide();
@@ -160,7 +161,6 @@ socket.on('updateTime', function(time){
 });
 
 function toggle(){
-    console.log('cool');
     socket.emit('toggle play pause', room);
 }
 function skipTen(){
@@ -365,4 +365,42 @@ $(document).ready(function(){
     $('#toggle').click(toggle);
     $('#skipTen').click(skipTen);
     $('#resetTime').click(resetTime);
+
+    
+    (function(){
+	var bar=$('.bar');
+	var percent=$('.percent');
+	var status=$('#status');
+	$('#myForm').ajaxForm({
+	    beforeSubmit:function(){
+		if($('input[name=file]').val() == ''){
+		    status.html('Please select a file');
+		    return false;
+		}
+	    },
+	    beforeSend:function(){
+		status.empty();
+		var percentVal='0%';
+		bar.width(percentVal)
+		percent.html(percentVal);
+	    }, 
+	    uploadProgress:function(event,position,total,percentComplete){
+		var percentVal=percentComplete+'%';
+		bar.width(percentVal)
+		percent.html(percentVal);
+	    }, 
+	    success:function(){
+		var percentVal='100%';
+		bar.width(percentVal)
+		percent.html(percentVal);
+	    }, 
+	    complete:function(xhr){
+		var result = $.parseJSON( xhr.responseText);
+		if(result.result == "File upload failed: unknown reason")
+		    $('#progress').addClass('progress-danger');
+		else
+		    $('#progress').removeClass('progress-danger');
+		status.html(result.result);
+	    }});
+    })();
 });

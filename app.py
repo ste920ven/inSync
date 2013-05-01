@@ -16,6 +16,7 @@ global _name
 UPLOAD_FOLDER = './static/uploads'
 ALLOWED_EXTENSIONS = set(['mp3'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024
 
 # The socket.io namespace
 class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin, CustomMixin):
@@ -86,18 +87,16 @@ def create_room():
         addRoom(r,p)
         return jsonify(result = 'OK')
     
-@app.route('/upload.html', methods = ['GET','POST'])
+@app.route('/upload', methods = ['POST'])
 def upload():
-    if request.method == 'POST':
-        print 'post'
+   if request.method == 'POST':
         file = request.files['file']
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            print 'successfully uploaded'
-            return render_template('upload.html')
-    if request.method == 'GET':
-        return render_template('upload.html')
+            return jsonify(result='File successfully uploaded')
+        else:
+            return jsonify(result='File upload failed: unknown reason')
         
 @app.route("/socket.io/<path:path>")
 def run_socketio(path):

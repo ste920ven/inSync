@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:fb="https://www.facebook.com/2008/fbml">
   <head>
+    
     <title>inSync</title>
     <link href="/static/bootstrap/img/favicon.ico" type="image/x-icon" rel="shortcut icon" />
     <link href="/static/stylesheets/style.css" rel="stylesheet">
@@ -10,6 +11,12 @@
     <script type="text/javascript" src="/static/socket.io.js"></script>
     <script type="text/javascript" src="/static/app_script.js"></script>
     <script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
+
+    <style>.progress{position:relative;width:400px;border:1px solid #ddd;padding:1px;border-radius:3px}.bar{background-color:#b4f5b4;width:0%;height:20px;border-radius:3px}.percent{position:absolute;display:inline-block;top:3px;left:48%}</style>
+    <script src="http://malsup.github.com/jquery.form.js"></script>
+  
+    <script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+    <script type="text/javascript">_uacct="UA-850242-2";urchinTracker();</script>
   </head>
   <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -123,6 +130,15 @@
 	<h3 id="myModalLabel">Upload</h3>
       </div>
       <div class="modal-body">
+	<form id="myForm" action="/upload" method="post" enctype="multipart/form-data">
+          <input type="file" name="file"><br>
+          <input class="btn btn-primary" type="submit" value="Upload File to Server">
+	</form>
+	<div id="progress" class="progress progress-striped active">
+          <div class="bar"></div>
+          <div class="percent">0%</div>
+	</div>
+	<div id="status"></div>
       </div>
       <div class="modal-footer">
 	<button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
