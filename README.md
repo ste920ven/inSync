@@ -2,6 +2,10 @@
 
 >inSync is an application that attempts to keep mp3 playback synced across numerous users and devices. There is currently a web version and an Android version.
 
+>>Compatible with Google Chrome and Safari
+
+>>Not compatible with Firefox
+
 Hosted on: http://ml7.stuyc.org:4444 <br>
 Android APK: https://github.com/stuycs-softdev/inSync/tree/master/inSync
 
@@ -20,6 +24,7 @@ If you want to control a stream, enter a room as admin with "Enter Room as Admin
       * Play/Pause button toggles play/pause 
       * Skip Forward button skips the stream forward by 10 seconds 
       * Reset button brings the position in the track back to 0:00
+      * Using the slider to change the time will change the time for all users
   * Upload
       * Upload an mp3 file to the server to be played in the stream (see next section)
   * Select Music
