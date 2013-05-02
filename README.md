@@ -1,6 +1,6 @@
 ##inSync
 
->a P2P media streaming android application over bluetooth.
+>inSync is an application that allows its users to stream mp3 files across devices and play them simutaneously. There is currently a web version and an Android version. The .apk file for the Android version can be found at <inSync>\inSync\bin\inSync.apk
 
 ###Project Contributors
 Brian Lam
