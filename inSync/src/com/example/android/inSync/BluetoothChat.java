@@ -183,6 +183,7 @@ public class BluetoothChat extends Activity {
 		// Initialize the pause button with a listener that for click events
 		pauseButton = (ImageButton) findViewById(R.id.pause);
 		pauseButton.setVisibility(View.INVISIBLE);
+		pauseButton.setClickable(false);
 		pauseButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				actuallyPause();
@@ -555,7 +556,9 @@ public class BluetoothChat extends Activity {
 		sendMessage("pause");
 		mediaPlayer.pause();
 		playButton.setVisibility(View.VISIBLE);
+		playButton.setClickable(true);
 		pauseButton.setVisibility(View.INVISIBLE);
+		pauseButton.setClickable(false);
 	}
 
 	public void actuallyResume() {
@@ -563,7 +566,9 @@ public class BluetoothChat extends Activity {
 				+ String.valueOf(mediaPlayer.getCurrentPosition()));
 		mediaPlayer.start();
 		playButton.setVisibility(View.INVISIBLE);
+		playButton.setClickable(false);
 		pauseButton.setVisibility(View.VISIBLE);
+		pauseButton.setClickable(true);
 	}
 
 	public void aboutScreen(View view) {
