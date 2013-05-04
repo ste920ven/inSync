@@ -1,11 +1,6 @@
 ::-webkit-input-placeholder { 
     font-style: italic;
 }
-i {
-    position: relative;
-    margin: 10px;
-    margin-top: 10px;
-}
 #audio {
     z-index: 1000;
     position: absolute;
@@ -51,22 +46,6 @@ i {
     width: 120px;
     margin-left: 5px;
     margin-right: 5px;
-}
-#uploadcontrols {
-    position: relative;
-    float: left;
-}
-#uploadcontrols .btn {
-    z-index: 1000;
-    position: relative;
-    width: 120px;
-}
-#upload {
-    margin-left: 75px;
-    margin-right: 5px;
-}
-#selectMusic {
-    margin-left: 5px;
 }
 #fb-postlog {
     position: absolute;
@@ -137,6 +116,34 @@ i {
     border-color: #999;
     outline: 0;
 }
+#room,
+#adroom,
+#pass,
+#croom,
+#cpass {
+    height: 22px;
+}
+#selectMusic {
+    margin-left: 5px;
+}
+#uploadcontrols {
+    position: relative;
+    float: left;
+}
+#uploadcontrols .btn {
+    z-index: 1000;
+    position: relative;
+    width: 120px;
+}
+#upload {
+    margin-left: 75px;
+    margin-right: 5px;
+}
+i {
+    position: relative;
+    margin:10px;
+    margin-top: 10px;
+}
 .navbar {
     background-color: black;
     background-image: none;
@@ -174,4 +181,24 @@ i {
 .warning {
     font-size: 16px;
     color: red;
+}
+
+.progress {
+    position:relative;
+    width:400px;
+    border:1px solid #ddd;
+    padding:1px;
+    border-radius:3px;
+}
+.bar {
+    background-color:#b4f5b4;
+    width:0%;
+    height:20px;
+    border-radius:3px;
+}
+.percent {
+    position:absolute;
+    display:inline-block;
+    top:3px;
+    left:48%;
 }
