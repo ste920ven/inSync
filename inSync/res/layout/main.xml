@@ -34,13 +34,22 @@
         android:orientation="horizontal" >
 
         <ImageButton
-            android:id="@+id/pause"
+            android:id="@+id/play"
             style="@android:style/MediaButton.Play"
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:contentDescription="@string/playdescription" />
+
+        <ImageButton
+            android:id="@+id/pause"
+            style="@android:style/MediaButton.Pause"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="@string/pausedescription" />
 
         <SeekBar
             android:id="@+id/mediaprogress"
@@ -49,7 +58,6 @@
             android:layout_height="32dip"
             android:layout_above="@+id/pause"
             android:layout_alignParentLeft="true" />
-
     </RelativeLayout>
 
 </LinearLayout>

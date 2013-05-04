@@ -80,7 +80,8 @@ public class BluetoothChat extends Activity {
 	// Layout Views
 	private ListView mConversationView;
 	private SeekBar mSeekBar;
-	private ImageButton mImageButton;
+	private ImageButton playButton;
+	private ImageButton pauseButton;
 	private MediaPlayer mediaPlayer = new MediaPlayer();
 
 	// Name of the connected device
@@ -94,11 +95,11 @@ public class BluetoothChat extends Activity {
 	// Member object for the chat services
 	private BluetoothChatService mChatService = null;
 
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if(D) Log.e(TAG, "+++ ON CREATE +++");
+		if (D)
+			Log.e(TAG, "+++ ON CREATE +++");
 
 		// Set up the window layout
 		setContentView(R.layout.main);
@@ -108,7 +109,8 @@ public class BluetoothChat extends Activity {
 
 		// If the adapter is null, then Bluetooth is not supported
 		if (mBluetoothAdapter == null) {
-			Toast.makeText(this, "Bluetooth is not available", Toast.LENGTH_LONG).show();
+			Toast.makeText(this, "Bluetooth is not available",
+					Toast.LENGTH_LONG).show();
 			finish();
 			return;
 		}
@@ -117,29 +119,35 @@ public class BluetoothChat extends Activity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		if(D) Log.e(TAG, "++ ON START ++");
+		if (D)
+			Log.e(TAG, "++ ON START ++");
 
 		// If BT is not on, request that it be enabled.
 		// setupChat() will then be called during onActivityResult
 		if (!mBluetoothAdapter.isEnabled()) {
-			Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+			Intent enableIntent = new Intent(
+					BluetoothAdapter.ACTION_REQUEST_ENABLE);
 			startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
 			// Otherwise, setup the chat session
 		} else {
-			if (mChatService == null) setupChat();
+			if (mChatService == null)
+				setupChat();
 		}
 	}
 
 	@Override
 	public synchronized void onResume() {
 		super.onResume();
-		if(D) Log.e(TAG, "+ ON RESUME +");
+		if (D)
+			Log.e(TAG, "+ ON RESUME +");
 
 		// Performing this check in onResume() covers the case in which BT was
 		// not enabled during onStart(), so we were paused to enable it...
-		// onResume() will be called when ACTION_REQUEST_ENABLE activity returns.
+		// onResume() will be called when ACTION_REQUEST_ENABLE activity
+		// returns.
 		if (mChatService != null) {
-			// Only if the state is STATE_NONE, do we know that we haven't started already
+			// Only if the state is STATE_NONE, do we know that we haven't
+			// started already
 			if (mChatService.getState() == BluetoothChatService.STATE_NONE) {
 				// Start the Bluetooth chat services
 				mChatService.start();
@@ -151,23 +159,36 @@ public class BluetoothChat extends Activity {
 		Log.d(TAG, "setupChat()");
 
 		// Initialize the array adapter for the conversation thread
-		mConversationArrayAdapter = new ArrayAdapter<String>(this, R.layout.message);
+		mConversationArrayAdapter = new ArrayAdapter<String>(this,
+				R.layout.message);
 		mConversationView = (ListView) findViewById(R.id.in);
 		mConversationView.setAdapter(mConversationArrayAdapter);
 
-		// Initialize the Seekbar with a listener 
+		// Initialize the Seekbar with a listener
 		mSeekBar = (SeekBar) findViewById(R.id.mediaprogress);
 		// --mSeekBar.setOnEditorActionListener(mWriteListener);
 
-		// Initialize the pause button with a listener that for click events
-		mImageButton = (ImageButton) findViewById(R.id.pause);
-		mImageButton.setOnClickListener(new OnClickListener() {
+		// Initialize the play button with a listener that for click events
+		playButton = (ImageButton) findViewById(R.id.pause);
+		playButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				pauseMedia();
+				actuallyResume();
 				/*
 				 * SEND HARDCODED MESSAGE
 				 */
-				//sendMessage("pause");
+				// sendMessage("pause");
+			}
+		});
+
+		// Initialize the pause button with a listener that for click events
+		playButton = (ImageButton) findViewById(R.id.pause);
+		playButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				actuallyPause();
+				/*
+				 * SEND HARDCODED MESSAGE
+				 */
+				// sendMessage("pause");
 			}
 		});
 
@@ -195,7 +216,7 @@ public class BluetoothChat extends Activity {
 		}
 	}
 
-	public void getMP3File(){
+	public void getMP3File() {
 		try {
 			Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 			intent.setType("file/*");
@@ -206,49 +227,61 @@ public class BluetoothChat extends Activity {
 		// Activity Not Found Crash fix
 		// Updates TextView with message to install a file browser
 		catch (Exception e) {
-			//fnTV.setText("Error: No File Browser found! Please install a file browser (Such as ASTRO File Manager) to browse for an MP3 file.");
-			Toast.makeText(this, "Error: No File Browser found! Please install a file browser (Such as ASTRO File Manager) to browse for an MP3 file.", Toast.LENGTH_SHORT).show();
+			// fnTV.setText("Error: No File Browser found! Please install a file browser (Such as ASTRO File Manager) to browse for an MP3 file.");
+			Toast.makeText(
+					this,
+					"Error: No File Browser found! Please install a file browser (Such as ASTRO File Manager) to browse for an MP3 file.",
+					Toast.LENGTH_SHORT).show();
 		}
 	}
 
 	@Override
 	public synchronized void onPause() {
 		super.onPause();
-		if(D) Log.e(TAG, "- ON PAUSE -");
+		if (D)
+			Log.e(TAG, "- ON PAUSE -");
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
-		if(D) Log.e(TAG, "-- ON STOP --");
+		if (D)
+			Log.e(TAG, "-- ON STOP --");
 	}
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
 		// Stop the Bluetooth chat services
-		if (mChatService != null) mChatService.stop();
-		if(D) Log.e(TAG, "--- ON DESTROY ---");
+		if (mChatService != null)
+			mChatService.stop();
+		if (D)
+			Log.e(TAG, "--- ON DESTROY ---");
 	}
 
 	private void ensureDiscoverable() {
-		if(D) Log.d(TAG, "ensure discoverable");
-		if (mBluetoothAdapter.getScanMode() !=
-				BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
-			Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-			discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
+		if (D)
+			Log.d(TAG, "ensure discoverable");
+		if (mBluetoothAdapter.getScanMode() != BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
+			Intent discoverableIntent = new Intent(
+					BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+			discoverableIntent.putExtra(
+					BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
 			startActivity(discoverableIntent);
 		}
 	}
 
 	/**
 	 * Sends a message.
-	 * @param message  A string of text to send.
+	 * 
+	 * @param message
+	 *            A string of text to send.
 	 */
 	private void sendMessage(String message) {
 		// Check that we're actually connected before trying anything
 		if (mChatService.getState() != BluetoothChatService.STATE_CONNECTED) {
-			Toast.makeText(this, R.string.not_connected, Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, R.string.not_connected, Toast.LENGTH_SHORT)
+					.show();
 			return;
 		}
 
@@ -259,21 +292,24 @@ public class BluetoothChat extends Activity {
 			mChatService.write(send);
 
 			// Reset out string buffer to zero and clear the edit text field
-			//mOutStringBuffer.setLength(0);
-			//mOutEditText.setText(mOutStringBuffer);
+			// mOutStringBuffer.setLength(0);
+			// mOutEditText.setText(mOutStringBuffer);
 		}
 	}
 
 	// The action listener for the EditText widget, to listen for the return key
-	private TextView.OnEditorActionListener mWriteListener =
-			new TextView.OnEditorActionListener() {
-		public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
-			// If the action is a key-up event on the return key, send the message
-			if (actionId == EditorInfo.IME_NULL && event.getAction() == KeyEvent.ACTION_UP) {
+	private TextView.OnEditorActionListener mWriteListener = new TextView.OnEditorActionListener() {
+		public boolean onEditorAction(TextView view, int actionId,
+				KeyEvent event) {
+			// If the action is a key-up event on the return key, send the
+			// message
+			if (actionId == EditorInfo.IME_NULL
+					&& event.getAction() == KeyEvent.ACTION_UP) {
 				String message = view.getText().toString();
 				sendMessage(message);
 			}
-			if(D) Log.i(TAG, "END onEditorAction");
+			if (D)
+				Log.i(TAG, "END onEditorAction");
 			return true;
 		}
 	};
@@ -294,10 +330,12 @@ public class BluetoothChat extends Activity {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case MESSAGE_STATE_CHANGE:
-				if(D) Log.i(TAG, "MESSAGE_STATE_CHANGE: " + msg.arg1);
+				if (D)
+					Log.i(TAG, "MESSAGE_STATE_CHANGE: " + msg.arg1);
 				switch (msg.arg1) {
 				case BluetoothChatService.STATE_CONNECTED:
-					setStatus(getString(R.string.title_connected_to, mConnectedDeviceName));
+					setStatus(getString(R.string.title_connected_to,
+							mConnectedDeviceName));
 					mConversationArrayAdapter.clear();
 					break;
 				case BluetoothChatService.STATE_CONNECTING:
@@ -317,17 +355,17 @@ public class BluetoothChat extends Activity {
 				break;
 			case MESSAGE_READ:
 				/*
-				 * SOME PRETTY IMPORTANT STUFF HERE!
-				 * This is the code for read
+				 * SOME PRETTY IMPORTANT STUFF HERE! This is the code for read
 				 */
 				byte[] readBuf = (byte[]) msg.obj;
 				// construct a string from the valid bytes in the buffer
 				String readMessage = new String(readBuf, 0, msg.arg1);
-				mConversationArrayAdapter.add(mConnectedDeviceName+":  " + readMessage);
-				if (readMessage.equals("pause")){
+				mConversationArrayAdapter.add(mConnectedDeviceName + ":  "
+						+ readMessage);
+				if (readMessage.equals("pause")) {
 					actuallyPause();
 				}
-				if (readMessage.startsWith("play:")){
+				if (readMessage.startsWith("play:")) {
 					String position = readMessage.replaceAll("play:", "");
 					int intposition = Integer.parseInt(position);
 					mediaPlayer.seekTo(intposition);
@@ -337,12 +375,14 @@ public class BluetoothChat extends Activity {
 			case MESSAGE_DEVICE_NAME:
 				// save the connected device's name
 				mConnectedDeviceName = msg.getData().getString(DEVICE_NAME);
-				Toast.makeText(getApplicationContext(), "Connected to "
-						+ mConnectedDeviceName, Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(),
+						"Connected to " + mConnectedDeviceName,
+						Toast.LENGTH_SHORT).show();
 				break;
 			case MESSAGE_TOAST:
-				Toast.makeText(getApplicationContext(), msg.getData().getString(TOAST),
-						Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(),
+						msg.getData().getString(TOAST), Toast.LENGTH_SHORT)
+						.show();
 				break;
 			}
 		}
@@ -350,7 +390,8 @@ public class BluetoothChat extends Activity {
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		final int PICKFILE_RESULT_CODE = 1251;
-		if(D) Log.d(TAG, "onActivityResult " + resultCode);
+		if (D)
+			Log.d(TAG, "onActivityResult " + resultCode);
 		switch (requestCode) {
 		case PICKFILE_RESULT_CODE:
 			// When DeviceListActivity returns with a device to connect
@@ -359,8 +400,8 @@ public class BluetoothChat extends Activity {
 				String FilePath = data.getData().getPath();
 				setFilePath(FilePath);
 				sendMessage(FilePath);
-				//Concat File Path
-				//String s=FilePath.substring(FilePath.lastIndexOf("/"));
+				// Concat File Path
+				// String s=FilePath.substring(FilePath.lastIndexOf("/"));
 
 				Uri myUri = Uri.parse(FilePath);
 				try {
@@ -404,7 +445,8 @@ public class BluetoothChat extends Activity {
 			} else {
 				// User did not enable Bluetooth or an error occurred
 				Log.d(TAG, "BT not enabled");
-				Toast.makeText(this, R.string.bt_not_enabled_leaving, Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, R.string.bt_not_enabled_leaving,
+						Toast.LENGTH_SHORT).show();
 				finish();
 			}
 		}
@@ -412,8 +454,8 @@ public class BluetoothChat extends Activity {
 
 	private void connectDevice(Intent data, boolean secure) {
 		// Get the device MAC address
-		String address = data.getExtras()
-				.getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
+		String address = data.getExtras().getString(
+				DeviceListActivity.EXTRA_DEVICE_ADDRESS);
 		// Get the BluetoothDevice object
 		BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
 		// Attempt to connect to the device
@@ -472,7 +514,8 @@ public class BluetoothChat extends Activity {
 		case R.id.insecure_connect_scan:
 			// Launch the DeviceListActivity to see devices and do scan
 			serverIntent = new Intent(this, DeviceListActivity.class);
-			startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_INSECURE);
+			startActivityForResult(serverIntent,
+					REQUEST_CONNECT_DEVICE_INSECURE);
 			return true;
 		case R.id.discoverable:
 			// Ensure this device is discoverable by others
@@ -480,37 +523,45 @@ public class BluetoothChat extends Activity {
 			return true;
 		case R.id.sendfilethroughbluetooth:
 			if (!existFilePath())
-				Toast.makeText(this, "Choose a Music File first!", Toast.LENGTH_SHORT).show();
-			else{
-				sendMessage("I would like to send you"+globalPath);
+				Toast.makeText(this, "Choose a Music File first!",
+						Toast.LENGTH_SHORT).show();
+			else {
+				sendMessage("I would like to send you" + globalPath);
 				sendFile();
 			}
 			return true;
 		case R.id.about:
-        	// Show about info
-        	aboutScreen(findViewById(android.R.id.content));
-        	return true;
+			// Show about info
+			aboutScreen(findViewById(android.R.id.content));
+			return true;
 		}
 		return false;
 	}
-
+/*
 	public void pauseMedia() {
 		if (mediaPlayer.isPlaying()) {
 			sendMessage("pause");
 			actuallyPause();
 		} else {
-			sendMessage("play:"+ String.valueOf(mediaPlayer.getCurrentPosition()));
+			sendMessage("play:"
+					+ String.valueOf(mediaPlayer.getCurrentPosition()));
 			actuallyResume();
 		}
 	}
+	*/
 
-	public void actuallyPause(){
+	public void actuallyPause() {
 		mediaPlayer.pause();
+		playButton.setVisibility(View.VISIBLE);
+		pauseButton.setVisibility(View.INVISIBLE);
 	}
 
-	public void actuallyResume(){
+	public void actuallyResume() {
 		mediaPlayer.start();
+		playButton.setVisibility(View.INVISIBLE);
+		pauseButton.setVisibility(View.INVISIBLE);
 	}
+
 	public void aboutScreen(View view) {
 		Intent intent = new Intent(this, AboutScreen.class);
 		startActivity(intent);

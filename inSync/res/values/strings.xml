@@ -38,7 +38,8 @@
     <string name="secure_connect">Choose a Music File</string>
     <string name="insecure_connect">Connect to Another Device</string>
     <string name="discoverable">Make discoverable</string>
-    <string name="playdescription">pause</string>
+    <string name="playdescription">play</string>
+    <string name="pausedescription">pause</string>
     <string name="sendFileThroughBluetooth">Send File Through Bluetooth</string>
     <string name="about">About</string>
     <string name="title_activity_about_screen">AboutScreen</string>
