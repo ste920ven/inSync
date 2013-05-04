@@ -17,6 +17,7 @@
 package com.example.android.inSync;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import com.example.android.BluetoothChat.R;
@@ -313,10 +314,17 @@ public class BluetoothChat extends Activity {
 				mConversationArrayAdapter.add("Me:  " + writeMessage);
 				break;
 			case MESSAGE_READ:
+				/*
+				 * SOME PRETTY IMPORTANT STUFF HERE!
+				 * This is the code for read
+				 */
 				byte[] readBuf = (byte[]) msg.obj;
 				// construct a string from the valid bytes in the buffer
 				String readMessage = new String(readBuf, 0, msg.arg1);
 				mConversationArrayAdapter.add(mConnectedDeviceName+":  " + readMessage);
+				if (readMessage.equals("pause")){
+					pauseMedia();
+				}
 				break;
 			case MESSAGE_DEVICE_NAME:
 				// save the connected device's name
@@ -345,6 +353,32 @@ public class BluetoothChat extends Activity {
 				sendMessage(FilePath);
 				//Concat File Path
 				//String s=FilePath.substring(FilePath.lastIndexOf("/"));
+				
+				Uri myUri = Uri.parse(FilePath);
+				try {
+					mediaPlayer.setDataSource(getApplicationContext(), myUri);
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SecurityException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalStateException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				try {
+					mediaPlayer.prepare();
+				} catch (IllegalStateException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 			}
 			break;
