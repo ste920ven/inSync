@@ -172,11 +172,7 @@ public class BluetoothChat extends Activity {
 		playButton = (ImageButton) findViewById(R.id.play);
 		playButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				actuallyResume();
-				/*
-				 * SEND HARDCODED MESSAGE
-				 */
-				// sendMessage("pause");
+				pauseMedia();
 			}
 		});
 
@@ -186,11 +182,7 @@ public class BluetoothChat extends Activity {
 		pauseButton.setClickable(false);
 		pauseButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				actuallyPause();
-				/*
-				 * SEND HARDCODED MESSAGE
-				 */
-				// sendMessage("pause");
+				pauseMedia();
 			}
 		});
 
@@ -283,7 +275,7 @@ public class BluetoothChat extends Activity {
 		// Check that we're actually connected before trying anything
 		if (mChatService.getState() != BluetoothChatService.STATE_CONNECTED) {
 			Toast.makeText(this, R.string.not_connected, Toast.LENGTH_SHORT)
-					.show();
+			.show();
 			return;
 		}
 
@@ -539,7 +531,7 @@ public class BluetoothChat extends Activity {
 		}
 		return false;
 	}
-/*
+
 	public void pauseMedia() {
 		if (mediaPlayer.isPlaying()) {
 			sendMessage("pause");
@@ -550,10 +542,9 @@ public class BluetoothChat extends Activity {
 			actuallyResume();
 		}
 	}
-	*/
+
 
 	public void actuallyPause() {
-		sendMessage("pause");
 		mediaPlayer.pause();
 		playButton.setVisibility(View.VISIBLE);
 		playButton.setClickable(true);
@@ -562,8 +553,6 @@ public class BluetoothChat extends Activity {
 	}
 
 	public void actuallyResume() {
-		sendMessage("play:"
-				+ String.valueOf(mediaPlayer.getCurrentPosition()));
 		mediaPlayer.start();
 		playButton.setVisibility(View.INVISIBLE);
 		playButton.setClickable(false);
