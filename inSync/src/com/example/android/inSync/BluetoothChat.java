@@ -560,7 +560,7 @@ public class BluetoothChat extends Activity {
 	public void actuallyResume() {
 		mediaPlayer.start();
 		playButton.setVisibility(View.INVISIBLE);
-		pauseButton.setVisibility(View.INVISIBLE);
+		pauseButton.setVisibility(View.VISIBLE);
 	}
 
 	public void aboutScreen(View view) {
