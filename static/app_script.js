@@ -266,6 +266,7 @@ socket.on('choose_song', function(file){
     playmysong(file);
 });
 socket.on('choose_url', function(url){
+    playmysong('');
     playmyurl(url);
 });
 function choose(file){
