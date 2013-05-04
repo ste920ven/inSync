@@ -485,6 +485,11 @@ public class BluetoothChat extends Activity {
 				sendMessage("I would like to send you"+globalPath);
 				sendFile();
 			}
+			return true;
+		case R.id.about:
+        	// Show about info
+        	aboutScreen(findViewById(android.R.id.content));
+        	return true;
 		}
 		return false;
 	}
@@ -505,6 +510,10 @@ public class BluetoothChat extends Activity {
 
 	public void actuallyResume(){
 		mediaPlayer.start();
+	}
+    public void aboutScreen(View view) {
+		Intent intent = new Intent(this, AboutScreen.class);
+		startActivity(intent);
 	}
 
 }
