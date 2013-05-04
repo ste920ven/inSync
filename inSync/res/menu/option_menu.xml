@@ -38,7 +38,7 @@
         android:title="@string/sendFileThroughBluetooth"/>
     <item
         android:id="@+id/about"
-        android:icon="@android:drawable/ic_menu_mylocation"
+        android:icon="@android:drawable/ic_menu_help"
         android:showAsAction="ifRoom|withText"
         android:title="@string/about"/>
 
