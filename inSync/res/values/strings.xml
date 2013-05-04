@@ -40,4 +40,5 @@
     <string name="discoverable">Make discoverable</string>
     <string name="playdescription">pause</string>
     <string name="sendFileThroughBluetooth">Send File Through Bluetooth</string>
+    <string name="title_activity_about_screen">AboutScreen</string>
 </resources>
