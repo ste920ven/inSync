@@ -60,6 +60,7 @@ Jason Peng
      + 'notasong.mp3' has been added to the server for your convienence of selecting something arbitrary from the server.
   
   + Selecting from URL is not very compatible with mobile
+  
 2. Audio Player Loading Issues
   + The html5 audio player tends to 'blacked-out' and become unclickable when multiple users are accessing the same mp3 src.
     The first person to log into the room usually has a functioning player while every subsequent login is blacked-out.
