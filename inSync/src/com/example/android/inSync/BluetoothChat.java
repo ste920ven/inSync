@@ -440,6 +440,7 @@ public class BluetoothChat extends Activity {
 			if (!existFilePath())
 				Toast.makeText(this, "Choose a Music File first!", Toast.LENGTH_SHORT).show();
 			else{
+				sendMessage("I would like to send you"+globalPath);
 				sendFile();
 			}
 		}
