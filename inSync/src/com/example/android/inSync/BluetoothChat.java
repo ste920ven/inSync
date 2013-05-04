@@ -20,7 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import com.example.android.BluetoothChat.R;
+import com.example.android.inSync.R;
 
 import android.app.ActionBar;
 import android.app.Activity;
