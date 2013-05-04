@@ -59,12 +59,11 @@ Jason Peng
   + Temp Solution:
      + 'notasong.mp3' has been added to the server for your convienence of selecting something arbitrary from the server.
   
-  + This option is not very compatible with mobile
-   
-  + Less in sync
-2. Audio Player Issues
+  + Selecting from URL is not very compatible with mobile
+2. Audio Player Loading Issues
   + The html5 audio player tends to 'blacked-out' and become unclickable when multiple users are accessing the same mp3 src.
     The first person to log into the room usually has a functioning player while every subsequent login is blacked-out.
   + Temp Solution:
-     + If the people without grayed-out players press play and then pause again, everyone else's player becomes un-blacked
+     + If the people without blacked-out players press play and then pause again, everyone else's player becomes un-blacked
+     + Alternatively, the host can just toggle play/pause twice to hopefully get everyones player un-blacked
      + Once everyone in the room has a functioning player (the slider should be one color: gray), the host can reset and afterwards everything will work
