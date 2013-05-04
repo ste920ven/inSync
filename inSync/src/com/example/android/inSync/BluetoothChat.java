@@ -181,8 +181,9 @@ public class BluetoothChat extends Activity {
 		});
 
 		// Initialize the pause button with a listener that for click events
-		playButton = (ImageButton) findViewById(R.id.play);
-		playButton.setOnClickListener(new OnClickListener() {
+		pauseButton = (ImageButton) findViewById(R.id.play);
+		pauseButton.setVisibility(View.INVISIBLE);
+		pauseButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				actuallyPause();
 				/*
