@@ -8,31 +8,6 @@ var fb_name, fb_id;
 var logged_in;
 var current_accordion = 'collapseOne';
 
-function showView(desired){
-    if(desired == 'login'){
-	$('#nickname').hide();
-	$('#audio').hide();
-	$('#fb-postlog').css('display','block');
-    }
-    else if(desired == 'nickname'){
-	$('#fb-postlog').hide();
-	$('#audio').hide();
-	$('#nickname').css('display','block');
-    }
-    else if(desired == 'audio'){	
-	$('#nickname').hide();
-	$('#fb-postlog').hide();
-	$('#audio').css('display','block');
-	$('#audiocontrols').hide();
-	$('#uploadcontrols').hide();
-    }
-    else{
-	$('#nickname').hide();
-	$('#fb-postlog').hide();
-	$('#audio').css('display','block');
-    }
-}
-
 //fb stuff
 window.fbAsyncInit = function() {
     FB.init({ appId: '378043245648833', 
@@ -135,9 +110,9 @@ socket.on('error', function (e) {
     console.log(e ? e : 'An unknown error occured');
 });
 
-socket.on('playpause', function(){
+socket.on('playpause', function(t){
     ap = document.getElementById('audioplayer');
-    if(ap.paused){
+    if(t){
 	ap.play();
     }   
     else
@@ -167,7 +142,11 @@ socket.on('endit', function(time){
 });
 
 function toggle(){
-    socket.emit('toggle play pause', room);
+    ap = document.getElementById('audioplayer');
+    if(ap.paused)
+	socket.emit('toggle play pause', room, true);
+    else
+	socket.emit('toggle play pause', room, false);
 }
 function skipTen(){
     socket.emit('skip seven', room);
@@ -286,17 +265,30 @@ function csubmitRoom(){
 socket.on('choose_song', function(file){
     playmysong(file);
 });
+socket.on('choose_url', function(url){
+    playmyurl(url);
+});
 function choose(file){
     socket.emit('chose_song', room, file);
 }
-
+function chooseURL(url){
+    socket.emit('chose_url',room, url);
+}
 function playmysong(file){
     $('#audiosource').attr('src',PATH + file);
     ap = document.getElementById('audioplayer');
     ap.load();
+    $('#SelectM').modal('hide');
     ap.play();
 }
 
+function playmyurl(url){
+    $('#audiosource').attr('src',url);
+    ap = document.getElementById('audioplayer');
+    ap.load();
+    $('#SelectM').modal('hide');
+    ap.play();
+}
 function fetch(){
     var songs;
     if($('#songs ul').html() == '')
@@ -315,15 +307,46 @@ function fetch(){
     });
 }
 
+function showView(desired){
+    if(desired == 'login'){
+	$('#nickname').hide();
+	$('#audio').hide();
+	$('#fb-postlog').css('display','block');
+    }
+    else if(desired == 'nickname'){
+	$('#fb-postlog').hide();
+	$('#audio').hide();
+	$('#nickname').css('display','block');
+    }
+    else if(desired == 'audio'){	
+	$('#nickname').hide();
+	$('#fb-postlog').hide();
+	$('#audio').css('display','block');
+	$('#audiocontrols').hide();
+	$('#uploadcontrols').hide();
+    }
+    else{
+	$('#nickname').hide();
+	$('#fb-postlog').hide();
+	$('#audio').css('display','block');
+    }
+}
+
 $(document).ready(function(){
+    ap = document.getElementById('audioplayer');
+    ap.addEventListener('seeked', timeChanged);
+    ap.addEventListener('ended', itEnded);
+    $('#toggle').click(toggle);
+    $('#skipTen').click(skipTen);
+    $('#resetTime').click(resetTime);
     $('#room').keydown(function(){
 	if(event.keyCode == 13){
-	    $('#rwarning').html('Locating...');
+	    $('#rwarning').html('<i class="icon-spinner icon-spin"></i>Locating...');
 	    submit();
 	}
     });
     $('#roomButton').click(function(){
-	$('#rwarning').html('Locating...');
+	$('#rwarning').html('<i class="icon-spinner icon-spin"></i>Locating...');
 	submit();
     });
     $('#room').keydown(function(){
@@ -332,12 +355,12 @@ $(document).ready(function(){
     });
     $('#pass').keydown(function(){
 	if(event.keyCode == 13){
-	    $('#adwarning').html('Verifying...');
+	    $('#adwarning').html('<i class="icon-spinner icon-spin"></i>Verifying...');
 	    adsubmit();
 	}
     });
     $('#adButton').click(function(){
-	$('#adwarning').html('Verifying...');
+	$('#adwarning').html('<i class="icon-spinner icon-spin"></i>Verifying...');
 	adsubmit();
     });
     $('#adroom').keydown(function(){
@@ -358,19 +381,19 @@ $(document).ready(function(){
     });
     $('#cpass').keydown(function(){
 	if(event.keyCode == 13){
-	    $('#cwarning').html('Creating');
+	    $('#cwarning').html('<i class="icon-spinner icon-spin"></i>Creating...');
 	    csubmit();
 	}
     });
     $('#cButton').click(function(){
-	$('#cwarning').html('Creating');
+	$('#cwarning').html('<i class="icon-spinner icon-spin"></i>Creating...');
 	csubmit();
     });
     $('#fetch').click(fetch);
-    
-    ap = document.getElementById('audioplayer');
-    ap.addEventListener('seeked', timeChanged);
-    ap.addEventListener('ended', itEnded);
+    $('#url').keydown(function(){
+	if(event.keyCode == 13)
+	    chooseURL($('#url').val());
+    });
     $('.accordion-toggle').hover(
 	function(){
 	    $(this).parent().css('background-color','#0088cc');
@@ -398,10 +421,6 @@ $(document).ready(function(){
 	    current_accordion = $(this).next().attr('id');
 	}
     });
-    $('#toggle').click(toggle);
-    $('#skipTen').click(skipTen);
-    $('#resetTime').click(resetTime);
-
     
     (function(){
 	var bar=$('.bar');

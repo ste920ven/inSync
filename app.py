@@ -26,8 +26,8 @@ class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin, CustomMixin):
         self.broadcast_event('nicknames', self.environ['nicknames'])
         self.join(room)
    
-    def on_toggle_play_pause(self, room):
-        self.emit_to_room_and_you(room, 'playpause')
+    def on_toggle_play_pause(self, room, bool):
+        self.emit_to_room_and_you(room, 'playpause', bool)
 
     def on_skip_seven(self, room):
         self.emit_to_room_and_you(room, 'skip')
@@ -41,6 +41,9 @@ class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin, CustomMixin):
     def on_chose_song(self, room, file):
         self.emit_to_room_and_you(room, 'choose_song', file)
 
+    def on_chose_url(self, room, url):
+        self.emit_to_room_and_you(room, 'choose_url', url)
+        
     def on_end_it(self, room):
         self.emit_to_room_and_you(room, 'endit')
         
