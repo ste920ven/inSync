@@ -16,6 +16,9 @@
 
 package com.example.android.inSync;
 
+import java.io.File;
+import java.util.List;
+
 import com.example.android.BluetoothChat.R;
 
 import android.app.ActionBar;
@@ -23,6 +26,9 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -379,12 +385,46 @@ public class BluetoothChat extends Activity {
 		return true;
 	}
 
+	public void sendFile() {
+		// Bring up Android's Bluetooth Device chooser
+		Intent intent = new Intent();
+		intent.setAction(Intent.ACTION_SEND);
+		intent.setType("text/plain");
+		File filetosend = new File(globalPath);
+		intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(filetosend));
+		// ...
+
+		// list of apps that can handle our intent
+		PackageManager pm = getPackageManager();
+		List<ResolveInfo> appsList = pm.queryIntentActivities(intent, 0);
+
+		if (appsList.size() > 0) {
+			// proceed
+			// select bluetooth
+			String packageName = null;
+			String className = null;
+
+			for (ResolveInfo info : appsList) {
+				packageName = info.activityInfo.packageName;
+				if (packageName.equals("com.android.bluetooth")) {
+					className = info.activityInfo.name;
+					break;// found
+				}
+			}
+
+			// set our intent to launch Bluetooth
+			intent.setClassName(packageName, className);
+			startActivity(intent);
+
+		}
+	}
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Intent serverIntent = null;
 		switch (item.getItemId()) {
 		case R.id.secure_connect_scan:
-			// Launch the DeviceListActivity to see devices and do scan
+			// Start Activity for an MP3 File
 			getMP3File();
 			return true;
 		case R.id.insecure_connect_scan:
@@ -396,6 +436,12 @@ public class BluetoothChat extends Activity {
 			// Ensure this device is discoverable by others
 			ensureDiscoverable();
 			return true;
+		case R.id.sendfilethroughbluetooth:
+			if (!existFilePath())
+				Toast.makeText(this, "Choose a Music File first!", Toast.LENGTH_SHORT).show();
+			else{
+				sendFile();
+			}
 		}
 		return false;
 	}

@@ -23,6 +23,7 @@ public final class R {
         public static final int paired_devices=0x7f060003;
         public static final int pause=0x7f060008;
         public static final int secure_connect_scan=0x7f06000a;
+        public static final int sendfilethroughbluetooth=0x7f06000d;
         public static final int title_left_text=0x7f060000;
         public static final int title_new_devices=0x7f060004;
         public static final int title_paired_devices=0x7f060002;
@@ -58,6 +59,7 @@ public final class R {
         /**   BluetoothChat 
          */
         public static final int send=0x7f040001;
+        public static final int sendFileThroughBluetooth=0x7f040012;
         public static final int title_connected_to=0x7f040005;
         public static final int title_connecting=0x7f040004;
         public static final int title_not_connected=0x7f040006;
