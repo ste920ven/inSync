@@ -58,6 +58,10 @@ Jason Peng
   Once you have selected from the server, you can select as many URLs until you refresh the page. 
   + Temp Solution:
      + 'notasong.mp3' has been added to the server for your convienence of selecting something arbitrary from the server.
+  
+  + This option is not very compatible with mobile
+   
+  + Less in sync
 2. Audio Player Issues
   + The html5 audio player tends to 'blacked-out' and become unclickable when multiple users are accessing the same mp3 src.
     The first person to log into the room usually has a functioning player while every subsequent login is blacked-out.
