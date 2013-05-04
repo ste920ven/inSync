@@ -165,7 +165,7 @@ public class BluetoothChat extends Activity {
 				/*
 				 * SEND HARDCODED MESSAGE
 				 */
-				sendMessage("pause");
+				//sendMessage("pause");
 			}
 		});
 
@@ -323,7 +323,10 @@ public class BluetoothChat extends Activity {
 				String readMessage = new String(readBuf, 0, msg.arg1);
 				mConversationArrayAdapter.add(mConnectedDeviceName+":  " + readMessage);
 				if (readMessage.equals("pause")){
-					pauseMedia();
+					actuallyPause();
+				}
+				if (readMessage.equals("play")){
+					actuallyResume();
 				}
 				break;
 			case MESSAGE_DEVICE_NAME:
@@ -483,10 +486,20 @@ public class BluetoothChat extends Activity {
 
 	public void pauseMedia() {
 		if (mediaPlayer.isPlaying()) {
-			mediaPlayer.pause();
+			sendMessage("pause");
+			actuallyPause();
 		} else {
-			mediaPlayer.start();
+			sendMessage("play");
+			actuallyResume();
 		}
+	}
+	
+	public void actuallyPause(){
+		mediaPlayer.pause();
+	}
+	
+	public void actuallyResume(){
+		mediaPlayer.start();
 	}
 
 }
