@@ -552,12 +552,15 @@ public class BluetoothChat extends Activity {
 	*/
 
 	public void actuallyPause() {
+		sendMessage("pause");
 		mediaPlayer.pause();
 		playButton.setVisibility(View.VISIBLE);
 		pauseButton.setVisibility(View.INVISIBLE);
 	}
 
 	public void actuallyResume() {
+		sendMessage("play:"
+				+ String.valueOf(mediaPlayer.getCurrentPosition()));
 		mediaPlayer.start();
 		playButton.setVisibility(View.INVISIBLE);
 		pauseButton.setVisibility(View.VISIBLE);
