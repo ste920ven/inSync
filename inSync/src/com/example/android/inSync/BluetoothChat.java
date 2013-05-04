@@ -55,6 +55,8 @@ import android.widget.Toast;
  */
 public class BluetoothChat extends Activity {
 	String globalPath = "";
+	int globalSeek = 0;
+
 	// Debugging
 	private static final String TAG = "BluetoothChat";
 	private static final boolean D = true;
@@ -325,7 +327,10 @@ public class BluetoothChat extends Activity {
 				if (readMessage.equals("pause")){
 					actuallyPause();
 				}
-				if (readMessage.equals("play")){
+				if (readMessage.startsWith("play:")){
+					String position = readMessage.replaceAll("play:", "");
+					int intposition = Integer.parseInt(position);
+					mediaPlayer.seekTo(intposition);
 					actuallyResume();
 				}
 				break;
@@ -356,7 +361,7 @@ public class BluetoothChat extends Activity {
 				sendMessage(FilePath);
 				//Concat File Path
 				//String s=FilePath.substring(FilePath.lastIndexOf("/"));
-				
+
 				Uri myUri = Uri.parse(FilePath);
 				try {
 					mediaPlayer.setDataSource(getApplicationContext(), myUri);
@@ -489,15 +494,15 @@ public class BluetoothChat extends Activity {
 			sendMessage("pause");
 			actuallyPause();
 		} else {
-			sendMessage("play");
+			sendMessage("play:"+ String.valueOf(mediaPlayer.getCurrentPosition()));
 			actuallyResume();
 		}
 	}
-	
+
 	public void actuallyPause(){
 		mediaPlayer.pause();
 	}
-	
+
 	public void actuallyResume(){
 		mediaPlayer.start();
 	}
