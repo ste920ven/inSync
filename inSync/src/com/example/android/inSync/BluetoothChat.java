@@ -16,6 +16,7 @@
 
 package com.example.android.inSync;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -29,6 +30,7 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -46,6 +48,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -87,6 +90,7 @@ public class BluetoothChat extends Activity {
 	private MediaMetadataRetriever MDR = new MediaMetadataRetriever();
 	private String maxTime;
 	private TextView time;
+	private ImageView cover;
 
 	// Name of the connected device
 	private String mConnectedDeviceName = null;
@@ -426,7 +430,18 @@ public class BluetoothChat extends Activity {
 				String res = minutes + ":" + seconds;
 				maxTime = res;
 				time.setText("00:00/" + maxTime);
-
+				
+				//set Album art
+				cover.setVisibility(View.VISIBLE);
+				if (MDR.getEmbeddedPicture() == null)
+					cover.setImageResource(R.drawable.coverart);
+				else {
+					byte[] img = MDR.getEmbeddedPicture();
+					ByteArrayInputStream is = new ByteArrayInputStream(img);
+					Drawable drw = Drawable.createFromStream(is, "coverart1");
+					cover.setImageDrawable(drw);
+				}
+				
 				// close object
 				MDR.release();
 				
