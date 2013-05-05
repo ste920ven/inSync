@@ -119,8 +119,6 @@ public class BluetoothChat extends Activity {
 			finish();
 			return;
 		}
-		
-		
 	}
 
 	@Override
@@ -428,8 +426,6 @@ public class BluetoothChat extends Activity {
 				String res = minutes + ":" + seconds;
 				maxTime = res;
 				time.setText("00:00/" + maxTime);
-				
-				mUpdateUITimerTask.run();
 
 				// close object
 				MDR.release();
