@@ -2,7 +2,7 @@ import shelve
 
 def addRoom(room,password):
     rooms = shelve.open('rooms')
-    data = {"name":room, "pass":password}
+    data = {"name":room, "pass":password, 'users':[]}
     rooms[str(room)] = data
     rooms.close()
     return True
@@ -14,6 +14,18 @@ def roomExists(room):
     else:
         return False
 
+def addUserToRoom(room,nickname,nid):
+    rooms = shelve.open('rooms')
+    da = [nickname, nid]
+    r = rooms[str(room)]['users']
+    r.append(da)
+    data = {"name":room, "pass":rooms[str(room)]['pass'], "users":r }
+    rooms[str(room)] = data
+
+def getUsersFromRoom(room):
+    rooms = shelve.open('rooms')
+    return rooms[str(room)]['users']
+
 #assumes room exists so do that check first
 def validatePassword(room,password):
     rooms = shelve.open('rooms')
@@ -24,7 +36,5 @@ def delRoom(room):
     del rooms[room]
     
 #tests
-#addRoom('blue','password1')
 #print roomExists('blue')
 #print validatePassword('blue','password1')
-

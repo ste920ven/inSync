@@ -82,10 +82,11 @@
 	</div>
        </div>
     </div>
+    <div id="fbbypass"></div>
     <div id="audio">
       <div id="audiop">
-	<audio id="audioplayer" controls>
-	  <source id="audiosource" src="http://stuy.enschool.org/music/24_Adagio_For_Strings.mp3" type="audio/mpeg">
+	<audio oncanplay="console.log('canplay')" id="audioplayer" controls>
+	  <source id="audiosource" src="http://a.tumblr.com/tumblr_matu0yZHfa1r2aq13o1.mp3" type="audio/mpeg">
 	</audio>
       </div>
       <div id="audiocontrols">
@@ -102,6 +103,32 @@
 	<p id="roomID">Room: </p>
       </div>
     </div>
+    <div id="users">
+      <table class="table table-hover">
+	<thead id="users-admins">
+	  <tr>
+	    <th>Admins</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  <tr>
+	    <td>None</td>
+	  </tr>
+	</tbody>
+	<thead id="users-users">
+	  <tr>
+	    <th>Users</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  <tr>
+	    <td>None</td>
+	  </tr>
+	</tbody>
+      </table>
+    </div>
+
+    
     <div id="About" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -147,7 +174,6 @@
       <div class="modal-footer">
 	<button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
       </div>
-
     </div>
     <div id="SelectM" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-header">
@@ -207,6 +233,9 @@
 	    <li><strong>Select Music</strong></li>
 	    <ul>
 	      <li>Select mp3 hosted somewhere on the internet by entering a url ending in '.mp3'</li>
+	      <ul>
+		<li><strong>KNOWN ERROR</strong>: You must first have selected something from the server before being able to select with a URL. Otherwise you get kicked out of the room but everyone else in the room recieves the music. Once you have selected from the server, you can select as many URLs until you refresh the page. 'notasong.mp3' has been added to the server for your convienence of selecting something arbitrary from the server.</li>
+	      </ul>
 	      <li>Or select a song that has been uploaded to the server</li>
 	      <li>Default mp3 being played in all rooms before music is selected is <strong>Treasure - Bruno Mars</strong></li>
 	    </ul>
@@ -216,6 +245,23 @@
 	    <li>Enter the name of the room you want to create</li>
 	    <li>Enter an admin password unless you want anyone to be able to control the stream</li>
 	  </ul>
+	  <br>
+	  <p>For more information: <a href="https://github.com/stuycs-softdev/inSync/blob/master/README.md">README</a></p>
+      </div>
+      <div class="modal-footer">
+	<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+      </div>
+    </div>
+    <div id="unflogin" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	<h3 id="myModalLabel">Login Without Facebook</h3>
+      </div>
+      <div class="modal-body">
+	<div class="input-append">
+	  <input id="unfform" type="text" placeholder="name">
+	  <button id="unfbtn" class="btn btn-primary">Login</button>
+	</div>
       </div>
       <div class="modal-footer">
 	<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>

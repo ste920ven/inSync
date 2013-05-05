@@ -1,6 +1,39 @@
 ::-webkit-input-placeholder { 
     font-style: italic;
 }
+#users {
+    z-index: 1000;
+    position: absolute;
+    height: auto;
+    overflow-y: scroll;
+    max-height: 600px;
+    width: 250px;
+    top:50%;
+    left: 100%;
+    margin-left: -250px;
+    margin-top: -83.5px;
+    background: #fff;
+    -webkit-box-shadow: 4px 4px 10px rgba(50, 50, 50, 0.5);
+    -moz-box-shadow:    4px 4px 10px rgba(50, 50, 50, 0.5);
+    box-shadow:         4px 4px 10px rgba(50, 50, 50, 0.5);
+    display:none;
+}
+#users img {
+    height: 37px;
+    width: 37px;
+}
+#users p {
+    display: inline;
+    padding: 8px;
+}
+#fbbypass {
+    z-index: 0;
+    position: absolute;
+    height: 100px;
+    width:300px;
+    left: 12%;
+    top:40%;
+}
 #audio {
     z-index: 1000;
     position: absolute;

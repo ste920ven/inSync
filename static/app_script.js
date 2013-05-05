@@ -36,7 +36,7 @@ window.fbAsyncInit = function() {
 		    } else {
 			//user cancelled login or did not grant authoriz.
 		    }
-		}, {scope:'email,user_about_me'});  	
+		}, {scope:''});  	
 	    }
 	}
     }
@@ -83,12 +83,42 @@ function login(response, info){
     };
 }
 
+function unflogin(){
+    if(fb_name == null || fb_name == '')
+	$('#unflogin').modal('show');
+    else
+	return;
+}
+function unflogin2(name){
+    fb_name = name;
+    fb_id = null;
+    showView('nickname');
+    $('#user-stuff').html('<img class="pull-right" id="user-pic" src=""><p class="pull-right" id="user-name"></p>');
+    $('#user-pic').attr('src','https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSn3HISFITZIo5Hw23rw7DpW0-UuhhXeGfkW9cgvwc9v0qHpxBwgg');
+    $('#user-name').html(fb_name);
+    $('#user-pic').hover(
+	function() {
+	    var $this = $('#user-name'); // caching $(this)
+	    $this.data('initialText', $this.text());
+	    $this.css('color','white');
+	    $this.text("Click to logout");
+	},
+	function() {
+	    var $this = $('#user-name'); // caching $(this)
+	    $this.css('color','gray');
+	    $this.text($this.data('initialText'));
+	});
+    button = document.getElementById('user-pic');
+    button.onclick = function() {
+	showView('login');
+	$('#user-stuff').html('');
+	fb_name = null;
+    };
+}
 function logout(response){
     showView('login');
     $('#user-stuff').html('');
 }
-//end fb stuff
-
 
 // socket.io specific code
 var socket = io.connect();
@@ -222,7 +252,7 @@ function csubmit(){
 function submitRoom(){
     $('#rwarning').removeClass('warning');
     socket.emit('nickname', 
-		fb_name, $('#room').val(), 
+		fb_name, fb_id, $('#room').val(), 
 		function (set) {
 		    if (!set) {
 			room = $('#room').val();
@@ -236,7 +266,7 @@ function submitRoom(){
 function adsubmitRoom(){
     $('#adwarning').removeClass('warning');
     socket.emit('nickname',
-		fb_name, $('#adroom').val(),
+		fb_name, fb_id, $('#adroom').val(),
 		function (set) {
 		    if(!set) {
 			room = $('#adroom').val();
@@ -250,7 +280,7 @@ function adsubmitRoom(){
 function csubmitRoom(){
     $('#cwarning').removeClass('warning');
     socket.emit('nickname',
-		fb_name, $('#croom').val(),
+		fb_name, fb_id, $('#croom').val(),
 		function (set) {
 		    if(!set) {
 			room = $('#croom').val();
@@ -266,7 +296,6 @@ socket.on('choose_song', function(file){
     playmysong(file);
 });
 socket.on('choose_url', function(url){
-    playmysong('');
     playmyurl(url);
 });
 function choose(file){
@@ -296,8 +325,8 @@ function fetch(){
 	$('#songs ul').append('<p>Fetching...<p>');
     $.getJSON('/get_songs',function(data) {
 	songs = data.result;
+	$('#songs ul').html('');
 	for(var i = 0; i < songs.length; i++){
-	    $('#songs ul').html('');
 	    $('#songs ul').append('<li><a href="#" data-value="'+ songs[i] +'">'+songs[i]+'</a></li>');
 	}
 	$('#fetch').html('Refresh');
@@ -313,11 +342,13 @@ function showView(desired){
 	$('#nickname').hide();
 	$('#audio').hide();
 	$('#fb-postlog').css('display','block');
+	$('#users').hide();
     }
     else if(desired == 'nickname'){
 	$('#fb-postlog').hide();
 	$('#audio').hide();
 	$('#nickname').css('display','block');
+	$('#users').hide();
     }
     else if(desired == 'audio'){	
 	$('#nickname').hide();
@@ -325,18 +356,82 @@ function showView(desired){
 	$('#audio').css('display','block');
 	$('#audiocontrols').hide();
 	$('#uploadcontrols').hide();
+	$('#users').css('display','block');
+	getUsers();
+	userConnect(fb_name, fb_id);
     }
     else{
 	$('#nickname').hide();
 	$('#fb-postlog').hide();
 	$('#audio').css('display','block');
+	$('#users').css('display','block');
+	aduserConnect(fb_name, fb_id);
     }
 }
 
+function resizeUsers(){
+    var h = $('#users').css('height');
+    var nh = h.replace(/\D+/,'') * -.5;
+    $('#users').css('margin-top',nh);
+}
+socket.on('gotUsers', function(data){
+    console.log('got');
+    console.log(data);
+});
+function getUsers(){
+    socket.emit('get users',room);
+}
+function userConnect(name,id){
+    if($('#users-users').next().children().children().html() == 'None')
+	$('#users-users').next().children().remove();
+    var dname = '<p>'+name+'</p>'
+    var img;
+    if(id == null)
+	img = '<img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSn3HISFITZIo5Hw23rw7DpW0-UuhhXeGfkW9cgvwc9v0qHpxBwgg">';
+    else
+	img = '<img src="https://graph.facebook.com/' + id + '/picture">';
+    $('#users-users').next().append('<tr id="'+id+name+'"><td>' + img + dname +'</td></tr>')
+    $('#users-users').next().children().children().css('padding','0px');
+    if(ap.buffered.length == 0)
+	$('#'+id+name).addClass('warning');
+    else
+	$('#'+id+name).addClass('success');
+    resizeUsers();
+}
+function aduserConnect(name,id){
+    if($('#users-admins').next().children().children().html() == 'None')
+	$('#users-admins').next().children().remove();
+    var dname = '<p>'+name+'</p>'
+    var img;
+    if(id == null)
+	img = '<img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSn3HISFITZIo5Hw23rw7DpW0-UuhhXeGfkW9cgvwc9v0qHpxBwgg">';
+    else
+	img = '<img src="https://graph.facebook.com/' + id + '/picture">';
+    $('#users-admins').next().append('<tr id="'+id+name+'"><td>' + img + dname +'</td></tr>')
+    $('#users-admins').next().children().children().css('padding','0px');
+    if(ap.buffered.length == 0)
+	$('#'+id+name).addClass('warning');
+    else
+	$('#'+id+name).addClass('success');
+    resizeUsers();
+}
+
 $(document).ready(function(){
+    resizeUsers();
     ap = document.getElementById('audioplayer');
     ap.addEventListener('seeked', timeChanged);
     ap.addEventListener('ended', itEnded);
+    $('#fbbypass').click(unflogin);
+    $('#unfform').keydown(function(){
+	if(event.keyCode == 13){
+	    unflogin2($('#unfform').val());
+	    $('#unflogin').modal('hide');
+	}	    
+    });
+    $('#unfbtn').click(function(){
+	unflogin2($('#unfform').val());
+	$('#unflogin').modal('hide');
+    });
     $('#toggle').click(toggle);
     $('#skipTen').click(skipTen);
     $('#resetTime').click(resetTime);
@@ -353,6 +448,12 @@ $(document).ready(function(){
     $('#room').keydown(function(){
 	if($('#rwarning').html() != '')
 	    $('#rwarning').html('');
+    });
+    $('#adroom').keydown(function(){
+	if(event.keyCode == 13){
+	    $('#adwarning').html('<i class="icon-spinner icon-spin"></i>Verifying...');
+	    adsubmit();
+	}
     });
     $('#pass').keydown(function(){
 	if(event.keyCode == 13){

@@ -8,7 +8,7 @@ from socketio.namespace import BaseNamespace
 from socketio.mixins import RoomsMixin, BroadcastMixin
 from socketio.server import SocketIOServer
 from cmixin import CustomMixin
-from utils import addRoom, roomExists, validatePassword
+from utils import addRoom, roomExists, validatePassword, addUserToRoom
 
 app = Flask(__name__)
 global _name
@@ -20,7 +20,8 @@ app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024
 
 # The socket.io namespace
 class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin, CustomMixin):
-    def on_nickname(self, nickname, room):
+    def on_nickname(self, nickname, id, room):
+        addUserToRoom(room,nickname,id)
         self.environ.setdefault('nicknames', []).append(nickname)
         self.socket.session['nickname'] = nickname
         self.broadcast_event('nicknames', self.environ['nicknames'])
@@ -46,6 +47,10 @@ class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin, CustomMixin):
         
     def on_end_it(self, room):
         self.emit_to_room_and_you(room, 'endit')
+
+    def on_get_users(self, room):
+        users = getUsersFromRoom(room)
+        self.emit_to_room_and_you(room, 'gotUsers', users)
         
 def allowed_file(filename):
     return '.' in filename and \
@@ -123,4 +128,5 @@ def run_dev_server():
     port = 8888
     SocketIOServer(('', port), app, resource="socket.io").serve_forever()
 
-run_dev_server()
+if __name__ == "__main__":
+    run_dev_server()
