@@ -135,8 +135,7 @@ def uploaded_file(filename):
 def run_dev_server():
     #print " * Running on http://127.0.0.1:5000/"
     app.debug = False
-    port = 8888
+    port = 7777
     SocketIOServer(('', port), app, resource="socket.io").serve_forever()
-
-if __name__ == "__main__":
-    run_dev_server()
+    
+run_dev_server()

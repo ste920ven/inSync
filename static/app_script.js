@@ -624,4 +624,5 @@ $(document).ready(function(){
 		status.html(result.result);
 	    }});
     })();
+    $('#tool').tooltip();
 });
