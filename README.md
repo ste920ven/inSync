@@ -68,3 +68,6 @@ Jason Peng
      + If the people without blacked-out players press play and then pause again, everyone else's player becomes un-blacked
      + Alternatively, the host can just toggle play/pause twice to hopefully get everyones player un-blacked
      + Once everyone in the room has a functioning player (the slider should be one color: gray), the host can reset and afterwards everything will work
+
+3. Connected Users Panel
+   + No way of knowing when a user leaves so users in that panel will stay there forever [hack: in the js console, run clearUsers('<room name>') to clear all users from that room
