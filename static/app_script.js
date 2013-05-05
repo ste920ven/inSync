@@ -4,9 +4,11 @@ PATH = '/static/uploads/';
 
 var button;
 var userInfo;
-var fb_name, fb_id;
+var fb_name, fb_id,type;
 var logged_in;
 var current_accordion = 'collapseOne';
+var listedAdmins = [];
+var listedUsers = [];
 
 //fb stuff
 window.fbAsyncInit = function() {
@@ -78,7 +80,7 @@ function login(response, info){
     button = document.getElementById('user-pic');
     button.onclick = function() {
 	FB.logout(function(response) {
-	    logout(response);
+	    logout();
 	});
     };
 }
@@ -110,12 +112,14 @@ function unflogin2(name){
 	});
     button = document.getElementById('user-pic');
     button.onclick = function() {
-	showView('login');
-	$('#user-stuff').html('');
-	fb_name = null;
+	logout();
     };
 }
-function logout(response){
+function logout(){
+    if(fb_id == null)
+	$('#'+fb_id+fb_name).remove();
+    fb_name = null;
+    fb_id = null;
     showView('login');
     $('#user-stuff').html('');
 }
@@ -128,6 +132,9 @@ socket.on('connect', function () {
     console.log('connected');
 });
 
+socket.on('userdisconnected',function(name){
+    console.log(name);
+});
 socket.on('reconnect', function () {
     console.log('Reconnected to the server');
 });
@@ -249,10 +256,16 @@ function csubmit(){
 	}
     });
 }
+function clearUsers(room){
+    $.getJSON('/clear_users',{r:room});
+}
 function submitRoom(){
     $('#rwarning').removeClass('warning');
+    var bool = true;
+    if(ap.buffered.length == 0)
+	bool = false;
     socket.emit('nickname', 
-		fb_name, fb_id, $('#room').val(), 
+		fb_name, fb_id, bool, 'user', $('#room').val(), 
 		function (set) {
 		    if (!set) {
 			room = $('#room').val();
@@ -265,8 +278,11 @@ function submitRoom(){
 }
 function adsubmitRoom(){
     $('#adwarning').removeClass('warning');
+    var bool = true;
+    if(ap.buffered.length == 0)
+	bool = false;
     socket.emit('nickname',
-		fb_name, fb_id, $('#adroom').val(),
+		fb_name, fb_id, bool, 'admin', $('#adroom').val(),
 		function (set) {
 		    if(!set) {
 			room = $('#adroom').val();
@@ -279,8 +295,11 @@ function adsubmitRoom(){
 }
 function csubmitRoom(){
     $('#cwarning').removeClass('warning');
+    var bool = true;
+    if(ap.buffered.length == 0)
+	bool = false;
     socket.emit('nickname',
-		fb_name, fb_id, $('#croom').val(),
+		fb_name, fb_id, bool, 'admin', $('#croom').val(),
 		function (set) {
 		    if(!set) {
 			room = $('#croom').val();
@@ -357,31 +376,55 @@ function showView(desired){
 	$('#audiocontrols').hide();
 	$('#uploadcontrols').hide();
 	$('#users').css('display','block');
+	listedUsers = [];
+	listedAdmins = [];
+	type = 'user';
+	addUserToList(fb_name,fb_id,ap.buffered.length != 0);
 	getUsers();
-	userConnect(fb_name, fb_id);
     }
     else{
 	$('#nickname').hide();
 	$('#fb-postlog').hide();
 	$('#audio').css('display','block');
 	$('#users').css('display','block');
-	aduserConnect(fb_name, fb_id);
+	listedUsers = [];
+	listedAdmins = [];
+	type = 'admin';
+	addAdminToList(fb_name,fb_id,ap.buffered.length != 0);
+	getUsers();	
     }
 }
 
-function resizeUsers(){
-    var h = $('#users').css('height');
-    var nh = h.replace(/\D+/,'') * -.5;
-    $('#users').css('margin-top',nh);
-}
 socket.on('gotUsers', function(data){
-    console.log('got');
-    console.log(data);
+    for(var i = 0; i < data.length; i++){
+	console.log(data[i]);
+	if(data[i][3] == 'user')
+	    addUser(data[i]);
+	else
+	    addAdmin(data[i]);
+    }
 });
 function getUsers(){
     socket.emit('get users',room);
 }
-function userConnect(name,id){
+function addUser(data){
+    for(var i = 0; i < listedUsers.length; i++){
+	if(listedUsers[i] == (data[1] + data[0])){
+	    $('#'+data[1]+data[0]).attr('data-success',data[2]);
+	    return;
+	}
+    }
+    addUserToList(data[0],data[1],data[2]);
+}
+function addAdmin(data){
+    for(var i = 0; i < listedAdmins.length; i++){
+	if(listedAdmins[i] == (data[1] + data[0]))
+	    return;
+    }
+    addAdminToList(data[0],data[1],data[2]);
+}
+function addUserToList(name,id,success){
+    listedUsers.push(id+name);
     if($('#users-users').next().children().children().html() == 'None')
 	$('#users-users').next().children().remove();
     var dname = '<p>'+name+'</p>'
@@ -390,15 +433,13 @@ function userConnect(name,id){
 	img = '<img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSn3HISFITZIo5Hw23rw7DpW0-UuhhXeGfkW9cgvwc9v0qHpxBwgg">';
     else
 	img = '<img src="https://graph.facebook.com/' + id + '/picture">';
-    $('#users-users').next().append('<tr id="'+id+name+'"><td>' + img + dname +'</td></tr>')
+    $('#users-users').next().append('<tr id="'+id+name+'" data-success="'+success+'"><td>' + img + dname +'</td></tr>')
     $('#users-users').next().children().children().css('padding','0px');
-    if(ap.buffered.length == 0)
-	$('#'+id+name).addClass('warning');
-    else
-	$('#'+id+name).addClass('success');
     resizeUsers();
+    highlightList();
 }
-function aduserConnect(name,id){
+function addAdminToList(name,id,success){
+    listedAdmins.push(id+name);
     if($('#users-admins').next().children().children().html() == 'None')
 	$('#users-admins').next().children().remove();
     var dname = '<p>'+name+'</p>'
@@ -407,15 +448,38 @@ function aduserConnect(name,id){
 	img = '<img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSn3HISFITZIo5Hw23rw7DpW0-UuhhXeGfkW9cgvwc9v0qHpxBwgg">';
     else
 	img = '<img src="https://graph.facebook.com/' + id + '/picture">';
-    $('#users-admins').next().append('<tr id="'+id+name+'"><td>' + img + dname +'</td></tr>')
+    $('#users-admins').next().append('<tr id="'+id+name+'" data-success="'+success+'"><td>' + img + dname +'</td></tr>')
     $('#users-admins').next().children().children().css('padding','0px');
-    if(ap.buffered.length == 0)
-	$('#'+id+name).addClass('warning');
-    else
-	$('#'+id+name).addClass('success');
     resizeUsers();
+    highlightList();
 }
-
+function highlightList(){
+    $('#users tbody tr').each(function(){
+	if($(this).children().html() == 'None')
+	    return;
+	if($(this).attr('data-success') == 'true'){
+	    $(this).addClass('success');
+	}
+	else
+	    $(this).addClass('warning');
+    });
+}
+function resizeUsers(){
+    var h = $('#users').css('height');
+    var nh = h.replace(/\D+/,'') * -.5;
+    $('#users').css('margin-top',nh);
+}
+socket.on('update_user',function(name,id){
+    console.log('fff');
+    if($('#'+id+name).hasClass('warning'))
+	$('#'+id+name).removeClass('warning');
+    $('#'+id+name).addClass('success');
+});
+function canPlay(){
+    console.log('canplay');
+    if(fb_name != null && fb_name != '')
+	socket.emit('can play', room, fb_name, fb_id,type);
+}
 $(document).ready(function(){
     resizeUsers();
     ap = document.getElementById('audioplayer');

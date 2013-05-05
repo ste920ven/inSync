@@ -8,7 +8,7 @@ from socketio.namespace import BaseNamespace
 from socketio.mixins import RoomsMixin, BroadcastMixin
 from socketio.server import SocketIOServer
 from cmixin import CustomMixin
-from utils import addRoom, roomExists, validatePassword, addUserToRoom
+from utils import addRoom, roomExists, validatePassword, addUserToRoom, getUsersFromRoom, clearUsers, updateUser
 
 app = Flask(__name__)
 global _name
@@ -20,13 +20,13 @@ app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024
 
 # The socket.io namespace
 class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin, CustomMixin):
-    def on_nickname(self, nickname, id, room):
-        addUserToRoom(room,nickname,id)
+    def on_nickname(self, nickname, id, bool, typ, room):
+        addUserToRoom(room,nickname,id,bool,typ)
         self.environ.setdefault('nicknames', []).append(nickname)
         self.socket.session['nickname'] = nickname
         self.broadcast_event('nicknames', self.environ['nicknames'])
         self.join(room)
-   
+
     def on_toggle_play_pause(self, room, bool):
         self.emit_to_room_and_you(room, 'playpause', bool)
 
@@ -51,7 +51,11 @@ class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin, CustomMixin):
     def on_get_users(self, room):
         users = getUsersFromRoom(room)
         self.emit_to_room_and_you(room, 'gotUsers', users)
-        
+
+    def on_can_play(self, room, name, nid,typ):
+        updateUser(room,name,nid,typ)
+        self.emit_to_room_and_you(room, 'update_user', name, nid)
+    
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
@@ -89,6 +93,12 @@ def room_exists():
         return jsonify(result = 'INVALID')
     else:
         return jsonify(result = 'OK')
+
+@app.route("/clear_users", methods= ['GET', 'POST'])
+def clear_users():
+    r = request.args.get('r','')
+    clearUsers(r);
+    return jsonify(result = True)
 
 @app.route("/create_room", methods= ['GET', 'POST'])
 def create_room():
