@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.util.List;
 
 import com.example.android.inSync.R;
-import com.example.test.MainActivity.yourListener;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -86,6 +85,8 @@ public class BluetoothChat extends Activity {
 	private ImageButton pauseButton;
 	private MediaPlayer mediaPlayer = new MediaPlayer();
 	private MediaMetadataRetriever MDR = new MediaMetadataRetriever();
+	private String maxTime;
+	private TextView time;
 
 	// Name of the connected device
 	private String mConnectedDeviceName = null;
@@ -98,7 +99,6 @@ public class BluetoothChat extends Activity {
 	// Member object for the chat services
 	private BluetoothChatService mChatService = null;
 	// Adapter for media file
-	private MediaMetadataRetriever mediaRetriever = new MediaMetadataRetriever();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -160,6 +160,14 @@ public class BluetoothChat extends Activity {
 		}
 	}
 
+	private final Runnable mUpdateUITimerTask = new Runnable() {
+	    public void run() {
+	        // do whatever you want to change here, like:
+	    	int currentPosition = mediaPlayer.getCurrentPosition();
+	    	time.setText(Integer.toString(currentPosition) + "/" + maxTime);
+	    	mSeekBar.setProgress(currentPosition);
+	    }
+	};
 	private void setupChat() {
 		Log.d(TAG, "setupChat()");
 
@@ -408,26 +416,29 @@ public class BluetoothChat extends Activity {
 						.parseInt(MDR
 								.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
 				mSeekBar.setMax(max);
+
+				String seconds = String.valueOf((max % 60000) / 1000);
+
+				String minutes = String.valueOf(max / 60000);
+				if (seconds.length() == 1)
+					seconds = "0" + seconds;
+				String res = minutes + ":" + seconds;
+				maxTime = res;
+				time.setText("00:00/" + maxTime);
+
 				// close object
 				MDR.release();
+				
+				sendMessage(Integer.toString(max));
 				try {
 					mediaPlayer.setDataSource(getApplicationContext(), myUri);
-					mediaRetriever.setDataSource(FilePath);
+					mediaPlayer.prepare();
 				} catch (IllegalArgumentException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (SecurityException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				} catch (IllegalStateException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				try {
-					mediaPlayer.prepare();
 				} catch (IllegalStateException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -582,18 +593,16 @@ public class BluetoothChat extends Activity {
 
 		public void onProgressChanged(SeekBar seekBar, int progress,
 				boolean fromUser) {
-			// set textView's text
-			if (fromUser) {
-				sendMessage("play:" + progress);
-				mediaPlayer.seekTo(progress);
-			} else {
-			}
+
 		}
 
 		public void onStartTrackingTouch(SeekBar seekBar) {
 		}
 
 		public void onStopTrackingTouch(SeekBar seekBar) {
+			int CurrentLevel = seekBar.getProgress();
+			seekBar.setProgress(CurrentLevel);
+			sendMessage("f");
 		}
 
 	}
