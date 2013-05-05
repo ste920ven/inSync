@@ -123,6 +123,8 @@ public class BluetoothChat extends Activity {
 			finish();
 			return;
 		}
+		
+		time = (TextView) findViewById(R.id.time);
 	}
 
 	@Override
@@ -166,7 +168,6 @@ public class BluetoothChat extends Activity {
 
 	private final Runnable mUpdateUITimerTask = new Runnable() {
 	    public void run() {
-	        // do whatever you want to change here, like:
 	    	int currentPosition = mediaPlayer.getCurrentPosition();
 	    	time.setText(Integer.toString(currentPosition) + "/" + maxTime);
 	    	mSeekBar.setProgress(currentPosition);
@@ -414,6 +415,8 @@ public class BluetoothChat extends Activity {
 				sendMessage(FilePath);
 				// Concat File Path
 				// String s=FilePath.substring(FilePath.lastIndexOf("/"));
+				
+
 
 				Uri myUri = Uri.parse(FilePath);
 				MDR.setDataSource(FilePath);
