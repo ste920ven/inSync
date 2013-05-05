@@ -331,6 +331,7 @@ public class BluetoothChat extends Activity {
 		actionBar.setSubtitle(subTitle);
 	}
 
+	
 	// The Handler that gets information back from the BluetoothChatService
 	private final Handler mHandler = new Handler() {
 		@Override
@@ -446,7 +447,7 @@ public class BluetoothChat extends Activity {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
+				new Thread(mUpdateUITimerTask).start();
 			}
 			break;
 		case REQUEST_CONNECT_DEVICE_INSECURE:
@@ -593,7 +594,6 @@ public class BluetoothChat extends Activity {
 
 		public void onProgressChanged(SeekBar seekBar, int progress,
 				boolean fromUser) {
-
 		}
 
 		public void onStartTrackingTouch(SeekBar seekBar) {
