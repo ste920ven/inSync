@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.util.List;
 
 import com.example.android.inSync.R;
+import com.example.test.MainActivity.yourListener;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -44,6 +45,7 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.widget.SeekBar;
 import android.widget.ListView;
@@ -83,6 +85,7 @@ public class BluetoothChat extends Activity {
 	private ImageButton playButton;
 	private ImageButton pauseButton;
 	private MediaPlayer mediaPlayer = new MediaPlayer();
+	private MediaMetadataRetriever MDR = new MediaMetadataRetriever();
 
 	// Name of the connected device
 	private String mConnectedDeviceName = null;
@@ -94,6 +97,8 @@ public class BluetoothChat extends Activity {
 	private BluetoothAdapter mBluetoothAdapter = null;
 	// Member object for the chat services
 	private BluetoothChatService mChatService = null;
+	// Adapter for media file
+	private MediaMetadataRetriever mediaRetriever = new MediaMetadataRetriever();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -166,7 +171,7 @@ public class BluetoothChat extends Activity {
 
 		// Initialize the Seekbar with a listener
 		mSeekBar = (SeekBar) findViewById(R.id.mediaprogress);
-		// --mSeekBar.setOnEditorActionListener(mWriteListener);
+		mSeekBar.setOnSeekBarChangeListener(new yourListener());
 
 		// Initialize the play button with a listener that for click events
 		playButton = (ImageButton) findViewById(R.id.play);
@@ -398,8 +403,16 @@ public class BluetoothChat extends Activity {
 				// String s=FilePath.substring(FilePath.lastIndexOf("/"));
 
 				Uri myUri = Uri.parse(FilePath);
+				MDR.setDataSource(FilePath);
+				int max = Integer
+						.parseInt(MDR
+								.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
+				mSeekBar.setMax(max);
+				// close object
+				MDR.release();
 				try {
 					mediaPlayer.setDataSource(getApplicationContext(), myUri);
+					mediaRetriever.setDataSource(FilePath);
 				} catch (IllegalArgumentException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -564,5 +577,24 @@ public class BluetoothChat extends Activity {
 		Intent intent = new Intent(this, AboutScreen.class);
 		startActivity(intent);
 	}
+	
+	private class yourListener implements SeekBar.OnSeekBarChangeListener {
 
+		public void onProgressChanged(SeekBar seekBar, int progress,
+				boolean fromUser) {
+			// set textView's text
+			if (fromUser) {
+				sendMessage("play:" + progress);
+				mediaPlayer.seekTo(progress);
+			} else {
+			}
+		}
+
+		public void onStartTrackingTouch(SeekBar seekBar) {
+		}
+
+		public void onStopTrackingTouch(SeekBar seekBar) {
+		}
+
+	}
 }
