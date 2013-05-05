@@ -1,58 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<!-- Copyright (C) 2009 The Android Open Source Project
 
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">inSync</string>
-    <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="welcome">Welcome to inSync! \n \n</string>
-    <string name="playbuttondescription">Click this button to play</string>
 
-    <color name="gray">#403E3F</color>
-    <color name="white">#FFFFFF</color>
+    <!--  BluetoothChat -->
+    <string name="send">Send</string>
+    <string name="not_connected">You are not connected to a device</string>
+    <string name="bt_not_enabled_leaving">Bluetooth was not enabled. Leaving inSync.</string>
+    <string name="title_connecting">connecting...</string>
+    <string name="title_connected_to">connected to <xliff:g id="device_name">%1$s</xliff:g></string>
+    <string name="title_not_connected">not connected</string>
 
-    <string name="findsession">Join a Session</string>
-    <string name="createSession">Start a session</string>
-    <string name="newSessionHeader">Create A New Session</string>
-    <string name="title_activity_create_session">inSync</string>
-    <string name="sessionname">Session Name</string>
-    <string name="enter">Enter</string>
-    <string name="turningbluetoothon">Your Bluetooth is enabled. </string>
-
-    <color name="blue">#08FFF3</color>
-
-    <string name="choosefile">Choose an mp3 to live stream</string>
-    <string name="confirm">Confirm</string>
-
-    <color name="green">#00FF00</color>
-
-    <string name="help">Help! :(</string>
-    <string name="title_activity_help_screen">HelpScreen</string>
-    <string name="title_device_list_activity">Device List Activity</string>
-    <string name="helpInstructions">You can create a music sync session with the Create Session button. Using bluetooth, your phone or tablet will become discoverable to other Android devices and can share an mp3 file.  The other phone or tablet will download your mp3 file and when both devices are ready, the music file will start playing at the same time. </string>
-    <string name="goBack">Back</string>
-    <string name="connectedBTDevices">Paired Bluetooth Devices:</string>
-    <string name="chosenfile">Song: [Please choose a file]</string>
-    <string name="presetText">inSync Live Stream</string>
-    <string name="title_activity_bluetooth_host">BluetoothHost</string>
-    <string name="selectedfile">"Selected File: "</string>
-    <string name="sendmp3file">Send mp3 file via Bluetooth</string>
-    <string name="connectedbtdevices">Connected Bluetooth Device Addresses:</string>
-    <string name="info">About page</string>
-    <string name="about">inSync is a project developed by Brian Lam, Steven Huang, Raymond Zeng, and Jason Peng. It allows a Bluetooth-enabled device to send an mp3 file to multiple devices to play it simutaneously across all the devices. </string>
-    <string name="title_activity_about_screen">AboutScreen</string>
-    <string name="playdescription">pause</string>
-    <string name="title_activity_bluetooth_guest">BluetoothGuest</string>
-    <string name="title_activity_join_session">JoinSession</string>
-    <string name="test">&quot;&quot;</string>
-    <string name="choosefileafterreceived">Song: [Please use a file browser to browse for the mp3 file after the host has sent it to you through Bluetooth]</string>
-    <string name="debugTest">Debug Data:</string>
+    <!--  DeviceListActivity -->
+    <string name="scanning">scanning for devices...</string>
+    <string name="select_device">select a device to connect</string>
+    <string name="none_paired">No devices have been paired</string>
+    <string name="none_found">No devices found</string>
     <string name="title_paired_devices">Paired Devices</string>
     <string name="title_other_devices">Other Available Devices</string>
     <string name="button_scan">Scan for devices</string>
-    <string name="scanning">Scanning for devices.</string>
-    <string name="none_found">No devices found</string>
-    <string name="select_device">select a device to connect</string>
-    <string name="none_paired">No devices have been paired</string>
-    <string name="connecttoabluetoothdevice">Connect to a Bluetooth Device</string>
 
+    <!-- Options Menu -->
+    <string name="secure_connect">Choose a Music File</string>
+    <string name="insecure_connect">Connect to Another Device</string>
+    <string name="discoverable">Make discoverable</string>
+    <string name="playdescription">pause</string>
+    <string name="sendFileThroughBluetooth">Send File Through Bluetooth</string>
 </resources>

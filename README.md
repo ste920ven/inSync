@@ -6,7 +6,7 @@
 
 >>Not compatible with Firefox
 
-Hosted on: http://ml7.stuyc.org:4444 <br>
+Hosted on: http://ml7.stuyc.org:8888 <br>
 Android APK: https://github.com/stuycs-softdev/inSync/tree/master/inSync
 
 ##How to Use (Web Version):
@@ -51,20 +51,20 @@ Raymond Zeng
 Jason Peng
 + Graphic Design Overseer
 
-##Timeline
-+ End of Spring Break
-  + Skeleton for website
-  + Verify we know how to work with Bluetooth
-  + Basic GUI for app
-+ TBA
-  + Be able to import user's music library into app
-  + Be able to connect with other user(s)
-+ TBA
-  + Have most of the app functionality complete
-  + Have website mostly complete
-+ TBA
-  + Fix all functionality errors
-  + Finalize design
-+ TBA
-  + Finish website
-  + Be Done
+##Known Issues
+1. Select from URL
+  + You must first have selected something from the server before being able to select with a URL. 
+  Otherwise you get kicked out of the room but everyone else in the room recieves the music. 
+  Once you have selected from the server, you can select as many URLs until you refresh the page. 
+  + Temp Solution:
+     + 'notasong.mp3' has been added to the server for your convienence of selecting something arbitrary from the server.
+  
+  + Selecting from URL is not very compatible with mobile
+  
+2. Audio Player Loading Issues
+  + The html5 audio player tends to 'blacked-out' and become unclickable when multiple users are accessing the same mp3 src.
+    The first person to log into the room usually has a functioning player while every subsequent login is blacked-out.
+  + Temp Solution:
+     + If the people without blacked-out players press play and then pause again, everyone else's player becomes un-blacked
+     + Alternatively, the host can just toggle play/pause twice to hopefully get everyones player un-blacked
+     + Once everyone in the room has a functioning player (the slider should be one color: gray), the host can reset and afterwards everything will work
