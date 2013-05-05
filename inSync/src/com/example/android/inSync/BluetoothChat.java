@@ -125,6 +125,8 @@ public class BluetoothChat extends Activity {
 		}
 		
 		time = (TextView) findViewById(R.id.time);
+		cover = (ImageView) findViewById(R.id.coverArt);
+		cover.setVisibility(View.INVISIBLE);
 	}
 
 	@Override

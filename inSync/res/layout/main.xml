@@ -24,9 +24,16 @@
         android:id="@+id/in"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.14"
+        android:layout_weight="0.02"
         android:stackFromBottom="false"
         android:transcriptMode="alwaysScroll" />
+
+    <ImageView
+        android:id="@+id/coverArt"
+        android:layout_width="match_parent"
+        android:layout_height="99dp"
+        android:layout_weight="0.01"
+        android:contentDescription="lol" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -67,7 +74,6 @@
             android:layout_alignBottom="@+id/mediaprogress"
             android:layout_alignParentRight="true"
             android:text="@string/time" />
-
     </RelativeLayout>
 
 </LinearLayout>
