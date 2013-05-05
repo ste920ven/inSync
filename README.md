@@ -6,7 +6,7 @@
 
 >>Not compatible with Firefox
 
-Hosted on: http://ml7.stuyc.org:7777 <br>
+Hosted on: http://ml7.stuycs.org:7777 <br>
 Android APK: https://github.com/stuycs-softdev/inSync/tree/master/inSync
 
 ##How to Use (Web Version):
