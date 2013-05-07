@@ -65,7 +65,7 @@
             android:layout_height="32dip"
             android:layout_above="@+id/pause"
             android:layout_alignParentLeft="true"
-            android:layout_toLeftOf="@+id/textView1" />
+            android:layout_toLeftOf="@+id/time" />
 
         <TextView
             android:id="@+id/time"

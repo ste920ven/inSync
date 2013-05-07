@@ -102,6 +102,7 @@ public class BluetoothChat extends Activity {
 	private BluetoothAdapter mBluetoothAdapter = null;
 	// Member object for the chat services
 	private BluetoothChatService mChatService = null;
+
 	// Adapter for media file
 
 	@Override
@@ -123,7 +124,7 @@ public class BluetoothChat extends Activity {
 			finish();
 			return;
 		}
-		
+
 		time = (TextView) findViewById(R.id.time);
 		cover = (ImageView) findViewById(R.id.coverArt);
 		cover.setVisibility(View.INVISIBLE);
@@ -168,13 +169,6 @@ public class BluetoothChat extends Activity {
 		}
 	}
 
-	private final Runnable mUpdateUITimerTask = new Runnable() {
-	    public void run() {
-	    	int currentPosition = mediaPlayer.getCurrentPosition();
-	    	time.setText(Integer.toString(currentPosition) + "/" + maxTime);
-	    	mSeekBar.setProgress(currentPosition);
-	    }
-	};
 	private void setupChat() {
 		Log.d(TAG, "setupChat()");
 
@@ -295,7 +289,7 @@ public class BluetoothChat extends Activity {
 		// Check that we're actually connected before trying anything
 		if (mChatService.getState() != BluetoothChatService.STATE_CONNECTED) {
 			Toast.makeText(this, R.string.not_connected, Toast.LENGTH_SHORT)
-			.show();
+					.show();
 			return;
 		}
 
@@ -338,7 +332,36 @@ public class BluetoothChat extends Activity {
 		actionBar.setSubtitle(subTitle);
 	}
 
-	
+	private final Runnable timeUpdate = new Runnable() {
+		@Override
+		public void run() {
+
+			while (mediaPlayer != null && 0 < mediaPlayer.getDuration()) {
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					return;
+				} catch (Exception e) {
+					return;
+				}
+				mSeekBar.post(new Runnable() {
+					public void run() {
+						int currentPosition = mediaPlayer.getCurrentPosition();
+						mSeekBar.setProgress(currentPosition);
+					}
+				});
+				mSeekBar.post(new Runnable() {
+					public void run() {
+						int currentPosition = mediaPlayer.getCurrentPosition();
+						String cur = convertTime(currentPosition);
+						time.setText(cur + "/"
+								+ maxTime);
+					}
+				});
+
+			}
+		}
+	};
 	// The Handler that gets information back from the BluetoothChatService
 	private final Handler mHandler = new Handler() {
 		@Override
@@ -417,26 +440,19 @@ public class BluetoothChat extends Activity {
 				sendMessage(FilePath);
 				// Concat File Path
 				// String s=FilePath.substring(FilePath.lastIndexOf("/"));
-				
-
 
 				Uri myUri = Uri.parse(FilePath);
 				MDR.setDataSource(FilePath);
+
+				// convert time to min:sec
 				int max = Integer
 						.parseInt(MDR
 								.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
 				mSeekBar.setMax(max);
-
-				String seconds = String.valueOf((max % 60000) / 1000);
-
-				String minutes = String.valueOf(max / 60000);
-				if (seconds.length() == 1)
-					seconds = "0" + seconds;
-				String res = minutes + ":" + seconds;
-				maxTime = res;
+				maxTime = convertTime(max);
 				time.setText("00:00/" + maxTime);
-				
-				//set Album art
+
+				// set Album art
 				cover.setVisibility(View.VISIBLE);
 				if (MDR.getEmbeddedPicture() == null)
 					cover.setImageResource(R.drawable.coverart);
@@ -449,7 +465,7 @@ public class BluetoothChat extends Activity {
 				
 				// close object
 				MDR.release();
-				
+
 				sendMessage(Integer.toString(max));
 				try {
 					mediaPlayer.setDataSource(getApplicationContext(), myUri);
@@ -467,7 +483,7 @@ public class BluetoothChat extends Activity {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				new Thread(mUpdateUITimerTask).start();
+				new Thread(timeUpdate).start();
 			}
 			break;
 		case REQUEST_CONNECT_DEVICE_INSECURE:
@@ -489,6 +505,16 @@ public class BluetoothChat extends Activity {
 				finish();
 			}
 		}
+	}
+
+	private String convertTime(int i) {
+		String seconds = String.valueOf((i % 60000) / 1000);
+
+		String minutes = String.valueOf(i / 60000);
+		if (seconds.length() == 1)
+			seconds = "0" + seconds;
+		String res = minutes + ":" + seconds;
+		return res;
 	}
 
 	private void connectDevice(Intent data, boolean secure) {
@@ -588,7 +614,6 @@ public class BluetoothChat extends Activity {
 		}
 	}
 
-
 	public void actuallyPause() {
 		mediaPlayer.pause();
 		playButton.setVisibility(View.VISIBLE);
@@ -609,7 +634,7 @@ public class BluetoothChat extends Activity {
 		Intent intent = new Intent(this, AboutScreen.class);
 		startActivity(intent);
 	}
-	
+
 	private class yourListener implements SeekBar.OnSeekBarChangeListener {
 
 		public void onProgressChanged(SeekBar seekBar, int progress,
