@@ -47,7 +47,7 @@
     
     <!-- Info -->
     <string name="helpinfo">inSync uses Bluetooth to share and sync music with another Android device. Using this app, you can transfer an MP3 file and synchronously play that file with the other device. </string>
-    <string name="aboutbody">The inSync Android application was developed by Stuyveasant High School students Brian Lam and Steven Huang. Special thanks to Mr. Michael Zamansky. </string>
+    <string name="aboutbody">The inSync Android application was developed by Stuyvesant High School students Brian Lam and Steven Huang, under the guidance of the extraordinarily devoted Mr. Michael Zamansky. </string>
     <string name="time">00:00</string>
     <string name="aboutCreditsBluetoothChat">This application uses a modified open source BluetoothChat file, which can be found as a sample in the Android SDK. The BluetoothChat template was used to set up a connection between Android devices, and is distributed under the The Android Open Source Project. A license for the open source code can be found at http://www.apache.org/licenses/LICENSE-2.0</string>
     
