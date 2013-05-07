@@ -22,7 +22,8 @@ public final class R {
     }
     public static final class drawable {
         public static final int app_icon=0x7f020000;
-        public static final int coverart=0x7f020001;
+        public static final int app_icon2=0x7f020001;
+        public static final int coverart=0x7f020002;
     }
     public static final class id {
         public static final int about=0x7f070000;
