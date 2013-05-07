@@ -8,7 +8,7 @@ from socketio.namespace import BaseNamespace
 from socketio.mixins import RoomsMixin, BroadcastMixin
 from socketio.server import SocketIOServer
 from cmixin import CustomMixin
-from utils import addRoom, roomExists, validatePassword, addUserToRoom, getUsersFromRoom, clearUsers, updateUser
+from utils import addRoom, roomExists, validatePassword, addUserToRoom, getUsersFromRoom, clearUsers, updateUser, updateUserCant
 
 app = Flask(__name__)
 global _name
@@ -55,6 +55,10 @@ class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin, CustomMixin):
     def on_can_play(self, room, name, nid,typ):
         updateUser(room,name,nid,typ)
         self.emit_to_room_and_you(room, 'update_user', name, nid)
+
+    def on_cant_play(self, room, name, nid, typ):
+        updateUserCant(room,name,nid,typ)
+        self.emit_to_room_and_you(room, 'update_user_cant', name, nid)
     
 def allowed_file(filename):
     return '.' in filename and \

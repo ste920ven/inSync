@@ -44,6 +44,22 @@ def updateUser(room,name,nid,ntype):
         r.append(nda)
     data = {"name":room, "pass":rooms[str(room)]['pass'], "users":r}
     rooms[str(room)] = data
+
+def updateUserCant(room,name,nid,ntype):
+    rooms = shelve.open('rooms')
+    du = [name, nid, True, ntype]
+    r = rooms[str(room)]['users']
+    boo = False
+    r = [user for user in r if user != du]
+    nda = [name, nid, False, ntype]
+    for user in r:
+        if user == nda:
+            boo = True
+            break
+    if boo == False:
+        r.append(nda)
+    data = {"name":room, "pass":rooms[str(room)]['pass'], "users":r}
+    rooms[str(room)] = data
     
 def clearUsers(room):
     rooms = shelve.open('rooms')

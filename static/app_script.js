@@ -9,6 +9,7 @@ var logged_in;
 var current_accordion = 'collapseOne';
 var listedAdmins = [];
 var listedUsers = [];
+var urlnotready = true;
 
 //fb stuff
 window.fbAsyncInit = function() {
@@ -64,6 +65,8 @@ function login(response, info){
 	$('#user-stuff').html('<img class="pull-right" id="user-pic" src=""><p class="pull-right" id="user-name"></p>');
 	$('#user-pic').attr('src','https://graph.facebook.com/' + info.id + '/picture');
 	$('#user-name').html(info.name);
+	logged_in = true;
+	$('#fbbypass').hide();
 	$('#user-pic').hover(
 	    function() {
 		var $this = $('#user-name'); // caching $(this)
@@ -94,6 +97,8 @@ function unflogin(){
 function unflogin2(name){
     fb_name = name;
     fb_id = null;
+    logged_in = true;
+    $('#fbbypass').hide();
     showView('nickname');
     $('#user-stuff').html('<img class="pull-right" id="user-pic" src=""><p class="pull-right" id="user-name"></p>');
     $('#user-pic').attr('src','https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSn3HISFITZIo5Hw23rw7DpW0-UuhhXeGfkW9cgvwc9v0qHpxBwgg');
@@ -116,6 +121,8 @@ function unflogin2(name){
     };
 }
 function logout(){
+    logged_in = false;
+    $('#fbbypass').show();
     if(fb_id == null)
 	$('#'+fb_id+fb_name).remove();
     fb_name = null;
@@ -219,7 +226,6 @@ function adsubmit(){
 	r: $('#adroom').val(),
 	p: $('#pass').val()
     }, function(data){
-	console.log(data.result);
 	if(data.result == 'DNE'){
 	    $('#adwarning').addClass('warning');
 	    $('#adwarning').html('Room does not exist');
@@ -245,7 +251,6 @@ function csubmit(){
 	r: $('#croom').val(),
 	p: $('#cpass').val()
     }, function(data){
-	console.log(data.result);
 	if(data.result == 'TAKEN'){
 	    $('#cwarning').addClass('warning');
 	    $('#cwarning').html('Room name taken');
@@ -318,9 +323,12 @@ socket.on('choose_url', function(url){
     playmyurl(url);
 });
 function choose(file){
+    urlnotready = false;
     socket.emit('chose_song', room, file);
 }
 function chooseURL(url){
+    if(urlnotready)
+	choose('notasong.mp3');
     socket.emit('chose_url',room, url);
 }
 function playmysong(file){
@@ -329,6 +337,8 @@ function playmysong(file){
     ap.load();
     $('#SelectM').modal('hide');
     ap.play();
+    if(ap.buffered.length == 0)
+	cantPlay();
 }
 
 function playmyurl(url){
@@ -337,11 +347,13 @@ function playmyurl(url){
     ap.load();
     $('#SelectM').modal('hide');
     ap.play();
+    if(ap.buffered.length == 0)
+	cantPlay();
 }
 function fetch(){
     var songs;
     if($('#songs ul').html() == '')
-	$('#songs ul').append('<p>Fetching...<p>');
+	$('#songs ul').append('<i class="icon-spinner icon-spin"></i><p>Fetching...<p>');
     $.getJSON('/get_songs',function(data) {
 	songs = data.result;
 	$('#songs ul').html('');
@@ -354,6 +366,8 @@ function fetch(){
 	    $('#SelectM').modal('toggle');
 	});
     });
+    if($('#songs ul').html() == '<i class="icon-spinner icon-spin"></i><p>Fetching...<p>')
+	$('#songs ul').append('<p>None</p>');
 }
 
 function showView(desired){
@@ -380,6 +394,8 @@ function showView(desired){
 	listedAdmins = [];
 	type = 'user';
 	addUserToList(fb_name,fb_id,ap.buffered.length != 0);
+	if(ap.buffered.length == 0)
+	    cantPlay();
 	getUsers();
     }
     else{
@@ -391,13 +407,14 @@ function showView(desired){
 	listedAdmins = [];
 	type = 'admin';
 	addAdminToList(fb_name,fb_id,ap.buffered.length != 0);
+	if(ap.buffered.length == 0)
+	    cantPlay();
 	getUsers();	
     }
 }
 
 socket.on('gotUsers', function(data){
     for(var i = 0; i < data.length; i++){
-	console.log(data[i]);
 	if(data[i][3] == 'user')
 	    addUser(data[i]);
 	else
@@ -418,8 +435,10 @@ function addUser(data){
 }
 function addAdmin(data){
     for(var i = 0; i < listedAdmins.length; i++){
-	if(listedAdmins[i] == (data[1] + data[0]))
+	if(listedAdmins[i] == (data[1] + data[0])){
+	    $('#'+data[1]+data[0]).attr('data-success',data[2]);
 	    return;
+	}
     }
     addAdminToList(data[0],data[1],data[2]);
 }
@@ -470,15 +489,24 @@ function resizeUsers(){
     $('#users').css('margin-top',nh);
 }
 socket.on('update_user',function(name,id){
-    console.log('fff');
     if($('#'+id+name).hasClass('warning'))
 	$('#'+id+name).removeClass('warning');
     $('#'+id+name).addClass('success');
+});
+socket.on('update_user_cant',function(name,id){
+    if($('#'+id+name).hasClass('success'))
+	$('#'+id+name).removeClass('success');
+    $('#'+id+name).addClass('warning');
 });
 function canPlay(){
     console.log('canplay');
     if(fb_name != null && fb_name != '')
 	socket.emit('can play', room, fb_name, fb_id,type);
+}
+function cantPlay(){
+    console.log('cantplay');
+    if(fb_name != null && fb_name != '')
+	socket.emit('cant play',room, fb_name, fb_id,type);
 }
 $(document).ready(function(){
     resizeUsers();
