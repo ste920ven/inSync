@@ -26,23 +26,25 @@ public final class R {
     }
     public static final class id {
         public static final int about=0x7f070000;
-        public static final int button_scan=0x7f070007;
-        public static final int coverArt=0x7f070009;
-        public static final int discoverable=0x7f070010;
-        public static final int in=0x7f070008;
-        public static final int insecure_connect_scan=0x7f07000f;
-        public static final int mediaprogress=0x7f07000c;
-        public static final int new_devices=0x7f070006;
-        public static final int paired_devices=0x7f070004;
-        public static final int pause=0x7f07000b;
-        public static final int play=0x7f07000a;
-        public static final int secure_connect_scan=0x7f07000e;
-        public static final int sendfilethroughbluetooth=0x7f070011;
-        public static final int time=0x7f07000d;
-        public static final int title_left_text=0x7f070001;
-        public static final int title_new_devices=0x7f070005;
-        public static final int title_paired_devices=0x7f070003;
-        public static final int title_right_text=0x7f070002;
+        public static final int button_scan=0x7f070009;
+        public static final int coverArt=0x7f07000b;
+        public static final int discoverable=0x7f070012;
+        public static final int in=0x7f07000a;
+        public static final int insecure_connect_scan=0x7f070011;
+        public static final int mediaprogress=0x7f07000e;
+        public static final int new_devices=0x7f070008;
+        public static final int paired_devices=0x7f070006;
+        public static final int pause=0x7f07000d;
+        public static final int play=0x7f07000c;
+        public static final int secure_connect_scan=0x7f070010;
+        public static final int sendfilethroughbluetooth=0x7f070013;
+        public static final int textView1=0x7f070002;
+        public static final int textView2=0x7f070001;
+        public static final int time=0x7f07000f;
+        public static final int title_left_text=0x7f070003;
+        public static final int title_new_devices=0x7f070007;
+        public static final int title_paired_devices=0x7f070005;
+        public static final int title_right_text=0x7f070004;
     }
     public static final class layout {
         public static final int activity_about_screen=0x7f030000;
@@ -57,6 +59,7 @@ public final class R {
     }
     public static final class string {
         public static final int about=0x7f050014;
+        public static final int aboutCreditsBluetoothChat=0x7f05001a;
         public static final int aboutbody=0x7f050018;
         public static final int action_settings=0x7f050016;
         public static final int app_name=0x7f050000;
