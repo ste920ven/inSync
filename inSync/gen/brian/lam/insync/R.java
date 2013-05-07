@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package com.example.android.inSync;
+package brian.lam.insync;
 
 public final class R {
     public static final class attr {
@@ -38,8 +38,8 @@ public final class R {
         public static final int play=0x7f07000c;
         public static final int secure_connect_scan=0x7f070010;
         public static final int sendfilethroughbluetooth=0x7f070013;
-        public static final int textView1=0x7f070002;
-        public static final int textView2=0x7f070001;
+        public static final int textView1=0x7f070001;
+        public static final int textView2=0x7f070002;
         public static final int time=0x7f07000f;
         public static final int title_left_text=0x7f070003;
         public static final int title_new_devices=0x7f070007;

@@ -21,7 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import com.example.android.inSync.R;
+import brian.lam.insync.R;
 
 import android.app.ActionBar;
 import android.app.Activity;

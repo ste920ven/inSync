@@ -18,7 +18,7 @@ package com.example.android.inSync;
 
 import java.util.Set;
 
-import com.example.android.inSync.R;
+import brian.lam.insync.R;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;

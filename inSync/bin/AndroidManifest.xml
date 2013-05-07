@@ -14,7 +14,7 @@
      limitations under the License.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="com.example.android.inSync"
+      package="brian.lam.insync"
       android:versionCode="1"
       android:versionName="1.0">
     <uses-sdk android:minSdkVersion="15" android:targetSdkVersion="17"/>

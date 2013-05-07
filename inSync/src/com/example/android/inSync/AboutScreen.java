@@ -3,7 +3,7 @@ package com.example.android.inSync;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
-import com.example.android.inSync.R;
+import brian.lam.insync.R;
 
 public class AboutScreen extends Activity {
 
