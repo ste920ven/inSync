@@ -261,7 +261,7 @@ function csubmit(){
 	}
     });
 }
-function clearUsers(room){
+function c(room){
     $.getJSON('/clear_users',{r:room});
 }
 function submitRoom(){
