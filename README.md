@@ -2,14 +2,19 @@
 
 >inSync is an application that attempts to keep mp3 playback synced across numerous users and devices. There is currently a web version and an Android version.
 
->>Compatible with Google Chrome and Safari
-
->>Not compatible with Firefox
-
-Hosted on: http://ml7.stuycs.org:7777 <br>
+Hosted on: http://ml7.stuycs.org:9999 <br>
 Android APK: https://github.com/stuycs-softdev/inSync/tree/master/inSync
 
-##How to Use (Web Version):
+##Compatibility (Web Version)
+####Desktop Browsers
+Compatible: Google Chrome <br>
+Uncompatible: Firefox
+
+####Mobile
+Default song compatible with Android and iOS <br>
+SelectFromURL only compatible with Android
+
+##How to Use (Web Version)
 1. Login with Facebook
 
 ###Enter Room
