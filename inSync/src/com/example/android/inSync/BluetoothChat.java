@@ -354,8 +354,7 @@ public class BluetoothChat extends Activity {
 					public void run() {
 						int currentPosition = mediaPlayer.getCurrentPosition();
 						String cur = convertTime(currentPosition);
-						time.setText(cur + "/"
-								+ maxTime);
+						time.setText(cur + "/" + maxTime);
 					}
 				});
 
@@ -408,6 +407,11 @@ public class BluetoothChat extends Activity {
 					int intposition = Integer.parseInt(position);
 					mediaPlayer.seekTo(intposition);
 					actuallyResume();
+				}
+				if (readMessage.startsWith("seek:")) {
+					String position = readMessage.replaceAll("seek:", "");
+					int intposition = Integer.parseInt(position);
+					mediaPlayer.seekTo(intposition);
 				}
 				break;
 			case MESSAGE_DEVICE_NAME:
@@ -462,7 +466,7 @@ public class BluetoothChat extends Activity {
 					Drawable drw = Drawable.createFromStream(is, "coverart1");
 					cover.setImageDrawable(drw);
 				}
-				
+
 				// close object
 				MDR.release();
 
@@ -647,7 +651,7 @@ public class BluetoothChat extends Activity {
 		public void onStopTrackingTouch(SeekBar seekBar) {
 			int CurrentLevel = seekBar.getProgress();
 			seekBar.setProgress(CurrentLevel);
-			sendMessage("f");
+			sendMessage("seek:" + Integer.toString(CurrentLevel));
 		}
 
 	}
