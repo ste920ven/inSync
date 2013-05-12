@@ -196,7 +196,8 @@ public class BluetoothChat extends Activity {
 		pauseButton.setClickable(false);
 		pauseButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				pauseMedia();
+				if (mediaPlayer != null)
+					pauseMedia();
 			}
 		});
 
