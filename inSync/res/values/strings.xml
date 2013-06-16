@@ -41,11 +41,12 @@
     <string name="playdescription">play</string>
     <string name="pausedescription">pause</string>
     <string name="sendFileThroughBluetooth">Send File Through Bluetooth</string>
-    <string name="about">About</string>
+    <string name="about">Help/About</string>
     <string name="title_activity_about_screen">AboutScreen</string>
     <string name="action_settings">Settings</string>
     
     <!-- Info -->
+    <string name="helphowto">To select a music file to play, click on the magnifying glass button. The crosshair button will make your device Bluetooth discoverable if need be, and the "refresh" button will scan for other bluetooth devices. The arrow button on the right can be used to send the selected mp3 file. </string>
     <string name="helpinfo">inSync uses Bluetooth to share and sync music with another Android device. Using this app, you can transfer an MP3 file and synchronously play that file with the other device. </string>
     <string name="aboutbody">The inSync Android application was developed by Stuyvesant High School students Brian Lam and Steven Huang, under the guidance of the extraordinarily devoted Mr. Michael Zamansky. </string>
     <string name="time">00:00</string>

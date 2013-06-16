@@ -15,21 +15,30 @@
         android:text="@string/helpinfo" />
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/helphow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_below="@+id/textView2"
-        android:layout_marginTop="33dp"
-        android:text="@string/aboutCreditsBluetoothChat" />
+        android:layout_alignLeft="@+id/about"
+        android:layout_below="@+id/about"
+        android:layout_marginTop="18dp"
+        android:text="@string/helphowto" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/about"
-        android:layout_below="@+id/about"
-        android:layout_marginTop="14dp"
+        android:layout_alignLeft="@+id/helphow"
+        android:layout_below="@+id/helphow"
+        android:layout_marginTop="19dp"
         android:text="@string/aboutbody" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView2"
+        android:layout_below="@+id/textView2"
+        android:layout_marginTop="14dp"
+        android:text="@string/aboutCreditsBluetoothChat" />
 
 </RelativeLayout>

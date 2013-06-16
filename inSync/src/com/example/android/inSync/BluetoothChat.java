@@ -516,12 +516,15 @@ public class BluetoothChat extends Activity {
 				// close object
 				//MDR.release();
 
-				sendMessage(Integer.toString(max));
+				//sendMessage(Integer.toString(max));
 				try {
+					Log.e("BRIAN LAM","TRY BLOCK");
+					mediaPlayer.reset();
 					mediaPlayer.setDataSource(getApplicationContext(), myUri);
 					mediaPlayer.prepare();
 				} catch (IllegalArgumentException e) {
 					// TODO Auto-generated catch block
+					Log.e("BRIAN LAM", "CATCH BLOCK");
 					e.printStackTrace();
 				} catch (SecurityException e) {
 					// TODO Auto-generated catch block
