@@ -30,12 +30,14 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -49,6 +51,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
+import android.media.RingtoneManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -252,10 +255,18 @@ public class BluetoothChat extends Activity {
 
 	public void getMP3File() {
 		try {
+			/*
 			Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-			intent.setType("file/*");
+			intent.setType("audio/*");
 			final int PICKFILE_RESULT_CODE = 1251;
 			startActivityForResult(intent, PICKFILE_RESULT_CODE);
+			*/
+			
+			Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+			intent.setType("audio/*");
+			final int PICKFILE_RESULT_CODE = 1251;
+			startActivityForResult(intent, PICKFILE_RESULT_CODE);
+			
 		}
 
 		// Activity Not Found Crash fix
@@ -426,6 +437,14 @@ public class BluetoothChat extends Activity {
 			}
 		}
 	};
+	
+	public String getRealPathFromURI(Uri contentUri) {
+        String[] proj = { MediaStore.Images.Media.DATA };
+        Cursor cursor = managedQuery(contentUri, proj, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
+    }
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		final int PICKFILE_RESULT_CODE = 1251;
@@ -437,6 +456,13 @@ public class BluetoothChat extends Activity {
 			if (resultCode == Activity.RESULT_OK) {
 				// Retrieve URI and display it in the TextView
 				String FilePath = data.getData().getPath();
+				
+				String contentPath = data.getData().toString();
+				if (contentPath.contains("content:")){
+					Log.e("Brian Lam","Resolving");
+					FilePath = getRealPathFromURI(Uri.parse(contentPath));
+				}
+				
 				setFilePath(FilePath);
 				sendMessage(FilePath);
 				// Concat File Path
