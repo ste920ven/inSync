@@ -384,13 +384,16 @@ public class BluetoothChat extends Activity {
 				switch (msg.arg1) {
 				case BluetoothChatService.STATE_CONNECTED:
 					connection.setTextColor(Color.GREEN);
+					connection.setText("Connected!");
 					break;
 				case BluetoothChatService.STATE_CONNECTING:
 					connection.setTextColor(Color.YELLOW);
+					connection.setText("Connecting...");
 					break;
 				case BluetoothChatService.STATE_LISTEN:
 				case BluetoothChatService.STATE_NONE:
 					connection.setTextColor(Color.RED);
+					connection.setText("Not connected to another device");
 					break;
 				}
 				break;
@@ -456,8 +459,12 @@ public class BluetoothChat extends Activity {
 		case PICKFILE_RESULT_CODE:
 			// When DeviceListActivity returns with a device to connect
 			if (resultCode == Activity.RESULT_OK) {
+				
+				Log.e("Brian Lam","Activity result Debug 1");
 				// Retrieve URI and display it in the TextView
 				String FilePath = data.getData().getPath();
+				
+				Log.e("Brian Lam","Activity result Debug 2");
 				
 				String contentPath = data.getData().toString();
 				if (contentPath.contains("content:")){
@@ -465,26 +472,36 @@ public class BluetoothChat extends Activity {
 					FilePath = getRealPathFromURI(Uri.parse(contentPath));
 				}
 				
+				Log.e("Brian Lam","Activity result Debug 3");
+				
 				setFilePath(FilePath);
 				sendMessage(FilePath);
 				// Concat File Path
 				// String s=FilePath.substring(FilePath.lastIndexOf("/"));
+				
+				Log.e("Brian Lam","Activity result Debug 4");
 
 				Uri myUri = Uri.parse(FilePath);
+				
+				Log.e("Brian Lam","Activity result Debug 4.5");
+				
 				MDR.setDataSource(FilePath);
+				
+				Log.e("Brian Lam","Activity result Debug 5");
 
 				// convert time to min:sec
+				
+				Log.e("Brian Lam","Activity result Debug 6");
 				int max = Integer
 						.parseInt(MDR
 								.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
 				mSeekBar.setMax(max);
 				maxTime = convertTime(max);
 				time.setText(maxTime);
+				
+				Log.e("Brian Lam","Activity result Debug 7");
 
-				// set song Title
-				// --songTitle.setText("c"+MDR.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
-
-				// set Album art
+				
 				cover.setVisibility(View.VISIBLE);
 				if (MDR.getEmbeddedPicture() == null)
 					cover.setImageResource(R.drawable.coverart);
@@ -494,9 +511,10 @@ public class BluetoothChat extends Activity {
 					Drawable drw = Drawable.createFromStream(is, "coverart1");
 					cover.setImageDrawable(drw);
 				}
+				Log.e("Brian Lam","Activity result Debug 8");
 
 				// close object
-				MDR.release();
+				//MDR.release();
 
 				sendMessage(Integer.toString(max));
 				try {
