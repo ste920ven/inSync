@@ -144,8 +144,8 @@ public class BluetoothChat extends Activity {
 		cover.setVisibility(View.INVISIBLE);
 		currTime = (TextView) findViewById(R.id.currTime);
 		help = (Button) findViewById(R.id.button1);
-		overlay.setVisibility(View.INVISIBLE);
 		overlay = (ImageView) findViewById(R.id.overlay);
+		overlay.setVisibility(View.INVISIBLE);
 		help.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (overlay.getVisibility() == View.INVISIBLE) {
