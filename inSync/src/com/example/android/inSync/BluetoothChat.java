@@ -30,6 +30,7 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -48,6 +49,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.ListView;
@@ -90,7 +92,12 @@ public class BluetoothChat extends Activity {
 	private MediaMetadataRetriever MDR = new MediaMetadataRetriever();
 	private String maxTime;
 	private TextView time;
+	private TextView currTime;
+	private TextView songTitle;
 	private ImageView cover;
+	private TextView connection;
+	private Button help;
+	private ImageView overlay;
 
 	// Name of the connected device
 	private String mConnectedDeviceName = null;
@@ -124,10 +131,27 @@ public class BluetoothChat extends Activity {
 			finish();
 			return;
 		}
+		;
 
 		time = (TextView) findViewById(R.id.time);
+		// --songTitle = (TextView) findViewById(R.id.songTitle);
+		connection = (TextView) findViewById(R.id.connection);
+		connection.setTextColor(Color.RED);
 		cover = (ImageView) findViewById(R.id.coverArt);
 		cover.setVisibility(View.INVISIBLE);
+		currTime = (TextView) findViewById(R.id.currTime);
+		help = (Button) findViewById(R.id.button1);
+		help.setVisibility(View.INVISIBLE);
+		overlay = (ImageView) findViewById(R.id.overlay);
+		help.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				if (overlay.getVisibility() == View.INVISIBLE) {
+					overlay.setVisibility(View.VISIBLE);
+				} else
+					overlay.setVisibility(View.INVISIBLE);
+			}
+		});
+
 	}
 
 	@Override
@@ -175,8 +199,8 @@ public class BluetoothChat extends Activity {
 		// Initialize the array adapter for the conversation thread
 		mConversationArrayAdapter = new ArrayAdapter<String>(this,
 				R.layout.message);
-		mConversationView = (ListView) findViewById(R.id.in);
-		mConversationView.setAdapter(mConversationArrayAdapter);
+		// mConversationView = (ListView) findViewById(R.id.in);
+		// mConversationView.setAdapter(mConversationArrayAdapter);
 
 		// Initialize the Seekbar with a listener
 		mSeekBar = (SeekBar) findViewById(R.id.mediaprogress);
@@ -186,7 +210,8 @@ public class BluetoothChat extends Activity {
 		playButton = (ImageButton) findViewById(R.id.play);
 		playButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				pauseMedia();
+				if (mediaPlayer != null)
+					pauseMedia();
 			}
 		});
 
@@ -306,33 +331,6 @@ public class BluetoothChat extends Activity {
 		}
 	}
 
-	// The action listener for the EditText widget, to listen for the return key
-	private TextView.OnEditorActionListener mWriteListener = new TextView.OnEditorActionListener() {
-		public boolean onEditorAction(TextView view, int actionId,
-				KeyEvent event) {
-			// If the action is a key-up event on the return key, send the
-			// message
-			if (actionId == EditorInfo.IME_NULL
-					&& event.getAction() == KeyEvent.ACTION_UP) {
-				String message = view.getText().toString();
-				sendMessage(message);
-			}
-			if (D)
-				Log.i(TAG, "END onEditorAction");
-			return true;
-		}
-	};
-
-	private final void setStatus(int resId) {
-		final ActionBar actionBar = getActionBar();
-		actionBar.setSubtitle(resId);
-	}
-
-	private final void setStatus(CharSequence subTitle) {
-		final ActionBar actionBar = getActionBar();
-		actionBar.setSubtitle(subTitle);
-	}
-
 	private final Runnable timeUpdate = new Runnable() {
 		@Override
 		public void run() {
@@ -355,7 +353,7 @@ public class BluetoothChat extends Activity {
 					public void run() {
 						int currentPosition = mediaPlayer.getCurrentPosition();
 						String cur = convertTime(currentPosition);
-						time.setText(cur + "/" + maxTime);
+						currTime.setText(cur);
 					}
 				});
 
@@ -372,16 +370,14 @@ public class BluetoothChat extends Activity {
 					Log.i(TAG, "MESSAGE_STATE_CHANGE: " + msg.arg1);
 				switch (msg.arg1) {
 				case BluetoothChatService.STATE_CONNECTED:
-					setStatus(getString(R.string.title_connected_to,
-							mConnectedDeviceName));
-					mConversationArrayAdapter.clear();
+					connection.setTextColor(Color.GREEN);
 					break;
 				case BluetoothChatService.STATE_CONNECTING:
-					setStatus(R.string.title_connecting);
+					connection.setTextColor(Color.YELLOW);
 					break;
 				case BluetoothChatService.STATE_LISTEN:
 				case BluetoothChatService.STATE_NONE:
-					setStatus(R.string.title_not_connected);
+					connection.setTextColor(Color.RED);
 					break;
 				}
 				break;
@@ -455,7 +451,10 @@ public class BluetoothChat extends Activity {
 								.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
 				mSeekBar.setMax(max);
 				maxTime = convertTime(max);
-				time.setText("00:00/" + maxTime);
+				time.setText(maxTime);
+
+				// set song Title
+				// --songTitle.setText("c"+MDR.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
 
 				// set Album art
 				cover.setVisibility(View.VISIBLE);

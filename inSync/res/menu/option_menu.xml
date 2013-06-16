@@ -18,28 +18,28 @@
 
     <item
         android:id="@+id/secure_connect_scan"
-        android:icon="@android:drawable/ic_menu_search"
-        android:showAsAction="ifRoom|withText"
+        android:icon="@drawable/ic_action_search"
+        android:showAsAction="always"
         android:title="@string/secure_connect"/>
     <item
-        android:id="@+id/insecure_connect_scan"
-        android:icon="@android:drawable/ic_menu_search"
-        android:showAsAction="ifRoom|withText"
-        android:title="@string/insecure_connect"/>
-    <item
         android:id="@+id/discoverable"
-        android:icon="@android:drawable/ic_menu_mylocation"
-        android:showAsAction="ifRoom|withText"
+        android:icon="@drawable/ic_action_locate"
+        android:showAsAction="always"
         android:title="@string/discoverable"/>
     <item
+        android:id="@+id/insecure_connect_scan"
+        android:icon="@drawable/ic_action_refresh"
+        android:showAsAction="always"
+        android:title="@string/insecure_connect"/>
+    <item
         android:id="@+id/sendfilethroughbluetooth"
-        android:icon="@android:drawable/ic_menu_mylocation"
-        android:showAsAction="ifRoom|withText"
+        android:icon="@drawable/ic_action_send"
+        android:showAsAction="always"
         android:title="@string/sendFileThroughBluetooth"/>
     <item
         android:id="@+id/about"
         android:icon="@android:drawable/ic_menu_help"
-        android:showAsAction="ifRoom|withText"
+        android:showAsAction="never|withText"
         android:title="@string/about"/>
 
 </menu>
