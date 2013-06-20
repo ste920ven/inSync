@@ -701,6 +701,7 @@ public class BluetoothChat extends Activity {
 			int CurrentLevel = seekBar.getProgress();
 			seekBar.setProgress(CurrentLevel);
 			sendMessage("seek:" + Integer.toString(CurrentLevel));
+			mediaPlayer.seekTo(CurrentLevel);
 		}
 
 	}

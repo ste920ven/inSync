@@ -15,8 +15,8 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="brian.lam.insync"
-      android:versionCode="2"
-      android:versionName="1.2">
+      android:versionCode="3"
+      android:versionName="1.2.2">
     <uses-sdk android:minSdkVersion="11" android:targetSdkVersion="17"/>
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
