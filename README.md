@@ -2,7 +2,7 @@
 
 >inSync is an application that attempts to keep mp3 playback synced across numerous users and devices. There is currently a web version and an Android version.
 
-Hosted on: http://ml7.stuycs.org:9999 <br>
+Hosted on: http://ml7.stuycs.org:9999 (<b>NOTE</b>:Not being hosted anymore)<br>
 Android APK: https://github.com/stuycs-softdev/inSync/tree/master/inSync
 
 ##Compatibility (Web Version)
@@ -43,18 +43,10 @@ If you want to control a stream, enter a room as admin with "Enter Room as Admin
   
 ##Project Contributors
 Brian Lam
-+ General Leader
-+ Overall Android Overwatch
-
 Steven Huang
-+ Making sure Brian doesn't do something stupid
-
 Raymond Zeng
-+ Web Overseer
-+ Assistant to Making sure Brian doesn't do something stupid
-
 Jason Peng
-+ Graphic Design Overseer
+
 
 ##Known Issues
 1. Select from URL
